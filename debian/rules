@@ -34,11 +34,17 @@ binary-arch: build
 	dh_clean -k
 	dh_installdirs
 
+	# get pci.ids
+	# make update-ids  only by maintainer
+
 	# pciutils
 	$(MAKE) install DESTDIR=`pwd`/debian/tmp
 	# move to /bin
-	mv `pwd`/debian/tmp/sbin/lspci `pwd`/debian/tmp/bin/lspci
-	(cd `pwd`/debian/tmp/sbin; ln -s ../bin/lspci)
+	#mv `pwd`/debian/tmp/usr/bin/lspci `pwd`/debian/tmp/bin/lspci
+	#(cd `pwd`/debian/tmp/sbin; ln -s ../bin/lspci)
+	(cd `pwd`/debian/tmp/bin; ln -s /usr/bin/lspci .)
+	(cd `pwd`/debian/tmp/bin; ln -s /usr/bin/setpci .)
+	
 
 	# pciutils-dev
 	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/libpci.a
@@ -46,8 +52,12 @@ binary-arch: build
 	install -m 644 lib/header.h debian/pciutils-dev/usr/include/pci/header.h
 	install -m 644 lib/config.h debian/pciutils-dev/usr/include/pci/config.h
 
+	# libpci2 (no!)
+	#mv `pwd`/debian/tmp/usr/lib/libpci.so.2 `pwd`/debian/libpci2/usr/lib/
+	(cd `pwd`/debian/tmp/usr/lib; ln -s libpci.so.2 libpci.so)
+
 	dh_installdocs
-	dh_installexamples
+	dh_installexamples lib/example.c
 	dh_installmenu
 	dh_installmanpages -ppciutils
 	dh_installchangelogs -a ChangeLog
@@ -56,10 +66,10 @@ binary-arch: build
 	dh_strip
 	dh_compress
 	dh_fixperms
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
 	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps debian/tmp/usr/bin/lspci debian/tmp/usr/bin/setpci
+	dh_gencontrol
 	dh_md5sums
 	dh_builddeb -a
 

@@ -1,12 +1,14 @@
 pciutils for DEBIAN
 -------------------
 
-Linux PCI Utilities (for 2.1/2.2/2.3 kernels)
+Linux PCI Utilities (for 2.x kernels)
 
 This package contains various utilities for inspecting and setting of
-devices connected to the PCI bus. Requires kernel version 2.1.82 or newer
-(supporting the /proc/bus/pci interface).
+devices connected to the PCI bus. 
 
+If you want to update the descriptions for PCI cards, you may download a
+new snapshot for /usr/share/misc/pci.ids from this location:
+    http://pciids.sf.net/pci.ids.bz2
 
+Remco van de Meent <remco@debian.org>, Thu Jan  2 12:23:28 UTC 2003
 
-Remco van de Meent <remco@debian.org>, Wed,  27 Oct 1999 19:10:15 +0100
