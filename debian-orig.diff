@@ -1,32 +1,11 @@
---- pciutils-1.02.orig/Makefile
-+++ pciutils-1.02/Makefile
-@@ -3,12 +3,12 @@
- # (c) 1998 Martin Mares <mj@atrey.karlin.mff.cuni.cz>
- 
- ARCH=$(shell uname -m | sed -e 's/i.86/i386/' -e 's/sun4u/sparc64/' | tr 'a-z' 'A-Z')
--KERN_H=$(shell if [ ! -f pci.h ] ; then echo '-DKERNEL_PCI_H' ; fi)
--OPT=-O2 -fomit-frame-pointer
-+#KERN_H=$(shell if [ ! -f pci.h ] ; then echo '-DKERNEL_PCI_H' ; fi)
-+OPT=-O2 -fomit-frame-pointer -I/usr/src/linux/include
- CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wno-unused -Werror -DARCH_$(ARCH) $(KERN_H)
- 
- PREFIX=/
--MANPREFIX=/usr
-+MANPREFIX=$(PREFIX)/usr
- 
- all: lspci
- 
+--- pciutils-1.10.orig/pciutils.h
++++ pciutils-1.10/pciutils.h
 @@ -19,7 +19,7 @@
+ #define PCIUTILS_VERSION "1.10"
  
- clean:
- 	rm -f `find . -name "*~" -or -name "*.[oa]" -or -name "\#*\#" -or -name TAGS -or -name core`
--	rm -f lspci pci.h
-+	rm -f lspci
+ #define PROC_BUS_PCI "/proc/bus/pci"
+-#define ETC_PCI_IDS "/usr/share/pci.ids"
++#define ETC_PCI_IDS "/usr/share/misc/pci.ids"
  
- install: all
- 	install -o root -g root -m 755 -s lspci $(PREFIX)/sbin
-@@ -29,4 +29,3 @@
- dist: clean
- 	cp /usr/src/linux/include/linux/pci.h .
- 	sh -c 'X=`pwd` ; X=`basename $$X` ; cd .. ; tar czvvf /tmp/$$X.tar.gz $$X --exclude CVS --exclude tmp'
--	rm -f pci.h
+ /* Types */
+ 

@@ -1,9 +1,17 @@
-This package was debianized by Christoph Lameter clameter@debian.org on
+This package was first debianized by Christoph Lameter clameter@debian.org on
 Tue, 27 Jan 1998 20:37:16 -0800.
 
-It was downloaded from sunsite.unc.edu:/pub/Linux/Incoming
+Joel Klecker jk@espy.org took over the package on Thu, 26 Mar 1998.
+
+It was downloaded from <ftp://atrey.karlin.mff.cuni.cz/pub/local/mj/linux/>.
 
 Copyright:
 
-GPL
+Copyright (c) 1998 Martin Mares <mj@atrey.karlin.mff.cuni.cz>
 
+All files in this package can be freely distributed and used according
+to the terms of the GNU General Public License, either version 2 or
+(at your opinion) any newer version.
+
+The complete GPL is available on Debian GNU/Linux systems in
+/usr/doc/copyright/GPL.
