@@ -1,2 +1,5 @@
 sbin
 usr/share/misc
+usr/share/man
+bin
+usr/share/lintian/overrides

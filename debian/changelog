@@ -1,3 +1,96 @@
+pciutils (1:2.1.9-4) unstable; urgency=low
+
+  * Change sbin/lspci from hardlink to symlink, closes: #137779
+
+ -- Remco van de Meent <remco@debian.org>  Mon, 11 Mar 2002 13:26:04 +0100
+
+pciutils (1:2.1.9-3) unstable; urgency=low
+
+  * Move lspci to /bin, closes: #134814
+
+ -- Remco van de Meent <remco@debian.org>  Wed,  6 Mar 2002 14:26:15 +0100
+
+pciutils (1:2.1.9-2) unstable; urgency=low
+
+  * priority changed to optional
+  * Fixed build depends, closes: #88388
+  * Upgraded standards-version to 3.5.6
+  * Use upstream provided pci.ids again
+  * Linksys Network Everywhere Fast Ethernet 10/100 card is in the
+    database now, closes: #88213
+  * Netgear FA311 ethernet card is in the database now, closes: #83415
+  * debian/rules cleanup
+
+ -- Remco van de Meent <remco@debian.org>  Mon,  5 Nov 2001 10:20:31 +0100
+
+pciutils (1:2.1.9-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Remco van de Meent <remco@debian.org>  Sun,  4 Nov 2001 20:04:35 +0100
+
+pciutils (1:2.1.8-4.1) unstable; urgency=low
+
+  * Reupload to circumvent problems with a corrupt .orig.tar.gz file
+    (closes: #88388, #83415, #88213)
+
+ -- Remco van de Meent <remco@debian.org>  Mon,  2 Apr 2001 16:10:06 +0200
+
+pciutils (1:2.1.8-4) unstable; urgency=low
+
+  * Added Build-Depends for debhelper (closes: #88388)
+  * Added information for a Netgear FA311 ethernet card (closes: #83415)
+  * Added information for a Compex FreedomLine ethernet card
+  * Added information for a Linksys Network Everywhere FE 10/100 ethernet
+    card (closes: #88213)
+
+ -- Remco van de Meent <remco@debian.org>  Sun, 11 Mar 2001 18:46:43 +0100
+
+pciutils (1:2.1.8-3) unstable; urgency=low
+
+  * Added some new entries to pci.ids
+  * Some packaging cleanup
+  * Put linux kernel version 2.4 in package description
+
+ -- Remco van de Meent <remco@debian.org>  Fri,  5 Jan 2001 15:28:20 +0100
+
+pciutils (1:2.1.8-2) unstable; urgency=low
+
+  * Updated to pci.ids 1.62 from kernel 2.4.0-test8
+  * Included information about Voodoo5 cards, closes: Bug#70929
+
+ -- Remco van de Meent <remco@debian.org>  Sat,  7 Oct 2000 15:37:33 +0200
+
+pciutils (1:2.1.8-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Remco van de Meent <remco@debian.org>  Sun, 21 May 2000 15:09:37 +0200
+
+pciutils (1:2.1.7-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Remco van de Meent <remco@debian.org>  Sat,  29 Apr 2000 20:01:05 +0100
+
+pciutils (1:2.1.6-1) unstable; urgency=low
+
+  * New upstream release (never released as Debian package)
+
+ -- Remco van de Meent <remco@debian.org>  Sat,  29 Apr 2000 19:59:01 +0100
+
+pciutils (1:2.1.5-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Remco van de Meent <remco@debian.org>  Mon,  6 Mar 2000 12:20:01 +0100
+
+pciutils (1:2.1.4-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Remco van de Meent <remco@debian.org>  Tue, 25 Jan 2000 00:20:47 +0100
+
 pciutils (1:2.1.2-2) unstable; urgency=low
 
   * Changed priority to standard. It's called during system startup.
@@ -103,8 +196,3 @@ pciutils-experimental (1.99.4-1) experimental; urgency=low
     released pciutils-2.x.x upstream version, and should be used with care.
 
  -- Remco van de Meent <remco@debian.org>  Sat,  6 Feb 1999 15:10:15 +0100
-
-Local variables:
-mode: debian-changelog
-add-log-mailing-address: "remco@debian.org"
-End:

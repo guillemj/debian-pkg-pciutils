@@ -36,6 +36,9 @@ binary-arch: build
 
 	# pciutils
 	$(MAKE) install DESTDIR=`pwd`/debian/tmp
+	# move to /bin
+	mv `pwd`/debian/tmp/sbin/lspci `pwd`/debian/tmp/bin/lspci
+	(cd `pwd`/debian/tmp/sbin; ln -s ../bin/lspci)
 
 	# pciutils-dev
 	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/libpci.a
@@ -49,10 +52,10 @@ binary-arch: build
 	dh_installmanpages -ppciutils
 	dh_installchangelogs -a ChangeLog
 	(cd debian/pciutils-dev/usr/share/doc && rm -rf pciutils-dev && ln -sf pciutils pciutils-dev)
+	cp debian/lintian debian/tmp/usr/share/lintian/overrides/pciutils
 	dh_strip
 	dh_compress
 	dh_fixperms
-	dh_suidregister
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
