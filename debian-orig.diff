@@ -1,11 +1,92 @@
---- pciutils-1.10.orig/pciutils.h
-+++ pciutils-1.10/pciutils.h
-@@ -19,7 +19,7 @@
- #define PCIUTILS_VERSION "1.10"
+--- pciutils-2.1.2.orig/Makefile
++++ pciutils-2.1.2/Makefile
+@@ -1,10 +1,11 @@
+ # $Id: Makefile,v 1.27 1999/12/11 22:38:39 mj Exp $
+ # Makefile for Linux PCI Utilities
++# Little tweaking for Debian - Remco vd Meent <remco@debian.org>
+ # (c) 1998--1999 Martin Mares <mj@atrey.karlin.mff.cuni.cz>
  
- #define PROC_BUS_PCI "/proc/bus/pci"
--#define ETC_PCI_IDS "/usr/share/pci.ids"
-+#define ETC_PCI_IDS "/usr/share/misc/pci.ids"
+-OPT=-O2 -fomit-frame-pointer
++OPT=-O2 -g -fomit-frame-pointer
+ #OPT=-O2 -g
+-CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Werror
++CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes
  
- /* Types */
+ VERSION=2.1.2
+ SUFFIX=
+@@ -15,8 +16,8 @@
+ ROOT=/usr/local
+ PREFIX=/usr/local
+ else
+-ROOT=/
+-PREFIX=/usr
++ROOT=$(DESTDIR)/
++PREFIX=$(DESTDIR)/usr
+ endif
  
+ export
+@@ -47,8 +48,8 @@
+ install: all
+ 	# -c is ignored on Linux, but required on FreeBSD
+ 	install -c -m 755 -s lspci setpci $(ROOT)/sbin
+-	install -c -m 644 pci.ids $(PREFIX)/share
+-	install -c -m 644 lspci.8 setpci.8 $(PREFIX)/man/man8
++	install -c -m 644 pci.ids $(PREFIX)/share/misc
++	#install -c -m 644 lspci.8 setpci.8 $(PREFIX)/man/man8
+ 	# Remove relics from old versions
+ 	rm -f $(ROOT)/etc/pci.ids
+ 
+--- pciutils-2.1.2.orig/pciutils.spec
++++ pciutils-2.1.2/pciutils.spec
+@@ -28,17 +28,17 @@
+ 
+ %install
+ rm -rf $RPM_BUILD_ROOT
+-install -d $RPM_BUILD_ROOT/{sbin,/usr/man/man8,/usr/share}
++install -d $RPM_BUILD_ROOT/{sbin,/usr/man/man8,/usr/share/misc}
+ 
+ install -s lspci setpci $RPM_BUILD_ROOT/sbin
+ install lspci.8 setpci.8 $RPM_BUILD_ROOT/usr/man/man8
+-install pci.ids $RPM_BUILD_ROOT/usr/share
++install pci.ids $RPM_BUILD_ROOT/usr/share/misc
+ 
+ %files
+ %defattr(0644, root, root, 0755)
+ %attr(0644, root, man) /usr/man/man8/*
+ %attr(0711, root, root) /sbin/*
+-%config /usr/share/pci.ids
++%config /usr/share/misc/pci.ids
+ %doc README ChangeLog pciutils.lsm
+ 
+ %clean
+--- pciutils-2.1.2.orig/lib/configure
++++ pciutils-2.1.2/lib/configure
+@@ -59,7 +59,7 @@
+ if [ -z "$ok" ] ; then
+ 	echo "WARNING: No real configuration access method is available."
+ fi
+-echo >>$c "#define PATH_PCI_IDS \"$prefix/share/pci.ids\""
++echo >>$c "#define PATH_PCI_IDS \"$prefix/share/misc/pci.ids\""
+ if [ -f header.h ] ; then
+ 	echo >>$c '#define HAVE_OWN_HEADER_H'
+ fi
+--- pciutils-2.1.2.orig/lspci.man
++++ pciutils-2.1.2/lspci.man
+@@ -75,7 +75,7 @@
+ Use
+ .B
+ <file>
+-as PCI ID database instead of /usr/share/pci.ids.
++as PCI ID database instead of /usr/share/misc/pci.ids.
+ .TP
+ .B -p <dir>
+ Use
+@@ -131,7 +131,7 @@
+ 
+ .SH FILES
+ .TP
+-.B /usr/share/pci.ids
++.B /usr/share/misc/pci.ids
+ A list of all known PCI ID's (vendors, devices, classes and subclasses).
+ .TP
+ .B /proc/bus/pci

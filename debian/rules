@@ -1,33 +1,54 @@
 #!/usr/bin/make -f
-export DH_VERBOSE=1
 
-build:
+BINARY-ARCH-TARGETS = build-pciutils build-pciutils-dev
+
+build: $(BINARY-ARCH-TARGETS)
+
+build-pciutils:
 	dh_testdir
-	make OPT="-O2 -I/usr/src/linux/include"
-	touch build
+	$(MAKE) 
+	touch build-pciutils
+
+build-pciutils-dev:
+	dh_testdir
+	(cd lib && $(MAKE))
+	touch build-pciutils-dev	
 
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f lspci setpci *.o
-	-rm -f build
+	rm -f build-pciutils build-pciutils-dev
+	-$(MAKE) clean
 	dh_clean
 
-binary-indep: build
 
-binary-arch: build
+# Build architecture-independent files here.
+binary-indep: build 
 
+
+# Build architecture-dependent files here.
+binary-arch: build 
+#	dh_testversion
 	dh_testdir
 	dh_testroot
 	dh_clean -k
 	dh_installdirs
-	make install ROOT=`pwd`/debian/tmp PREFIX=`pwd`/debian/tmp/usr
-	mv -f `pwd`/debian/tmp/usr/share/pci.ids \
-		`pwd`/debian/tmp/usr/share/misc/pci.ids
-	dh_installdocs README
+
+	# pciutils
+	$(MAKE) install DESTDIR=`pwd`/debian/tmp
+
+	# pciutils-dev
+	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/libpci.a
+	install -m 644 lib/pci.h debian/pciutils-dev/usr/include/pci/pci.h
+	install -m 644 lib/header.h debian/pciutils-dev/usr/include/pci/header.h
+	install -m 644 lib/config.h debian/pciutils-dev/usr/include/pci/config.h
+
+	dh_installdocs
+	dh_installexamples
 	dh_installmenu
-	dh_installmanpages
-	dh_installchangelogs ChangeLog
+	dh_installmanpages -ppciutils
+	dh_installchangelogs -a ChangeLog
+	(cd debian/pciutils-dev/usr/share/doc && rm -rf pciutils-dev && ln -sf pciutils pciutils-dev)
 	dh_strip
 	dh_compress
 	dh_fixperms
@@ -35,9 +56,12 @@ binary-arch: build
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
+	dh_makeshlibs
 	dh_md5sums
-	dh_builddeb
+	dh_builddeb -a
+
+source diff:                                                                  
+	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 
 binary: binary-indep binary-arch
-
-.PHONY: binary binary-arch binary-indep clean
+.PHONY: build clean binary-indep binary-arch binary

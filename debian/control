@@ -1,14 +1,22 @@
 Source: pciutils
 Section: admin
-Priority: optional
-Maintainer: Joel Klecker <espy@debian.org>
-Standards-Version: 2.5.0.0
+Priority: standard
+Maintainer: Remco van de Meent <remco@debian.org>
+Standards-Version: 3.1.1
 
 Package: pciutils
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: Linux PCI Utilities (for 2.1/2.2 kernels)
- This package contains various utilities for inspecting and
- setting of devices connected to the PCI bus. Requires
- kernel version 2.1.82 or newer (supporting the /proc/bus/pci
- interface).
+Description: Linux PCI Utilities (for 2.[123].x kernels)
+ This package contains various utilities for inspecting and setting of
+ devices connected to the PCI bus. Requires kernel version 2.1.82 or newer
+ (supporting the /proc/bus/pci interface).
+
+Package: pciutils-dev
+Section: devel
+Priority: optional
+Architecture: any
+Depends: pciutils
+Description: Linux PCI Utilities (for 2.[123].x kernels) (development files)
+ This package contains the <pci/pci.h>, <pci/config.h> and <pci/header.h>
+ header files, as well as the /usr/lib/libpci.a library.
