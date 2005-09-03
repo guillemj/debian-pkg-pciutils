@@ -4,3 +4,4 @@ usr/bin
 usr/lib
 usr/share/lintian/overrides
 bin
+var/lib/pciutils

@@ -2,7 +2,7 @@ Source: pciutils
 Section: admin
 Priority: optional
 Maintainer: Remco van de Meent <remco@debian.org>
-Build-Depends: debhelper (>> 2.0.0), wget, bzip2
+Build-Depends: debhelper (>> 2.0.0), bzip2
 Standards-Version: 3.6.1
 
 Package: pciutils

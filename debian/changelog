@@ -1,3 +1,17 @@
+pciutils (1:2.1.11-15.1) unstable; urgency=low
+
+  * NMU durring BSP
+  * remove unneeded wget build-dependancy
+  * Store pci.ids under /var for better FHS complicance (closes: #278479)
+    patch by Sam Morris
+  * Remove pci.ids.old etc when purging the package (closes: #281413)
+    patch by Sam Morris
+  * fix lspci -F for new or old lspci -x format (closes: #261536)
+    based on patch by Ben Pfaff
+  * update pci.ids (closes: #281411, hopefully closes: #326274)
+	
+ -- Blars Blarson <blarson@blars.org>  Sat,  3 Sep 2005 22:07:20 +0000
+
 pciutils (1:2.1.11-15) unstable; urgency=low
 
   * Updated pci.ids

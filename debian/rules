@@ -44,7 +44,8 @@ binary-arch: build
 	#(cd `pwd`/debian/tmp/sbin; ln -s ../bin/lspci)
 	(cd `pwd`/debian/tmp/bin; ln -s /usr/bin/lspci .)
 	(cd `pwd`/debian/tmp/bin; ln -s /usr/bin/setpci .)
-	
+	mv `pwd`/debian/tmp/usr/share/misc/pci.ids `pwd`/debian/tmp/var/lib/pciutils/
+	(cd `pwd`/debian/tmp/usr/share/misc; ln -s ../../../var/lib/pciutils/pci.ids .)
 
 	# pciutils-dev
 	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/libpci.a
