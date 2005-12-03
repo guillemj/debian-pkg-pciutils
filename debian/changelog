@@ -1,3 +1,21 @@
+pciutils (1:2.1.11-15.3) unstable; urgency=low
+
+  [ Christian Perrier ]
+  * Non-maintainer upload to add a udeb providing lspci for d-i purposes
+    Closes: #284110
+
+  [ Colin Watson ]
+  * Changes merged from Ubuntu patches:
+    - Add pciutils-udeb, for use in the installer. Contains only lspci,
+      libpci.so.2, and pci.ids.
+    - Reduce pciutils-udeb's copy of pci.ids by over 100KB by removing
+      subsystem ids, which I don't think we need in the installer, and
+      comments.
+    - Move pciutils-udeb's copy of libpci.so.2 to /lib; it seems to confuse
+      mklibs less that way.
+
+ -- Christian Perrier <bubulle@debian.org>  Sat,  3 Dec 2005 08:16:54 +0100
+
 pciutils (1:2.1.11-15.1) unstable; urgency=low
 
   * NMU durring BSP

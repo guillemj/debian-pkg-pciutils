@@ -32,7 +32,7 @@ binary-arch: build
 	dh_testdir
 	dh_testroot
 	dh_clean -k
-	dh_installdirs
+	dh_installdirs -a
 
 	# get pci.ids
 	# make update-ids  only by maintainer
@@ -57,6 +57,13 @@ binary-arch: build
 	#mv `pwd`/debian/tmp/usr/lib/libpci.so.2 `pwd`/debian/libpci2/usr/lib/
 	(cd `pwd`/debian/tmp/usr/lib; ln -s libpci.so.2 libpci.so)
 
+	# pciutils-udeb
+	install -m 755 lspci debian/pciutils-udeb/usr/bin/
+	install -m 644 lib/libpci.so.2 debian/pciutils-udeb/lib/
+	# Reduce by removing subsystem ids and comments.
+	perl -ne 'print unless /^(#|\t\t)/' < pci.ids > debian/pciutils-udeb/usr/share/misc/pci.ids
+	chmod 644 debian/pciutils-udeb/usr/share/misc/pci.ids
+
 	dh_installdocs
 	dh_installexamples lib/example.c
 	dh_installmenu
@@ -64,14 +71,15 @@ binary-arch: build
 	dh_installchangelogs -a ChangeLog
 	(cd debian/pciutils-dev/usr/share/doc && rm -rf pciutils-dev && ln -sf pciutils pciutils-dev)
 	cp debian/lintian debian/tmp/usr/share/lintian/overrides/pciutils
-	dh_strip
-	dh_compress
-	dh_fixperms
-	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps debian/tmp/usr/bin/lspci debian/tmp/usr/bin/setpci
-	dh_gencontrol
-	dh_md5sums
+	dh_strip -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_makeshlibs -a
+	dh_installdeb -a
+	dh_shlibdeps -Npciutils-udeb
+	dh_shlibdeps -ppciutils-udeb -ldebian/pciutils-udeb/usr/lib -- -Ldebian/pciutils-udeb.shlibs.local
+	dh_gencontrol -a
+	dh_md5sums -a
 	dh_builddeb -a
 
 source diff:                                                                  
