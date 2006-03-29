@@ -1,3 +1,14 @@
+pciutils (1:2.1.11-16) unstable; urgency=low
+
+  * New maintainer, closes: #359915.
+  * ACK NMUs, closes: #261536, #271226, #278479, #281411, #281413,
+    #284110, #326274.
+  * Set Standards-Version to 3.6.2. 
+  * Added homepage to package descriptions.
+  * Added debian watch file.
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Thu, 30 Mar 2006 08:06:49 +1100
+
 pciutils (1:2.1.11-15.3) unstable; urgency=low
 
   [ Christian Perrier ]
