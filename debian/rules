@@ -1,24 +1,31 @@
 #!/usr/bin/make -f
 
 BINARY-ARCH-TARGETS = build-pciutils build-pciutils-dev
+PATHS := PREFIX=/usr SBINDIR=/usr/bin IDSDIR=/usr/share/misc
+
+update-ids:
+	# get a new version of pci.ids, this should only be run by the
+	# maintainer, since we don't want different builds of the same
+	# source to end up with different versions
+	./update-pciids.sh
 
 build: $(BINARY-ARCH-TARGETS)
 
 build-pciutils:
 	dh_testdir
-	$(MAKE) 
+	$(MAKE) $(PATHS)
 	touch build-pciutils
 
 build-pciutils-dev:
 	dh_testdir
-	(cd lib && $(MAKE))
-	touch build-pciutils-dev	
+	(cd lib && $(MAKE) $(PATHS))
+	touch build-pciutils-dev
 
 clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-pciutils build-pciutils-dev
-	-$(MAKE) clean
+	-$(MAKE) $(PATHS) clean
 	dh_clean
 
 
@@ -28,38 +35,23 @@ binary-indep: build
 
 # Build architecture-dependent files here.
 binary-arch: build 
-#	dh_testversion
 	dh_testdir
 	dh_testroot
 	dh_clean -k
 	dh_installdirs -a
 
-	# get pci.ids
-	# make update-ids  only by maintainer
-
 	# pciutils
-	$(MAKE) install DESTDIR=`pwd`/debian/tmp
-	# move to /bin
-	#mv `pwd`/debian/tmp/usr/bin/lspci `pwd`/debian/tmp/bin/lspci
-	#(cd `pwd`/debian/tmp/sbin; ln -s ../bin/lspci)
-	(cd `pwd`/debian/tmp/bin; ln -s /usr/bin/lspci .)
-	(cd `pwd`/debian/tmp/bin; ln -s /usr/bin/setpci .)
-	mv `pwd`/debian/tmp/usr/share/misc/pci.ids `pwd`/debian/tmp/var/lib/pciutils/
-	(cd `pwd`/debian/tmp/usr/share/misc; ln -s ../../../var/lib/pciutils/pci.ids .)
+	$(MAKE) $(PATHS) install DESTDIR=debian/pciutils
+	ln -s /usr/bin/lspci debian/pciutils/bin/
+	ln -s /usr/bin/setpci debian/pciutils/bin/
 
 	# pciutils-dev
-	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/libpci.a
-	install -m 644 lib/pci.h debian/pciutils-dev/usr/include/pci/pci.h
-	install -m 644 lib/header.h debian/pciutils-dev/usr/include/pci/header.h
-	install -m 644 lib/config.h debian/pciutils-dev/usr/include/pci/config.h
-
-	# libpci2 (no!)
-	#mv `pwd`/debian/tmp/usr/lib/libpci.so.2 `pwd`/debian/libpci2/usr/lib/
-	(cd `pwd`/debian/tmp/usr/lib; ln -s libpci.so.2 libpci.so)
+	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/
+	install -m 644 lib/pci.h lib/header.h lib/config.h lib/types.h \
+			debian/pciutils-dev/usr/include/pci/
 
 	# pciutils-udeb
 	install -m 755 lspci debian/pciutils-udeb/usr/bin/
-	install -m 644 lib/libpci.so.2 debian/pciutils-udeb/lib/
 	# Reduce by removing subsystem ids and comments.
 	perl -ne 'print unless /^(#|\t\t)/' < pci.ids > debian/pciutils-udeb/usr/share/misc/pci.ids
 	chmod 644 debian/pciutils-udeb/usr/share/misc/pci.ids
@@ -67,17 +59,18 @@ binary-arch: build
 	dh_installdocs
 	dh_installexamples lib/example.c
 	dh_installmenu
-	dh_installmanpages -ppciutils
+	dh_installman -ppciutils
 	dh_installchangelogs -a ChangeLog
-	(cd debian/pciutils-dev/usr/share/doc && rm -rf pciutils-dev && ln -sf pciutils pciutils-dev)
-	cp debian/lintian debian/tmp/usr/share/lintian/overrides/pciutils
+	# Once we get rid of libpci.so, we can sever the -dev's package
+	# dependency on it and switch the following back to non-symlink
+	rm -rf debian/pciutils-dev/usr/share/doc/pciutils-dev
+	ln -sf pciutils debian/pciutils-dev/usr/share/doc/pciutils-dev
 	dh_strip -a
 	dh_compress -a
 	dh_fixperms -a
 	dh_makeshlibs -a
 	dh_installdeb -a
-	dh_shlibdeps -Npciutils-udeb
-	dh_shlibdeps -ppciutils-udeb -ldebian/pciutils-udeb/usr/lib -- -Ldebian/pciutils-udeb.shlibs.local
+	dh_shlibdeps -a
 	dh_gencontrol -a
 	dh_md5sums -a
 	dh_builddeb -a
@@ -86,4 +79,4 @@ source diff:
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary
+.PHONY: update-ids build clean binary-indep binary-arch binary source diff

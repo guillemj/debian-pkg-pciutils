@@ -1,16 +1,15 @@
 Source: pciutils
 Section: admin
 Priority: optional
-Maintainer: Anibal Monsalve Salazar <anibal@debian.org>
-Build-Depends: debhelper (>> 4.2.0), bzip2
+Maintainer: Debian pciutils Maintainers <pkg-pciutils-devel@lists.alioth.debian.org>
+Uploaders: Matthew Wilcox <willy@debian.org>, Matt Taggart <taggart@debian.org>, Anibal Monsalve Salazar <anibal@debian.org>
+Build-Depends: debhelper (>> 4), bzip2
 Standards-Version: 3.6.2
 
 Package: pciutils
 Architecture: any
-Depends: ${shlibs:Depends}
-Replaces: libpci2
-Conflicts: libpci2 (<< 1:2.1.11-11), hardinfo (<= 0.3.6-3), kudzu (<= 1.1.36-2), sndconfig (<= 0.70-2), alsa-utils (<< 1.0.5-3)
-Suggests: wget | lynx
+Depends: libpci2, ${shlibs:Depends}
+Suggests: curl | wget | lynx
 Description: Linux PCI Utilities
  This package contains various utilities for inspecting and setting of
  devices connected to the PCI bus. 
@@ -38,5 +37,3 @@ Description: Linux PCI Utilities (udeb)
  devices connected to the PCI bus. 
  .
  This is a minimal version for use in debian-installer.
- .
-  Homepage: http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml

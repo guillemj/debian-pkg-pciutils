@@ -1,3 +1,43 @@
+pciutils (1:2.2.1-1) unstable; urgency=low
+
+  [ Matthew Wilcox ]
+  * New upstream version.  Closes: #329370
+    - Builds on HURD.  Closes: #349239
+    - Debian GNU/kFreeBSD should now build.  Closes: #292324
+    - Uses correct header type for PCI-X.  Closes: #265745
+    - u64 is now defined in include/pci/types.h.  Closes: #265771
+    - Subsystem vendors now printed correctly.  Closes: #304576
+    - Error message corrected.  Closes: #347872
+    - nv40 replaced with NV40.  Closes: #343222
+    - Memory window size now reported correctly.  Closes: #256607
+    - The manpage now explains why capabilties are available only to root.
+      Closes: #173274
+    - Domains are properly supported.  Closes: #369751
+  * New debian maintainers.  Thanks to Remco for his years of service.
+  * Added option to use curl (instead of wget or lynx) to retrieve pci.ids
+  * Revert patch to change -m format from #250737.  Closes: #347877
+  * Move /var/lib/pciutils/pci.ids back to /usr/share/misc/pci.ids.
+    Closes: #336331
+  * Fix typos in pcimodules manpages.  Closes: #356129, #302142
+  * Remove libpci.so.2; depend on libpci2 to provide this for compatibility
+    with sarge.
+  * Build libpci.a with -fPIC for packages which need to build shared
+    libraries.
+  * Remove -X option as upstream has vetoed it.  It wasn't actually being
+    used anyway.
+  * Add -D option (which will be in the next upstream release) to always
+    show domains.
+  * Stop installing the pciutils.lsm file.
+
+  [ Matt Taggart ]
+  * update debian/copyright date and author email address
+  * Make the pci.ids update a separate debian/rules target that's not
+    invoked in a default build
+  * minor cleanups in debian/rules
+  * get rid of README.debian, it's redundant with upstream info
+
+ -- Matthew Wilcox <willy@debian.org>  Thu, 20 Apr 2006 21:01:24 -0400
+
 pciutils (1:2.1.11-16) unstable; urgency=low
 
   * New maintainer, closes: #359915.
