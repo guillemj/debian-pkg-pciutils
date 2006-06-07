@@ -1,7 +1,7 @@
 Source: pciutils
 Section: admin
 Priority: optional
-Maintainer: Debian pciutils Maintainers <pkg-pciutils-devel@lists.alioth.debian.org>
+Maintainer: Debian pciutils Maintainers <pkg-pciutils-discuss@lists.alioth.debian.org>
 Uploaders: Matthew Wilcox <willy@debian.org>, Matt Taggart <taggart@debian.org>, Anibal Monsalve Salazar <anibal@debian.org>
 Build-Depends: debhelper (>> 4), bzip2
 Standards-Version: 3.6.2
