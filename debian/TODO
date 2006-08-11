@@ -1,0 +1,10 @@
+ - Can we ditch pcimodules yet?  Is hotplug out for etch?
+ - Final hunk of diff in lspci.c
+ - Remove compiler warnings
+ - Add more PCIe capability decoding
+ - Should we compile with -g?  Should that diff go upstream?
+ - Submit DESTDIR support upstream
+ - Handle short reads (eg symbios 875, IBM Citrine)
+
+After etch:
+ - Remove dependency on libpci2

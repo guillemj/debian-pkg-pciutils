@@ -1,3 +1,13 @@
+pciutils (1:2.2.4~pre4-1) unstable; urgency=low
+
+  [ Matthew Wilcox ]
+  * New upstream version
+    - Adds -nn option.  Closes: #268031
+    - Adds deviceclass field.  Closes: #335665
+    - Fixes I/O port access on Hurd.  Closes: #379407
+
+ -- Matthew Wilcox <willy@debian.org>  Fri, 11 Aug 2006 07:34:06 -0400
+
 pciutils (1:2.2.1-2) unstable; urgency=low
 
   * Fix Maintainer email address
