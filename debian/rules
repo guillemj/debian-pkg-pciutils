@@ -1,6 +1,5 @@
 #!/usr/bin/make -f
 
-BINARY-ARCH-TARGETS = build-pciutils build-pciutils-dev
 PATHS := PREFIX=/usr SBINDIR=/usr/bin IDSDIR=/usr/share/misc
 
 update-ids:
@@ -9,29 +8,18 @@ update-ids:
 	# source to end up with different versions
 	./update-pciids.sh
 
-build: $(BINARY-ARCH-TARGETS)
-
-build-pciutils:
+build:
 	dh_testdir
 	$(MAKE) $(PATHS)
-	touch build-pciutils
-
-build-pciutils-dev:
-	dh_testdir
-	(cd lib && $(MAKE) $(PATHS))
-	touch build-pciutils-dev
 
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-pciutils build-pciutils-dev
 	-$(MAKE) $(PATHS) clean
 	dh_clean
 
-
 # Build architecture-independent files here.
-binary-indep: build 
-
+binary-indep:
 
 # Build architecture-dependent files here.
 binary-arch: build 
@@ -44,6 +32,9 @@ binary-arch: build
 	$(MAKE) $(PATHS) install DESTDIR=debian/pciutils
 	ln -s /usr/bin/lspci debian/pciutils/bin/
 	ln -s /usr/bin/setpci debian/pciutils/bin/
+	gunzip debian/pciutils/usr/share/misc/pci.ids.gz
+	perl -pi -e 's/PCI_COMPRESSED_IDS=.*$$/PCI_COMPRESSED_IDS=/' \
+		debian/pciutils/usr/bin/update-pciids
 
 	# pciutils-dev
 	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/
@@ -53,8 +44,8 @@ binary-arch: build
 	# pciutils-udeb
 	install -m 755 lspci debian/pciutils-udeb/usr/bin/
 	# Reduce by removing subsystem ids and comments.
-	perl -ne 'print unless /^(#|\t\t)/' < pci.ids > debian/pciutils-udeb/usr/share/misc/pci.ids
-	chmod 644 debian/pciutils-udeb/usr/share/misc/pci.ids
+	perl -ne 'print unless /^(#|\t\t)/' < pci.ids |gzip -9 > debian/pciutils-udeb/usr/share/misc/pci.ids.gz
+	chmod 644 debian/pciutils-udeb/usr/share/misc/pci.ids.gz
 
 	dh_installdocs
 	dh_installexamples lib/example.c

@@ -1,3 +1,21 @@
+pciutils (1:2.2.4-1) unstable; urgency=low
+
+  [ Matthew Wilcox ]
+  * New upstream version.
+  * Get rid of build-* rules in debian/rules, don't call build from
+    binary-indep and don't touch build-* files.
+  * gzip the udeb's stripped pci.ids, but gunzip the deb's pci.ids so
+    that programs linked against earlier versions of libpci continue
+    to work.  Also modify update-pciids so that it'll install an
+    uncompressed version of pci.ids.
+  * Change Makefile to not build pcimodules for HURD.  Closes: #380032
+  * Improve the error message if we can't read the standard header
+  * Remove myself as an Uploader
+  [ Matt Taggart ]
+  * update pci.ids to 2006-10-27 01:05:01
+
+ -- Matt Taggart <taggart@debian.org>  Fri, 27 Oct 2006 02:55:47 -0700
+
 pciutils (1:2.2.4~pre4-1) unstable; urgency=low
 
   [ Matthew Wilcox ]
@@ -470,3 +488,45 @@ pciutils-experimental (1.99.4-1) experimental; urgency=low
     released pciutils-2.x.x upstream version, and should be used with care.
 
  -- Remco van de Meent <remco@debian.org>  Sat,  6 Feb 1999 15:10:15 +0100
+
+pciutils (1.10-1) frozen unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Joel Klecker <espy@debian.org>  Tue, 19 Jan 1999 21:11:51 -0800
+
+pciutils (1.09-1) frozen unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Joel Klecker <espy@debian.org>  Sun, 22 Nov 1998 18:58:26 -0800
+
+pciutils (1.08-1) frozen unstable; urgency=low
+
+  * New upstream bugfix release.
+
+ -- Joel Klecker <espy@debian.org>  Tue, 20 Oct 1998 07:54:04 -0700
+
+pciutils (1.02-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Christoph Lameter <clameter@debian.org>  Sun, 15 Feb 1998 13:22:50 -0800
+
+pciutils (1.01-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Christoph Lameter <clameter@debian.org>  Mon,  9 Feb 1998 18:52:02 -0800
+
+pciutils (1.0-1) unstable; urgency=low
+
+  * New upstream release adds manpage and upstream changelog
+
+ -- Christoph Lameter <clameter@debian.org>  Sun,  8 Feb 1998 07:43:35 -0800
+
+pciutils (0.91-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Christoph Lameter <clameter@debian.org>  Tue, 27 Jan 1998 20:37:16 -0800
