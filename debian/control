@@ -8,7 +8,7 @@ Standards-Version: 3.7.2
 
 Package: pciutils
 Architecture: any
-Depends: libpci2, ${shlibs:Depends}
+Depends: ${shlibs:Depends}
 Suggests: curl | wget | lynx
 Description: Linux PCI Utilities
  This package contains various utilities for inspecting and setting of
