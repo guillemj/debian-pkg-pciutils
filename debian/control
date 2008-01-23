@@ -29,6 +29,7 @@ Package: pciutils-udeb
 XC-Package-Type: udeb
 Section: debian-installer
 Architecture: any
+Priority: standard
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Linux PCI Utilities (udeb)
  This package contains various utilities for inspecting and setting of

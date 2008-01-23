@@ -1,3 +1,9 @@
+pciutils (1:2.2.9-2) unstable; urgency=low
+
+  * pciutils-udeb is priority standard. Closes: #420227
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Wed, 23 Jan 2008 22:16:47 +1100
+
 pciutils (1:2.2.9-1) unstable; urgency=medium
 
   * New upstream version
