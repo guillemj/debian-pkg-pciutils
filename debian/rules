@@ -15,7 +15,7 @@ build:
 clean:
 	dh_testdir
 	dh_testroot
-	-$(MAKE) $(PATHS) clean
+	[ ! -f Makefile ] || $(MAKE) $(PATHS) clean
 	dh_clean
 
 # Build architecture-independent files here.

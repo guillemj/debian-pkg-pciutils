@@ -1,8 +1,26 @@
+pciutils (1:2.2.9-1) unstable; urgency=medium
+
+  * New upstream version
+  * Acknowledged NMU. Closes: #425639
+  * pci.ids: updated with daily snapshot of Wed 2008-01-23 02:05:02
+    Closes: #422713
+  * pciutils and pciutils-udeb depend on ${misc:Depends}
+  * pciutils-dev depends on zlib1g-dev. Closes: 396640, #413462
+  * pciutils-dev depends on pciutils (= ${binary:Version})
+  * Bumped debhelper compat to 5
+  * Bumped Standards-Version to 3.7.3
+  * Put myself as maintainer
+  * Set homepage control header
+  * pciutils is priority standard
+  * Removed empty lib directory from pciutils-udeb
+  * Replaced "-$(MAKE)" with "[ ! -f Makefile ] || $(MAKE)" in debian/rules
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Wed, 23 Jan 2008 17:36:12 +1100
+
 pciutils (1:2.2.4-1.1) unstable; urgency=low
 
   * Non-maintainer upload.
-  * Removed obsolete dependency libpci2.
-  (Closes: #425639)
+  * Removed obsolete dependency libpci2. Closes: #425639
 
  -- Arnaud Hocevar <arnaud@hocevar.net>  Sat, 29 Sep 2007 21:25:06 +0000
 
