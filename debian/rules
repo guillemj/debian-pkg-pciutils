@@ -40,6 +40,7 @@ binary-arch: build
 	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/
 	install -m 644 lib/pci.h lib/header.h lib/config.h lib/types.h \
 			debian/pciutils-dev/usr/include/pci/
+	install -m 644 lib/libpci.pc debian/pciutils-dev/usr/lib/pkgconfig/
 
 	# pciutils-udeb
 	install -m 755 lspci debian/pciutils-udeb/usr/bin/

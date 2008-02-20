@@ -1,3 +1,13 @@
+pciutils (1:2.2.10-1) unstable; urgency=low
+
+  * New upstream version
+  * Install the pkgconfig file in the pciutils-dev package.
+    Patch by Nicolas Boullis <nboullis@debian.org>.
+    Closes: #403181
+  * pci.ids: updated with daily snapshot dated Wed 2008-02-20 02:05:01
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Wed, 20 Feb 2008 19:29:55 +1100
+
 pciutils (1:2.2.9-2) unstable; urgency=low
 
   * pciutils-udeb is priority standard. Closes: #420227
@@ -8,7 +18,7 @@ pciutils (1:2.2.9-1) unstable; urgency=medium
 
   * New upstream version
   * Acknowledged NMU. Closes: #425639
-  * pci.ids: updated with daily snapshot of Wed 2008-01-23 02:05:02
+  * pci.ids: updated with daily snapshot dated Wed 2008-01-23 02:05:02
     Closes: #422713
   * pciutils and pciutils-udeb depend on ${misc:Depends}
   * pciutils-dev depends on zlib1g-dev. Closes: 396640, #413462
