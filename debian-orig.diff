@@ -1,5 +1,33 @@
---- pciutils-2.2.10.orig/Makefile
-+++ pciutils-2.2.10/Makefile
+--- pciutils-3.0.0.orig/lib/Makefile
++++ pciutils-3.0.0/lib/Makefile
+@@ -42,18 +42,20 @@
+ OBJS += nbsd-libpci
+ endif
+ 
+-all: $(PCILIB) $(PCILIBPC)
++PCILIBA=libpci.a
+ 
+-ifeq ($(SHARED),no)
+-$(PCILIB): $(addsuffix .o,$(OBJS))
++all: $(PCILIB) $(PCILIBA) $(PCILIBPC)
++
++# ifeq ($(SHARED),no)
++$(PCILIBA): $(addsuffix .o,$(OBJS))
+ 	rm -f $@
+ 	$(AR) rcs $@ $^
+ 	$(RANLIB) $@
+-else
++# else
+ CFLAGS += -fPIC -fvisibility=hidden
+ $(PCILIB): $(addsuffix .o,$(OBJS))
+ 	$(CC) -shared $(SONAME) -Wl,--version-script=libpci.ver -o $@ $^ $(LIB_LDLIBS)
+-endif
++# endif
+ 
+ $(PCILIBPC): libpci.pc.in
+ 	sed <$< >$@ -e 's,@PREFIX@,$(PREFIX),' \
+--- pciutils-3.0.0.orig/Makefile
++++ pciutils-3.0.0/Makefile
 @@ -1,7 +1,7 @@
  # Makefile for The PCI Utilities
  # (c) 1998--2008 Martin Mares <mj@ucw.cz>
@@ -8,23 +36,23 @@
 +OPT=-O2 -g
  CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wmissing-prototypes
  
- VERSION=2.2.10
-@@ -31,7 +31,9 @@
+ VERSION=3.0.0
+@@ -50,7 +50,9 @@
  
  export
  
--all: $(PCILIB) lspci setpci lspci.8 setpci.8 update-pciids update-pciids.8 $(PCI_IDS)
+-all: lib/$(PCILIB) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS)
 +pcimod-$(PCI_OS_LINUX) := pcimodules
 +pcimod8-$(PCI_OS_LINUX) := pcimodules.8
-+all: $(PCILIB) lspci setpci lspci.8 setpci.8 update-pciids update-pciids.8 $(PCI_IDS) $(pcimod-1) $(pcimod8-1)
++all: lib/$(PCILIB) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS) $(pcimod-1) $(pcimod8-1)
  
- $(PCILIB): $(PCIINC) force
+ lib/$(PCILIB): $(PCIINC) force
  	$(MAKE) -C lib all
-@@ -43,9 +45,11 @@
+@@ -62,9 +64,11 @@
  
- lspci: lspci.o common.o $(PCILIB)
- setpci: setpci.o common.o $(PCILIB)
-+pcimodules: pcimodules.o common.o $(PCILIB)
+ lspci: lspci.o common.o lib/$(PCILIB)
+ setpci: setpci.o common.o lib/$(PCILIB)
++pcimodules: pcimodules.o common.o lib/$(PCILIB)
  
  lspci.o: lspci.c pciutils.h $(PCIINC)
  setpci.o: setpci.c pciutils.h $(PCIINC)
@@ -32,43 +60,231 @@
  common.o: common.c pciutils.h $(PCIINC)
  
  update-pciids: update-pciids.sh
-@@ -61,6 +65,7 @@
+@@ -84,6 +88,7 @@
  clean:
  	rm -f `find . -name "*~" -o -name "*.[oa]" -o -name "\#*\#" -o -name TAGS -o -name core -o -name "*.orig"`
- 	rm -f update-pciids lspci setpci lib/config.* lib/example *.8 pci.ids.* lib/*.pc
+ 	rm -f update-pciids lspci setpci example lib/config.* *.[78] pci.ids.* lib/*.pc lib/*.so lib/*.so.*
 +	rm -f pcimodules
  	rm -rf maint/dist
  
  distclean: clean
-@@ -68,10 +73,10 @@
+@@ -91,10 +96,10 @@
  install: all
  # -c is ignored on Linux, but required on FreeBSD
- 	$(DIRINSTALL) -m 755 $(DESTDIR)$(SBINDIR) $(DESTDIR)$(IDSDIR) $(DESTDIR)$(MANDIR)/man8
--	$(INSTALL) -c -m 755 -s lspci setpci $(DESTDIR)$(SBINDIR)
-+	$(INSTALL) -c -m 755 -s lspci setpci $(pcimod-1) $(DESTDIR)$(SBINDIR)
+ 	$(DIRINSTALL) -m 755 $(DESTDIR)$(SBINDIR) $(DESTDIR)$(IDSDIR) $(DESTDIR)$(MANDIR)/man8 $(DESTDIR)$(MANDIR)/man7
+-	$(INSTALL) -c -m 755 $(STRIP) lspci setpci $(DESTDIR)$(SBINDIR)
++	$(INSTALL) -c -m 755 $(STRIP) lspci setpci $(pcimod-1) $(DESTDIR)$(SBINDIR)
  	$(INSTALL) -c -m 755 update-pciids $(DESTDIR)$(SBINDIR)
  	$(INSTALL) -c -m 644 $(PCI_IDS) $(DESTDIR)$(IDSDIR)
 -	$(INSTALL) -c -m 644 lspci.8 setpci.8 update-pciids.8 $(DESTDIR)$(MANDIR)/man8
 +	$(INSTALL) -c -m 644 lspci.8 setpci.8 update-pciids.8 $(pcimod8-1) $(DESTDIR)$(MANDIR)/man8
- 
- install-lib: $(PCIINC_INS) $(PCILIB) $(PCILIBPC)
- 	$(DIRINSTALL) -m 755 $(DESTDIR)$(INCDIR)/pci $(DESTDIR)$(LIBDIR) $(DESTDIR)$(PKGCFDIR)
-@@ -83,6 +88,7 @@
+ 	$(INSTALL) -c -m 644 pcilib.7 $(DESTDIR)$(MANDIR)/man7
+ ifeq ($(SHARED),yes)
+ 	$(DIRINSTALL) -m 755 $(DESTDIR)$(LIBDIR)
+@@ -115,6 +120,7 @@
  	rm -f $(DESTDIR)$(SBINDIR)/lspci $(DESTDIR)$(SBINDIR)/setpci $(DESTDIR)$(SBINDIR)/update-pciids
  	rm -f $(DESTDIR)$(IDSDIR)/$(PCI_IDS)
  	rm -f $(DESTDIR)$(MANDIR)/man8/lspci.8 $(DESTDIR)$(MANDIR)/man8/setpci.8 $(DESTDIR)$(MANDIR)/man8/update-pciids.8
 +	rm -f $(DESTDIR)$(SBINDIR)/pcimodules $(DESTDIR)$(MANDIR)/man8/pcimodules.8
- 
- pci.ids.gz: pci.ids
- 	gzip -9 <$< >$@
---- pciutils-2.2.10.orig/pci.ids
-+++ pciutils-2.2.10/pci.ids
+ 	rm -f $(DESTDIR)$(MANDIR)/man7/pcilib.7
+ ifeq ($(SHARED),yes)
+ 	rm -f $(DESTDIR)$(LIBDIR)/$(PCILIB) $(DESTDIR)$(LIBDIR)/$(LIBNAME).so$(ABI_VERSION)
+--- pciutils-3.0.0.orig/pcimodules.c
++++ pciutils-3.0.0/pcimodules.c
+@@ -0,0 +1,185 @@
++/*
++ *	pcimodules:  Load all kernel modules for PCI device currently
++ *      plugged into any PCI slot.
++ *
++ *	Copyright 2000 Yggdrasil Computing, Incorporated
++ *	This file may be copied under the terms and conditions of version 
++ *      two of the GNU General Public License, as published by the Free
++ *      Software Foundation (Cambridge, Massachusetts, USA).
++ *
++ *      This file is based on pciutils/lib/example.c, which has the following
++ *      authorship and copyright statement:
++ *
++ *		Written by Martin Mares and put to public domain. You can do
++ *		with it anything you want, but I don't give you any warranty.
++ */
++
++#include <stdlib.h>
++#include <stdio.h>
++#include <malloc.h>
++#include <string.h>
++#include <unistd.h>
++#include <sys/utsname.h>
++#include <sys/param.h>
++#include <sys/types.h>
++
++#define _GNU_SOURCE
++#include <getopt.h>
++
++#include "pciutils.h"
++
++const char program_name[] = "pcimodules";
++
++#define MODDIR	"/lib/modules"
++#define PCIMAP	"modules.pcimap"
++
++#define LINELENGTH	8000 
++
++#define DEVICE_ANY	0xffffffff
++#define VENDOR_ANY	0xffffffff
++
++#include "lib/pci.h"
++
++struct pcimap_entry {
++	unsigned int vendor, subsys_vendor, dev, subsys_dev, class, class_mask;
++	char *module;
++	struct pcimap_entry *next;
++};
++
++static struct pcimap_entry *pcimap_list = NULL;
++
++#define OPT_STRING "h"
++static struct option long_options[] = {
++	{"class",	required_argument,	NULL, 'c'},
++	{"classmask",	required_argument,	NULL, 'm'},
++	{"help",	no_argument,		NULL, 'h'},
++	{ 0,		0,			0, 	0}
++};
++
++static unsigned long desired_class;
++static unsigned long desired_classmask; /* Default is 0: accept all classes.*/
++
++void
++read_pcimap(void)
++{
++	struct utsname utsname;
++	char filename[MAXPATHLEN];
++	FILE *pcimap_file;
++	char line[LINELENGTH];
++	struct pcimap_entry *entry;
++	unsigned int driver_data;
++	char *prevmodule = "";
++	char module[LINELENGTH];
++
++	if (uname(&utsname) < 0) {
++		perror("uname");
++		exit(1);
++	}
++	sprintf(filename, "%s/%s/%s", MODDIR, utsname.release, PCIMAP);
++	if ((pcimap_file = fopen(filename, "r")) == NULL) {
++		perror(filename);
++		exit(1);
++	}
++
++	while(fgets(line, LINELENGTH, pcimap_file) != NULL) {
++		if (line[0] == '#')
++			continue;
++
++		entry = xmalloc(sizeof(struct pcimap_entry));
++
++		if (sscanf(line, "%s 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x",
++			   module,
++			   &entry->vendor, &entry->dev,
++			   &entry->subsys_vendor, &entry->subsys_dev,
++			   &entry->class, &entry->class_mask,
++			   &driver_data) != 8) {
++			fprintf (stderr,
++				"modules.pcimap unparsable line: %s.\n", line);
++			free(entry);
++			continue;
++		}
++
++		/* Optimize memory allocation a bit, in case someday we
++		   have Linux systems with ~100,000 modules.  It also
++		   allows us to just compare pointers to avoid trying
++		   to load a module twice. */
++		if (strcmp(module, prevmodule) != 0) {
++			prevmodule = xmalloc(strlen(module)+1);
++			strcpy(prevmodule, module);
++		}
++		entry->module = prevmodule;
++		entry->next = pcimap_list;
++		pcimap_list = entry;
++	}
++	fclose(pcimap_file);
++}
++
++/* Return a filled in pci_access->dev tree, with the device classes
++   stored in dev->aux.
++*/
++static void
++match_pci_modules(void)
++{
++	struct pci_access *pacc;
++	struct pci_dev *dev;
++	unsigned int class, subsys_dev, subsys_vendor;
++	struct pcimap_entry *map;
++	const char *prevmodule = "";
++
++	pacc = pci_alloc();		/* Get the pci_access structure */
++	/* Set all options you want -- here we stick with the defaults */
++	pci_init(pacc);		/* Initialize the PCI library */
++	pci_scan_bus(pacc);	/* We want to get the list of devices */
++  	for(dev=pacc->devices; dev; dev=dev->next) {
++		pci_fill_info(dev, PCI_FILL_IDENT | PCI_FILL_BASES);
++		class = (pci_read_word(dev, PCI_CLASS_DEVICE) << 8)
++			| pci_read_byte(dev, PCI_CLASS_PROG);
++		subsys_dev = pci_read_word(dev, PCI_SUBSYSTEM_ID);
++		subsys_vendor = pci_read_word(dev,PCI_SUBSYSTEM_VENDOR_ID);
++		for(map = pcimap_list; map != NULL; map = map->next) {
++			if (((map->class ^ class) & map->class_mask) == 0 &&
++			    ((desired_class ^ class) & desired_classmask)==0 &&
++			    (map->dev == DEVICE_ANY ||
++			     map->dev == dev->device_id) &&
++			    (map->vendor == VENDOR_ANY ||
++			     map->vendor == dev->vendor_id) &&
++			    (map->subsys_dev == DEVICE_ANY ||
++			     map->subsys_dev == subsys_dev) &&
++			    (map->subsys_vendor == VENDOR_ANY ||
++			     map->subsys_vendor == subsys_vendor) &&
++			    prevmodule != map->module) {
++				printf("%s\n", map->module);
++				prevmodule = map->module;
++			}
++		}
++
++	}
++	pci_cleanup(pacc);
++}
++
++int
++main (int argc, char **argv)
++{
++	int opt_index = 0;
++	int opt;
++
++	while ((opt = getopt_long(argc, argv, OPT_STRING, long_options,
++		           &opt_index)) != -1) {
++		switch(opt) {
++			case 'c':
++				desired_class = strtol(optarg, NULL, 0);
++				break;
++			case 'm':
++				desired_classmask = strtol(optarg, NULL, 0);
++				break;
++			case 'h':
++				printf ("Usage: pcimodules [--help]\n"
++					"  Lists kernel modules corresponding to PCI devices currently plugged"
++					"  into the computer.\n");
++		}
++	}	
++
++	read_pcimap();
++	match_pci_modules();
++	return 0;
++}
+--- pciutils-3.0.0.orig/pci.ids
++++ pciutils-3.0.0/pci.ids
 @@ -11,7 +11,7 @@
  #	This file can be distributed under either the GNU General Public License
  #	(version 2 or higher) or the 3-clause BSD License.
  #
 -#	$Id: pci.ids,v 1.58 2007/05/04 09:42:19 mares Exp $
-+#	Daily snapshot on Sat 2008-04-19 01:05:02
++#	Daily snapshot on Sat 2008-04-12 01:05:01
  #
  
  # Vendors, devices and subsystems. Please keep sorted.
@@ -3503,7 +3719,7 @@
  	10b0  82573L PRO/1000 PL Network Connection
  	10b2  82573V PRO/1000 PM Network Connection
  	10b3  82573E PRO/1000 PM Network Connection
-@@ -11338,20 +12223,56 @@
+@@ -11338,20 +12223,46 @@
  		103c 3109  NC340T PCI-X Quad-port Gigabit Server Adapter
  		8086 1099  PRO/1000 GT Quad Port Server Adapter
  		8086 1199  PRO/1000 GT Quad Port Server Adapter
@@ -3531,15 +3747,10 @@
 +		8086 a05f  10 Gigabit XF SR Dual Port Server Adapter
 +		8086 a15f  10 Gigabit XF SR Dual Port Server Adapter
 +	10c7  82598EB 10 Gigabit AF Network Connection
-+		1014 037f  10 Gigabit XF SR Server Adapter
-+		1014 0380  10 Gigabit XF LR Server Adapter
 +		8086 a05f  10 Gigabit XF SR Server Adapter
 +		8086 a15f  10 Gigabit XF SR Server Adapter
 +		8086 a16f  10 Gigabit XF SR Server Adapter
 +	10cb  82567V Gigabit Network Connection
-+	10cc  82567LM-2 Gigabit Network Connection
-+	10cd  82567LF-2 Gigabit Network Connection
-+	10ce  82567V-2 Gigabit Network Connection
 +	10d5  82571PT Gigabit PT Quad Port Server ExpressModule
 +	10d6  82575GB Gigabit Network Connection
 +		8086 10d6  Gigabit VT Quad Port Server Adapter
@@ -3551,16 +3762,11 @@
 +	10dd  82598EB 10 Gigabit AT CX4 Network Connection
 +	10e2  82575GB Gigabit Network Connection
 +		8086 10e2  Gigabit VT Quad Port Server Adapter
-+	10ec  10 Gigabit AT CX4 Network Connection
-+		8086 a01f  10 Gigabit CX4 Dual Port Server Adapter
-+		8086 a11f  10 Gigabit CX4 Dual Port Server Adapter
-+	10f4  10 Gigabit AT Network Connection
-+		8086 106f  10 Gigabit XF LR Server Adapter
 +	10f5  82567LM Gigabit Network Connection
  	1107  PRO/1000 MF Server Adapter (LX)
  	1130  82815 815 Chipset Host Bridge and Memory Controller Hub
  		1025 1016  Travelmate 612 TX
-@@ -11360,8 +12281,9 @@
+@@ -11360,8 +12271,9 @@
  		8086 4532  D815EEA2 mainboard
  		8086 4557  D815EGEW Mainboard
  	1131  82815 815 Chipset AGP Bridge
@@ -3571,7 +3777,7 @@
  		104d 80df  Vaio PCG-FX403
  		8086 4532  D815EEA2 Mainboard
  		8086 4541  D815EEA Motherboard
-@@ -11382,8 +12304,7 @@
+@@ -11382,8 +12294,7 @@
  	1226  82596 PRO/10 PCI
  	1227  82865 EtherExpress PRO/100A
  	1228  82556 EtherExpress PRO/100 Smart
@@ -3581,7 +3787,7 @@
  		0e11 3001  82559 Fast Ethernet LOM with Alert on LAN*
  		0e11 3002  82559 Fast Ethernet LOM with Alert on LAN*
  		0e11 3003  82559 Fast Ethernet LOM with Alert on LAN*
-@@ -11422,8 +12343,8 @@
+@@ -11422,8 +12333,8 @@
  		1014 605c  10/100 EtherJet Secure Management Adapter
  		1014 705c  10/100 Netfinity 10/100 Ethernet Security Adapter
  		1014 805c  10/100 Netfinity 10/100 Ethernet Security Adapter
@@ -3592,7 +3798,7 @@
  		1033 8000  PC-9821X-B06
  		1033 8016  PK-UG-X006
  		1033 801f  PK-UG-X006
-@@ -11442,6 +12363,7 @@
+@@ -11442,6 +12353,7 @@
  		10cf 1115  8255x-based Ethernet Adapter (10/100)
  		10cf 1143  8255x-based Ethernet Adapter (10/100)
  		110a 008b  82551QM Fast Ethernet Multifuction PCI/CardBus Controller
@@ -3600,7 +3806,7 @@
  		1179 0001  8255x-based Ethernet Adapter (10/100)
  		1179 0002  PCI FastEther LAN on Docker
  		1179 0003  8255x-based Fast Ethernet
-@@ -11567,7 +12489,7 @@
+@@ -11567,7 +12479,7 @@
  		15d9 3480  P4DP6
  		4c53 1090  Cx9/Vx9 mainboard
  	1462  82870P2 P64H2 Hot Plug Controller
@@ -3609,7 +3815,7 @@
  		101e 0431  MegaRAID 431 RAID Controller
  		101e 0438  MegaRAID 438 Ultra2 LVD RAID Controller
  		101e 0466  MegaRAID 466 Express Plus RAID Controller
-@@ -11592,16 +12514,20 @@
+@@ -11592,16 +12504,20 @@
  		e4bf 1020  CU2-QUARTET
  		e4bf 1040  CU1-CHORUS
  		e4bf 3100  CX1-BAND
@@ -3637,7 +3843,7 @@
  	1b48  82597EX 10GbE Ethernet Controller
  		8086 a01f  PRO/10GbE LR Server Adapter
  		8086 a11f  PRO/10GbE LR Server Adapter
-@@ -11635,6 +12561,7 @@
+@@ -11635,6 +12551,7 @@
  		1025 1016  Travelmate 612 TX
  		1028 00c7  Dimension 8100
  		1028 010e  Optiplex GX240
@@ -3645,7 +3851,7 @@
  		1043 8027  TUSL2-C Mainboard
  		104d 80df  Vaio PCG-FX403
  		147b 0507  TH7II-RAID
-@@ -11646,9 +12573,11 @@
+@@ -11646,9 +12563,11 @@
  		1025 1016  Travelmate 612 TX
  		1028 00c7  Dimension 8100
  		1028 010e  Optiplex GX240
@@ -3657,7 +3863,7 @@
  		8086 4532  D815EEA2 mainboard
  		8086 4557  D815EGEW Mainboard
  		8086 5744  S845WD1-E mainboard
-@@ -11656,6 +12585,7 @@
+@@ -11656,6 +12575,7 @@
  		1025 1016  Travelmate 612 TX
  		1028 00c7  Dimension 8100
  		1028 010e  Optiplex GX240
@@ -3665,7 +3871,7 @@
  		1043 8027  TUSL2-C Mainboard
  		104d 80df  Vaio PCG-FX403
  		147b 0507  TH7II-RAID
-@@ -11666,6 +12596,7 @@
+@@ -11666,6 +12586,7 @@
  		0e11 0088  Evo D500
  		1014 01c6  Netvista A40/A40p
  		1025 1016  Travelmate 612 TX
@@ -3673,7 +3879,7 @@
  		104d 80df  Vaio PCG-FX403
  		1462 3370  STAC9721 AC
  		147b 0507  TH7II-RAID
-@@ -11674,9 +12605,14 @@
+@@ -11674,9 +12595,14 @@
  		1025 1016  Travelmate 612 TX
  		104d 80df  Vaio PCG-FX403
  	2448  82801 Mobile PCI Bridge
@@ -3688,7 +3894,7 @@
  	2449  82801BA/BAM/CA/CAM Ethernet Controller
  		0e11 0012  EtherExpress PRO/100 VM
  		0e11 0091  EtherExpress PRO/100 VE
-@@ -11715,14 +12651,17 @@
+@@ -11715,14 +12641,17 @@
  		1014 01c6  Netvista A40/A40p
  		1028 00c7  Dimension 8100
  		1028 010e  Optiplex GX240
@@ -3706,7 +3912,7 @@
  	2450  82801E ISA Bridge (LPC)
  	2452  82801E USB Controller
  	2453  82801E SMBus Controller
-@@ -11752,7 +12691,7 @@
+@@ -11752,7 +12681,7 @@
  		8086 1958  vpr Matrix 170B4
  	2485  82801CA/CAM AC'97 Audio Controller
  		1013 5959  Crystal WMD Audio Codec
@@ -3715,7 +3921,7 @@
  		1014 0508  ThinkPad T30
  		1014 051c  ThinkPad A/T/X Series
  		1043 1583  L3C (SPDIF)
-@@ -11762,7 +12701,7 @@
+@@ -11762,7 +12691,7 @@
  		144d c006  vpr Matrix 170B4
  	2486  82801CA/CAM AC'97 Modem Controller
  		1014 0223  ThinkPad A/T/X Series
@@ -3724,7 +3930,7 @@
  		1014 051a  ThinkPad A/T/X Series
  		101f 1025  620 Series
  		104d 80e7  VAIO PCG-GR214EP/GR214MP/GR215MP/GR314MP/GR315MP
-@@ -11790,15 +12729,19 @@
+@@ -11790,15 +12719,19 @@
  	24c1  82801DBL (ICH4-L) IDE Controller
  	24c2  82801DB/DBL/DBM (ICH4/ICH4-L/ICH4-M) USB UHCI Controller #1
  		1014 0267  NetVista A30p
@@ -3745,7 +3951,7 @@
  		144d c00c  P30/P35 notebook
  		1462 5800  845PE Max (MS-6580)
  		1509 2990  Averatec 5110H laptop
-@@ -11811,14 +12754,17 @@
+@@ -11811,14 +12744,17 @@
  		e4bf 0cd2  CD2-BEBOP
  	24c3  82801DB/DBL/DBM (ICH4/ICH4-L/ICH4-M) SMBus Controller
  		1014 0267  NetVista A30p
@@ -3764,7 +3970,7 @@
  		144d c00c  P30/P35 notebook
  		1458 24c2  GA-8PE667 Ultra
  		1462 5800  845PE Max (MS-6580)
-@@ -11829,14 +12775,16 @@
+@@ -11829,14 +12765,16 @@
  		e4bf 0cd2  CD2-BEBOP
  	24c4  82801DB/DBL/DBM (ICH4/ICH4-L/ICH4-M) USB UHCI Controller #2
  		1014 0267  NetVista A30p
@@ -3782,7 +3988,7 @@
  		1071 8160  MIM2000
  		144d c00c  P30/P35 notebook
  		1462 5800  845PE Max (MS-6580)
-@@ -11850,26 +12798,32 @@
+@@ -11850,26 +12788,32 @@
  	24c5  82801DB/DBL/DBM (ICH4/ICH4-L/ICH4-M) AC'97 Audio Controller
  		0e11 00b8  Analog Devices Inc. codec [SoundMAX]
  		1014 0267  NetVista A30p
@@ -3818,7 +4024,7 @@
  		1025 003c  Aspire 2001WLCi (Compal CL50 motherboard) implementation
  		1025 005a  TravelMate 290
  		1028 0196  Inspiron 5160
-@@ -11877,17 +12831,23 @@
+@@ -11877,17 +12821,23 @@
  		103c 0890  NC6000 laptop
  		103c 08b0  tc1100 tablet
  		1071 8160  MIM2000
@@ -3843,7 +4049,7 @@
  		1071 8160  MIM2000
  		144d c00c  P30/P35 notebook
  		1462 5800  845PE Max (MS-6580)
-@@ -11899,21 +12859,25 @@
+@@ -11899,21 +12849,25 @@
  		e4bf 0cc9  CC9-SAMBA
  		e4bf 0cd2  CD2-BEBOP
  	24ca  82801DBM (ICH4-M) IDE Controller
@@ -3870,7 +4076,7 @@
  		1458 24c2  GA-8PE667 Ultra
  		1462 5800  845PE Max (MS-6580)
  		1734 1004  D1451 Mainboard (SCENIC N300, i845GV)
-@@ -11925,18 +12889,22 @@
+@@ -11925,18 +12879,22 @@
  		1734 1055  Amilo M1420
  	24cd  82801DB/DBM (ICH4/ICH4-M) USB2 EHCI Controller
  		1014 0267  NetVista A30p
@@ -3894,7 +4100,7 @@
  		144d c00c  P30/P35 notebook
  		1462 3981  845PE Max (MS-6580)
  		1509 1968  Averatec 5110H
-@@ -11964,6 +12932,8 @@
+@@ -11964,6 +12922,8 @@
  		1014 02dd  eServer xSeries server mainboard
  		1014 02ed  eServer xSeries server mainboard
  		1028 0169  Precision 470
@@ -3903,7 +4109,7 @@
  		1028 0183  PowerEdge 1800
  		1028 019a  PowerEdge SC1425
  		103c 006a  NX9500
-@@ -11973,7 +12943,7 @@
+@@ -11973,7 +12933,7 @@
  		1462 7280  865PE Neo2 (MS-6728)
  		1565 3101  P4TSV Motherboard (865G)
  		15d9 4580  P4SCE Mainboard
@@ -3912,7 +4118,7 @@
  		8086 3427  S875WP1-E mainboard
  		8086 4246  Desktop Board D865GBF
  		8086 4c43  Desktop Board D865GLC
-@@ -11989,7 +12959,7 @@
+@@ -11989,7 +12949,7 @@
  		1462 7280  865PE Neo2 (MS-6728)
  		1565 3101  P4TSV Motherboard (865G)
  		15d9 4580  P4SCE Mainboard
@@ -3921,7 +4127,7 @@
  		8086 3427  S875WP1-E mainboard
  		8086 4246  Desktop Board D865GBF
  		8086 4c43  Desktop Board D865GLC
-@@ -11998,6 +12968,8 @@
+@@ -11998,6 +12958,8 @@
  		1014 02dd  eServer xSeries server mainboard
  		1014 02ed  eServer xSeries server mainboard
  		1028 0169  Precision 470
@@ -3930,7 +4136,7 @@
  		1028 0183  PowerEdge 1800
  		1028 019a  PowerEdge SC1425
  		103c 006a  NX9500
-@@ -12007,7 +12979,7 @@
+@@ -12007,7 +12969,7 @@
  		1462 7280  865PE Neo2 (MS-6728)
  		1565 3101  P4TSV Motherboard (865G)
  		15d9 4580  P4SCE Mainboard
@@ -3939,7 +4145,7 @@
  		8086 3427  S875WP1-E mainboard
  		8086 4246  Desktop Board D865GBF
  		8086 4c43  Desktop Board D865GLC
-@@ -12031,6 +13003,8 @@
+@@ -12031,6 +12993,8 @@
  	24d7  82801EB/ER (ICH5/ICH5R) USB UHCI Controller #3
  		1014 02ed  xSeries server mainboard
  		1028 0169  Precision 470
@@ -3948,7 +4154,7 @@
  		1028 0183  PowerEdge 1800
  		103c 006a  NX9500
  		103c 12bc  d530 CMT (DG746A)
-@@ -12039,7 +13013,7 @@
+@@ -12039,7 +13003,7 @@
  		1462 7280  865PE Neo2 (MS-6728)
  		1565 3101  P4TSV Motherboard (865G)
  		15d9 4580  P4SCE Mainboard
@@ -3957,7 +4163,7 @@
  		8086 3427  S875WP1-E mainboard
  		8086 4246  Desktop Board D865GBF
  		8086 4c43  Desktop Board D865GLC
-@@ -12048,6 +13022,8 @@
+@@ -12048,6 +13012,8 @@
  		1014 02dd  eServer xSeries server mainboard
  		1014 02ed  eServer xSeries server mainboard
  		1028 0169  Precision 470
@@ -3966,7 +4172,7 @@
  		1028 019a  PowerEdge SC1425
  		103c 006a  NX9500
  		103c 12bc  d530 CMT (DG746A)
-@@ -12057,7 +13033,7 @@
+@@ -12057,7 +13023,7 @@
  		1462 7580  MSI 875P
  		1565 3101  P4TSV Motherboard (865G)
  		15d9 4580  P4SCE Mainboard
@@ -3975,7 +4181,7 @@
  		8086 24db  P4C800 Mainboard
  		8086 3427  S875WP1-E mainboard
  		8086 4246  Desktop Board D865GBF
-@@ -12068,6 +13044,8 @@
+@@ -12068,6 +13034,8 @@
  		1014 02dd  eServer xSeries server mainboard
  		1014 02ed  eServer xSeries server mainboard
  		1028 0169  Precision 470
@@ -3984,7 +4190,7 @@
  		1028 0183  PowerEdge 1800
  		1028 019a  PowerEdge SC1425
  		103c 006a  NX9500
-@@ -12087,7 +13065,7 @@
+@@ -12087,7 +13055,7 @@
  		1462 7280  865PE Neo2 (MS-6728)
  		1565 3101  P4TSV Motherboard (865G)
  		15d9 4580  P4SCE Mainboard
@@ -3993,7 +4199,7 @@
  		8086 3427  S875WP1-E mainboard
  		8086 4246  Desktop Board D865GBF
  		8086 4c43  Desktop Board D865GLC
-@@ -12139,6 +13117,7 @@
+@@ -12139,6 +13107,7 @@
  	2562  82845G/GL[Brookdale-G]/GE Chipset Integrated Graphics Device
  		0e11 00b9  Evo D510 SFF
  		1014 0267  NetVista A30p
@@ -4001,7 +4207,7 @@
  		1734 1004  D1451 Mainboard (SCENIC N300, i845GV)
  	2570  82865G/PE/P DRAM Controller/Host-Hub Interface
  		103c 006a  NX9500
-@@ -12172,19 +13151,26 @@
+@@ -12172,19 +13141,26 @@
  		1043 2582  P5GD1-VW Mainboard
  		1458 2582  GA-8I915ME-G Mainboard
  		1734 105b  Scenic W620
@@ -4028,7 +4234,7 @@
  	2592  Mobile 915GM/GMS/910GML Express Graphics Controller
  		103c 099c  NX6110/NC6120
  		103c 308a  NC6220
-@@ -12228,6 +13214,7 @@
+@@ -12228,6 +13204,7 @@
  		1775 1100  CR11/VR11 Single Board Computer
  		1775 ce90  CE9
  		4c53 10b0  CL9 mainboard
@@ -4036,7 +4242,7 @@
  		4c53 10e0  PSL09 PrPMC
  	25ab  6300ESB Watchdog Timer
  		1775 10d0  V5D Single Board Computer
-@@ -12258,6 +13245,7 @@
+@@ -12258,6 +13235,7 @@
  	25c0  5000X Chipset Memory Controller Hub
  	25d0  5000Z Chipset Memory Controller Hub
  	25d4  5000V Chipset Memory Controller Hub
@@ -4044,7 +4250,7 @@
  	25d8  5000P Chipset Memory Controller Hub
  	25e2  5000 Series Chipset PCI Express x4 Port 2
  	25e3  5000 Series Chipset PCI Express x4 Port 3
-@@ -12266,10 +13254,15 @@
+@@ -12266,10 +13244,15 @@
  	25e6  5000 Series Chipset PCI Express x4 Port 6
  	25e7  5000 Series Chipset PCI Express x4 Port 7
  	25f0  5000 Series Chipset FSB Registers
@@ -4060,7 +4266,7 @@
  	25f7  5000 Series Chipset PCI Express x8 Port 2-3
  	25f8  5000 Series Chipset PCI Express x8 Port 4-5
  	25f9  5000 Series Chipset PCI Express x8 Port 6-7
-@@ -12315,6 +13308,7 @@
+@@ -12315,6 +13298,7 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	2641  82801FBM (ICH6M) LPC Interface Bridge
@@ -4068,7 +4274,7 @@
  		103c 099c  NX6110/NC6120
  	2642  82801FW/FRW (ICH6W/ICH6RW) LPC Interface Bridge
  	2651  82801FB/FW (ICH6/ICH6W) SATA Controller
-@@ -12326,10 +13320,13 @@
+@@ -12326,10 +13310,13 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	2652  82801FR/FRW (ICH6R/ICH6RW) SATA Controller
@@ -4082,7 +4288,7 @@
  		103c 099c  NX6110/NC6120
  		1043 80a6  P5GD1-VW Mainboard
  		1458 2558  GA-8I915ME-G Mainboard
-@@ -12339,7 +13336,9 @@
+@@ -12339,7 +13326,9 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	2659  82801FB/FBM/FR/FW/FRW (ICH6 Family) USB UHCI #2
@@ -4092,7 +4298,7 @@
  		103c 099c  NX6110/NC6120
  		1043 80a6  P5GD1-VW Mainboard
  		1458 2659  GA-8I915ME-G Mainboard
-@@ -12349,7 +13348,9 @@
+@@ -12349,7 +13338,9 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	265a  82801FB/FBM/FR/FW/FRW (ICH6 Family) USB UHCI #3
@@ -4102,7 +4308,7 @@
  		103c 099c  NX6110/NC6120
  		1043 80a6  P5GD1-VW Mainboard
  		1458 265a  GA-8I915ME-G Mainboard
-@@ -12359,6 +13360,7 @@
+@@ -12359,6 +13350,7 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	265b  82801FB/FBM/FR/FW/FRW (ICH6 Family) USB UHCI #4
@@ -4110,7 +4316,7 @@
  		1028 0179  Optiplex GX280
  		103c 099c  NX6110/NC6120
  		1043 80a6  P5GD1-VW Mainboard
-@@ -12369,7 +13371,9 @@
+@@ -12369,7 +13361,9 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	265c  82801FB/FBM/FR/FW/FRW (ICH6 Family) USB2 EHCI Controller
@@ -4120,7 +4326,7 @@
  		103c 099c  NX6110/NC6120
  		1043 80a6  P5GD1-VW Mainboard
  		1458 5006  GA-8I915ME-G Mainboard
-@@ -12380,11 +13384,15 @@
+@@ -12380,11 +13374,15 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	2660  82801FB/FBM/FR/FW/FRW (ICH6 Family) PCI Express Port 1
@@ -4136,7 +4342,7 @@
  		e4bf 0ccd  CCD-CALYPSO
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
-@@ -12397,10 +13405,13 @@
+@@ -12397,10 +13395,13 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	2668  82801FB/FBM/FR/FW/FRW (ICH6 Family) High Definition Audio Controller
@@ -4150,7 +4356,7 @@
  		1028 0179  Optiplex GX280
  		1043 80a6  P5GD1-VW Mainboard
  		1458 266a  GA-8I915ME-G Mainboard
-@@ -12412,12 +13423,15 @@
+@@ -12412,12 +13413,15 @@
  	266c  82801FB/FBM/FR/FW/FRW (ICH6 Family) LAN Controller
  	266d  82801FB/FBM/FR/FW/FRW (ICH6 Family) AC'97 Modem Controller
  		1025 006a  Conexant AC'97 CoDec (in Acer TravelMate 2410 serie laptop)
@@ -4166,7 +4372,7 @@
  		103c 0944  Compaq NC6220
  		103c 099c  NX6110/NC6120
  		103c 3006  DC7100 SFF(DX878AV)
-@@ -12425,6 +13439,8 @@
+@@ -12425,6 +13429,8 @@
  		152d 0745  Packard Bell A8550 Laptop
  		1734 105a  Scenic W620
  	266f  82801FB/FBM/FR/FW/FRW (ICH6 Family) IDE Controller
@@ -4175,7 +4381,7 @@
  		103c 099c  NX6110/NC6120
  		1043 80a6  P5GD1-VW Mainboard
  		1458 266f  GA-8I915ME-G Mainboard
-@@ -12434,15 +13450,22 @@
+@@ -12434,15 +13440,22 @@
  		e4bf 0cd3  CD3-JIVE
  		e4bf 58b1  XB1
  	2670  631xESB/632xESB/3100 Chipset LPC Interface Controller
@@ -4198,7 +4404,7 @@
  	2690  631xESB/632xESB/3100 Chipset PCI Express Root Port 1
  	2692  631xESB/632xESB/3100 Chipset PCI Express Root Port 2
  	2694  631xESB/632xESB/3100 Chipset PCI Express Root Port 3
-@@ -12451,20 +13474,26 @@
+@@ -12451,20 +13464,26 @@
  	2699  631xESB/632xESB AC '97 Modem Controller
  	269a  631xESB/632xESB High Definition Audio Controller
  	269b  631xESB/632xESB/3100 Chipset SMBus Controller
@@ -4225,7 +4431,7 @@
  	277d  82975X PCI Express Root Port
  	2782  82915G Integrated Graphics Controller
  		1043 2582  P5GD1-VW Mainboard
-@@ -12478,167 +13507,346 @@
+@@ -12478,167 +13497,345 @@
  	27a0  Mobile 945GM/PM/GMS, 943/940GML and 945GT Express Memory Controller Hub
  		1025 006c  9814 WKMI
  		103c 30a1  NC2400
@@ -4497,7 +4703,6 @@
 +		1028 01da  OptiPlex 745
 +		1028 01f3  Inspiron 1420
 +		1028 01f9  Dell Latitude D630
-+		103c 2802  HP Compaq dc7700p
 +		103c 30c0  Compaq 6710b
 +		103c 30c1  Compaq 6910p
 +		1043 81ec  P5B
@@ -4619,7 +4824,7 @@
  	2970  82946GZ/PL/GL Memory Controller Hub
  	2971  82946GZ/PL/GL PCI Express Root Port
  	2972  82946GZ/GL Integrated Graphics Controller
-@@ -12647,10 +13855,13 @@
+@@ -12647,10 +13844,13 @@
  	2975  82946GZ/GL HECI Controller
  	2976  82946GZ/GL PT IDER Controller
  	2977  82946GZ/GL KT Controller
@@ -4636,7 +4841,7 @@
  	2991  82Q963/Q965 PCI Express Root Port
  	2992  82Q963/Q965 Integrated Graphics Controller
  	2993  82Q963/Q965 Integrated Graphics Controller
-@@ -12659,6 +13870,7 @@
+@@ -12659,6 +13859,7 @@
  	2996  82Q963/Q965 PT IDER Controller
  	2997  82Q963/Q965 KT Controller
  	29a0  82P965/G965 Memory Controller Hub
@@ -4644,7 +4849,7 @@
  		1462 7276  MS-7276 [G965MDH]
  	29a1  82P965/G965 PCI Express Root Port
  	29a2  82G965 Integrated Graphics Controller
-@@ -12668,65 +13880,220 @@
+@@ -12668,65 +13869,220 @@
  	29a5  82P965/G965 HECI Controller
  	29a6  82P965/G965 PT IDER Controller
  	29a7  82P965/G965 KT Controller
@@ -4789,10 +4994,10 @@
 +	2a52  Cantiga PT IDER Controller
 +	2a53  Cantiga AMT SOL Redirection
 +	2c01  QuickPath Architecture System Address Decoder
-+	2c10  QPI Link 0
-+	2c11  QPI Physical 0
-+	2c14  QPI Link 1
-+	2c15  QPI Physical 1
++	2c10  QuickPath Interconnect Link 0
++	2c11  QuickPath Interconnect Physical 0
++	2c14  QuickPath Interconnect Link 1
++	2c15  QuickPath Interconnect Physical 1
 +	2c18  QuickPath Memory Controller
 +	2c19  QuickPath Memory Controller Target Address Decoder
 +	2c1a  QuickPath Memory Controller RAS Registers
@@ -4913,7 +5118,7 @@
  	3500  6311ESB/6321ESB PCI Express Upstream Port
  	3501  6310ESB PCI Express Upstream Port
  	3504  6311ESB/6321ESB I/OxAPIC Interrupt Controller
-@@ -12748,11 +14115,13 @@
+@@ -12748,11 +14104,13 @@
  		1014 0513  ThinkPad A/T/X Series
  	3578  82830 830 Chipset Host Bridge
  	3580  82852/82855 GM/GME/PM/GMV Processor to I/O Controller
@@ -4928,7 +5133,7 @@
  		1734 1055  Amilo M1420
  		1775 10d0  V5D Single Board Computer
  		1775 ce90  CE9
-@@ -12763,10 +14132,12 @@
+@@ -12763,10 +14121,12 @@
  	3581  82852/82855 GM/GME/PM/GMV Processor to AGP Controller
  		1734 1055  Amilo M1420
  	3582  82852/855GM Integrated Graphics Device
@@ -4942,7 +5147,7 @@
  		1775 10d0  V5D Single Board Computer VGA
  		1775 ce90  CE9
  		4c53 10b0  CL9 mainboard
-@@ -12774,22 +14145,26 @@
+@@ -12774,22 +14134,26 @@
  		e4bf 0cc9  CC9-SAMBA
  		e4bf 0cd2  CD2-BEBOP
  	3584  82852/82855 GM/GME/PM/GMV Processor to I/O Controller
@@ -4971,7 +5176,7 @@
  		1734 1055  Amilo M1420
  		1775 10d0  V5D Single Board Computer
  		1775 ce90  CE9
-@@ -12797,8 +14172,10 @@
+@@ -12797,8 +14161,10 @@
  		4c53 10e0  PSL09 PrPMC
  	3590  E7520 Memory Controller Hub
  		1014 02dd  eServer xSeries server mainboard
@@ -4983,7 +5188,7 @@
  		1775 1100  CR11/VR11 Single Board Computer
  		4c53 10d0  Telum ASLP10 Processor AMC
  	3591  E7525/E7520 Error Reporting Registers
-@@ -12830,73 +14207,184 @@
+@@ -12830,73 +14196,184 @@
  	35b6  3100 Chipset PCI Express Port A
  	35b7  3100 Chipset PCI Express Port A1
  	35c8  3100 Extended Configuration Test Overflow Registers
@@ -5221,7 +5426,7 @@
  	7000  82371SB PIIX3 ISA [Natoma/Triton II]
  	7010  82371SB PIIX3 IDE [Natoma/Triton II]
  	7020  82371SB PIIX3 USB [Natoma/Triton II]
-@@ -12905,25 +14393,25 @@
+@@ -12905,25 +14382,25 @@
  	7051  PB 642365-003 (Business Video Conferencing Card)
  	7100  430TX - 82439TX MTXC
  	7110  82371AB/EB/MB PIIX4 ISA
@@ -5257,7 +5462,7 @@
  		1028 00b4  OptiPlex GX110
  	7126  82810 DC-133 System and Graphics Controller
  	7128  82810-M DC-100 System and Graphics Controller
-@@ -12934,8 +14422,9 @@
+@@ -12934,8 +14411,9 @@
  		0e11 0500  Armada 1750 Laptop System Chipset
  		0e11 b110  Armada M700/E500
  		1028 008e  PowerEdge 1300 mainboard
@@ -5268,7 +5473,7 @@
  		4c53 1050  CT7 mainboard
  		4c53 1051  CE7 mainboard
  	7191  440BX/ZX/DX - 82443BX/ZX/DX AGP bridge
-@@ -12943,6 +14432,7 @@
+@@ -12943,6 +14421,7 @@
  	7192  440BX/ZX/DX - 82443BX/ZX/DX Host bridge (AGP disabled)
  		0e11 0460  Armada 1700 Laptop System Chipset
  		4c53 1000  CC7/CR7/CP7/VC7/VP7/VR7 mainboard
@@ -5276,7 +5481,7 @@
  	7194  82440MX Host Bridge
  		1033 0000  Versa Note Vxi
  		4c53 10a0  CA3/CR3 mainboard
-@@ -12975,6 +14465,22 @@
+@@ -12975,6 +14454,22 @@
  		8086 0000  Terminator 2x/i
  		8086 0100  Intel740 Graphics Accelerator
  	8002  Trusted Execution Technology Registers
@@ -5299,7 +5504,7 @@
  	84c4  450KX/GX [Orion] - 82454KX/GX PCI bridge
  	84c5  450KX/GX [Orion] - 82453KX/GX Memory controller
  	84ca  450NX - 82451NX Memory & I/O Controller
-@@ -13195,6 +14701,8 @@
+@@ -13195,6 +14690,8 @@
  		15d9 9005  Onboard SCSI Host Adapter
  		8086 3411  SDS2 Mainboard
  	0241  Serial ATA II RAID 1420SA
@@ -5308,7 +5513,7 @@
  	0250  ServeRAID Controller
  		1014 0279  ServeRAID-xx
  		1014 028c  ServeRAID-xx
-@@ -13212,6 +14720,7 @@
+@@ -13212,6 +14709,7 @@
  		108e 0286  STK RAID INT
  		108e 0287  STK RAID EXT
  		108e 7aac  STK RAID REM
@@ -5316,7 +5521,7 @@
  		15d9 02b5  AOC-USAS-S4i
  		15d9 02b6  AOC-USAS-S8i
  		15d9 02c9  AOC-USAS-S4iR
-@@ -13260,6 +14769,10 @@
+@@ -13260,6 +14758,10 @@
  		9005 02c6  ICP ICP5165SL
  		9005 02c7  3085
  		9005 02c8  ICP5805BL
@@ -5327,7 +5532,7 @@
  	0286  AAC-RAID (Rocket)
  		1014 034d  8s
  		1014 9540  ServeRAID 8k/8k-l4
-@@ -13292,6 +14805,8 @@
+@@ -13292,6 +14794,8 @@
  	0412  AIC-9410W SAS (Razor HBA non-RAID)
  		9005 0412  ASC-48300 (Spirit non-RAID)
  		9005 0413  ASC-58300 (Oakmont non-RAID)
@@ -5336,196 +5541,8 @@
  	041e  AIC-9410W SAS (Razor ASIC non-RAID)
  	041f  AIC-9410W SAS (Razor ASIC RAID)
  		9005 041f  AIC-9410W SAS (Razor ASIC RAID)
---- pciutils-2.2.10.orig/pcimodules.c
-+++ pciutils-2.2.10/pcimodules.c
-@@ -0,0 +1,185 @@
-+/*
-+ *	pcimodules:  Load all kernel modules for PCI device currently
-+ *      plugged into any PCI slot.
-+ *
-+ *	Copyright 2000 Yggdrasil Computing, Incorporated
-+ *	This file may be copied under the terms and conditions of version 
-+ *      two of the GNU General Public License, as published by the Free
-+ *      Software Foundation (Cambridge, Massachusetts, USA).
-+ *
-+ *      This file is based on pciutils/lib/example.c, which has the following
-+ *      authorship and copyright statement:
-+ *
-+ *		Written by Martin Mares and put to public domain. You can do
-+ *		with it anything you want, but I don't give you any warranty.
-+ */
-+
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <malloc.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/utsname.h>
-+#include <sys/param.h>
-+#include <sys/types.h>
-+
-+#define _GNU_SOURCE
-+#include <getopt.h>
-+
-+#include "pciutils.h"
-+
-+const char program_name[] = "pcimodules";
-+
-+#define MODDIR	"/lib/modules"
-+#define PCIMAP	"modules.pcimap"
-+
-+#define LINELENGTH	8000 
-+
-+#define DEVICE_ANY	0xffffffff
-+#define VENDOR_ANY	0xffffffff
-+
-+#include "lib/pci.h"
-+
-+struct pcimap_entry {
-+	unsigned int vendor, subsys_vendor, dev, subsys_dev, class, class_mask;
-+	char *module;
-+	struct pcimap_entry *next;
-+};
-+
-+static struct pcimap_entry *pcimap_list = NULL;
-+
-+#define OPT_STRING "h"
-+static struct option long_options[] = {
-+	{"class",	required_argument,	NULL, 'c'},
-+	{"classmask",	required_argument,	NULL, 'm'},
-+	{"help",	no_argument,		NULL, 'h'},
-+	{ 0,		0,			0, 	0}
-+};
-+
-+static unsigned long desired_class;
-+static unsigned long desired_classmask; /* Default is 0: accept all classes.*/
-+
-+void
-+read_pcimap(void)
-+{
-+	struct utsname utsname;
-+	char filename[MAXPATHLEN];
-+	FILE *pcimap_file;
-+	char line[LINELENGTH];
-+	struct pcimap_entry *entry;
-+	unsigned int driver_data;
-+	char *prevmodule = "";
-+	char module[LINELENGTH];
-+
-+	if (uname(&utsname) < 0) {
-+		perror("uname");
-+		exit(1);
-+	}
-+	sprintf(filename, "%s/%s/%s", MODDIR, utsname.release, PCIMAP);
-+	if ((pcimap_file = fopen(filename, "r")) == NULL) {
-+		perror(filename);
-+		exit(1);
-+	}
-+
-+	while(fgets(line, LINELENGTH, pcimap_file) != NULL) {
-+		if (line[0] == '#')
-+			continue;
-+
-+		entry = xmalloc(sizeof(struct pcimap_entry));
-+
-+		if (sscanf(line, "%s 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x",
-+			   module,
-+			   &entry->vendor, &entry->dev,
-+			   &entry->subsys_vendor, &entry->subsys_dev,
-+			   &entry->class, &entry->class_mask,
-+			   &driver_data) != 8) {
-+			fprintf (stderr,
-+				"modules.pcimap unparsable line: %s.\n", line);
-+			free(entry);
-+			continue;
-+		}
-+
-+		/* Optimize memory allocation a bit, in case someday we
-+		   have Linux systems with ~100,000 modules.  It also
-+		   allows us to just compare pointers to avoid trying
-+		   to load a module twice. */
-+		if (strcmp(module, prevmodule) != 0) {
-+			prevmodule = xmalloc(strlen(module)+1);
-+			strcpy(prevmodule, module);
-+		}
-+		entry->module = prevmodule;
-+		entry->next = pcimap_list;
-+		pcimap_list = entry;
-+	}
-+	fclose(pcimap_file);
-+}
-+
-+/* Return a filled in pci_access->dev tree, with the device classes
-+   stored in dev->aux.
-+*/
-+static void
-+match_pci_modules(void)
-+{
-+	struct pci_access *pacc;
-+	struct pci_dev *dev;
-+	unsigned int class, subsys_dev, subsys_vendor;
-+	struct pcimap_entry *map;
-+	const char *prevmodule = "";
-+
-+	pacc = pci_alloc();		/* Get the pci_access structure */
-+	/* Set all options you want -- here we stick with the defaults */
-+	pci_init(pacc);		/* Initialize the PCI library */
-+	pci_scan_bus(pacc);	/* We want to get the list of devices */
-+  	for(dev=pacc->devices; dev; dev=dev->next) {
-+		pci_fill_info(dev, PCI_FILL_IDENT | PCI_FILL_BASES);
-+		class = (pci_read_word(dev, PCI_CLASS_DEVICE) << 8)
-+			| pci_read_byte(dev, PCI_CLASS_PROG);
-+		subsys_dev = pci_read_word(dev, PCI_SUBSYSTEM_ID);
-+		subsys_vendor = pci_read_word(dev,PCI_SUBSYSTEM_VENDOR_ID);
-+		for(map = pcimap_list; map != NULL; map = map->next) {
-+			if (((map->class ^ class) & map->class_mask) == 0 &&
-+			    ((desired_class ^ class) & desired_classmask)==0 &&
-+			    (map->dev == DEVICE_ANY ||
-+			     map->dev == dev->device_id) &&
-+			    (map->vendor == VENDOR_ANY ||
-+			     map->vendor == dev->vendor_id) &&
-+			    (map->subsys_dev == DEVICE_ANY ||
-+			     map->subsys_dev == subsys_dev) &&
-+			    (map->subsys_vendor == VENDOR_ANY ||
-+			     map->subsys_vendor == subsys_vendor) &&
-+			    prevmodule != map->module) {
-+				printf("%s\n", map->module);
-+				prevmodule = map->module;
-+			}
-+		}
-+
-+	}
-+	pci_cleanup(pacc);
-+}
-+
-+int
-+main (int argc, char **argv)
-+{
-+	int opt_index = 0;
-+	int opt;
-+
-+	while ((opt = getopt_long(argc, argv, OPT_STRING, long_options,
-+		           &opt_index)) != -1) {
-+		switch(opt) {
-+			case 'c':
-+				desired_class = strtol(optarg, NULL, 0);
-+				break;
-+			case 'm':
-+				desired_classmask = strtol(optarg, NULL, 0);
-+				break;
-+			case 'h':
-+				printf ("Usage: pcimodules [--help]\n"
-+					"  Lists kernel modules corresponding to PCI devices currently plugged"
-+					"  into the computer.\n");
-+		}
-+	}	
-+
-+	read_pcimap();
-+	match_pci_modules();
-+	return 0;
-+}
---- pciutils-2.2.10.orig/pcimodules.man
-+++ pciutils-2.2.10/pcimodules.man
+--- pciutils-3.0.0.orig/pcimodules.man
++++ pciutils-3.0.0/pcimodules.man
 @@ -0,0 +1,92 @@
 +.TH pcimodules 8 "@TODAY@" "@VERSION@" "Linux PCI Utilities"
 +.IX pcimodules
@@ -5619,24 +5636,3 @@
 +be copied under the terms and conditions of version 2 of the GNU
 +General Public License as published by the Free Software Foundation
 +(Cambridge, Massachusetts, United States of America).
---- pciutils-2.2.10.orig/lib/Makefile
-+++ pciutils-2.2.10/lib/Makefile
-@@ -8,6 +8,7 @@
- 
- PCILIB=libpci.a
- PCILIBPC=libpci.pc
-+CFLAGS += -fPIC
- 
- ifdef PCI_HAVE_PM_LINUX_SYSFS
- OBJS += sysfs.o
---- pciutils-2.2.10.orig/lib/example.c
-+++ pciutils-2.2.10/lib/example.c
-@@ -7,7 +7,7 @@
- 
- #include <stdio.h>
- 
--#include "pci.h"
-+#include "pci/pci.h"
- 
- int main(void)
- {

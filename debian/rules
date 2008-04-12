@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+export DH_VERBOSE=1
+
 PATHS := PREFIX=/usr SBINDIR=/usr/bin IDSDIR=/usr/share/misc
 
 update-ids:
@@ -10,7 +12,7 @@ update-ids:
 
 build:
 	dh_testdir
-	$(MAKE) $(PATHS)
+	$(MAKE) $(PATHS) SHARED=yes
 
 clean:
 	dh_testdir
@@ -30,17 +32,24 @@ binary-arch: build
 
 	# pciutils
 	$(MAKE) $(PATHS) install DESTDIR=debian/pciutils
-	ln -s /usr/bin/lspci debian/pciutils/bin/
-	ln -s /usr/bin/setpci debian/pciutils/bin/
+	mv debian/pciutils/usr/bin/lspci debian/pciutils/bin
+	mv debian/pciutils/usr/bin/setpci debian/pciutils/bin
+	ln -s /bin/lspci debian/pciutils/usr/bin/lspci
+	ln -s /bin/setpci debian/pciutils/usr/bin/setpci
 	gunzip debian/pciutils/usr/share/misc/pci.ids.gz
 	perl -pi -e 's/PCI_COMPRESSED_IDS=.*$$/PCI_COMPRESSED_IDS=/' \
 		debian/pciutils/usr/bin/update-pciids
 
-	# pciutils-dev
-	install -m 644 lib/libpci.a debian/pciutils-dev/usr/lib/
+	# libpci-dev
+	install -m 644 lib/libpci.a debian/libpci-dev/usr/lib/
 	install -m 644 lib/pci.h lib/header.h lib/config.h lib/types.h \
-			debian/pciutils-dev/usr/include/pci/
-	install -m 644 lib/libpci.pc debian/pciutils-dev/usr/lib/pkgconfig/
+			debian/libpci-dev/usr/include/pci/
+	install -m 644 lib/libpci.pc debian/libpci-dev/usr/lib/pkgconfig/
+	ln -s libpci.so.3.0.0 debian/libpci-dev/usr/lib/libpci.so
+
+	# libpci3
+	install -m 644 lib/libpci.so* debian/libpci3/usr/lib/
+	ln -s libpci.so.3.0.0 debian/libpci3/usr/lib/libpci.so.3
 
 	# pciutils-udeb
 	install -m 755 lspci debian/pciutils-udeb/usr/bin/
@@ -49,14 +58,10 @@ binary-arch: build
 	chmod 644 debian/pciutils-udeb/usr/share/misc/pci.ids.gz
 
 	dh_installdocs
-	dh_installexamples lib/example.c
+	dh_installexamples example.c
 	dh_installmenu
 	dh_installman -ppciutils
 	dh_installchangelogs -a ChangeLog
-	# Once we get rid of libpci.so, we can sever the -dev's package
-	# dependency on it and switch the following back to non-symlink
-	rm -rf debian/pciutils-dev/usr/share/doc/pciutils-dev
-	ln -sf pciutils debian/pciutils-dev/usr/share/doc/pciutils-dev
 	dh_strip -a
 	dh_compress -a
 	dh_fixperms -a
