@@ -1,3 +1,9 @@
+pciutils (1:2.2.10-2) unstable; urgency=medium
+
+  * pci.ids: updated with daily snapshot dated Sat 2008-04-19 01:05:02
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Sat, 19 Apr 2008 16:41:44 +1000
+
 pciutils (1:2.2.10-1) unstable; urgency=low
 
   * New upstream version
