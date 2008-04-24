@@ -9,6 +9,8 @@ update-ids:
 	# maintainer, since we don't want different builds of the same
 	# source to end up with different versions
 	./update-pciids.sh
+	rm -f pci.ids.old
+	gunzip pci.ids.gz
 
 build:
 	dh_testdir
@@ -30,15 +32,9 @@ binary-arch: build
 	dh_clean -k
 	dh_installdirs -a
 
-	# pciutils
 	$(MAKE) $(PATHS) install DESTDIR=debian/pciutils
-	mv debian/pciutils/usr/bin/lspci debian/pciutils/bin
-	mv debian/pciutils/usr/bin/setpci debian/pciutils/bin
-	ln -s /bin/lspci debian/pciutils/usr/bin/lspci
-	ln -s /bin/setpci debian/pciutils/usr/bin/setpci
-	gunzip debian/pciutils/usr/share/misc/pci.ids.gz
-	perl -pi -e 's/PCI_COMPRESSED_IDS=.*$$/PCI_COMPRESSED_IDS=/' \
-		debian/pciutils/usr/bin/update-pciids
+
+	# pciutils
 
 	# libpci-dev
 	install -m 644 lib/libpci.a debian/libpci-dev/usr/lib/
@@ -52,9 +48,8 @@ binary-arch: build
 	ln -s libpci.so.3.0.0 debian/libpci3/usr/lib/libpci.so.3
 
 	# pciutils-udeb
-	install -m 755 lspci debian/pciutils-udeb/usr/bin/
 	# Reduce by removing subsystem ids and comments.
-	perl -ne 'print unless /^(#|\t\t)/' < pci.ids |gzip -9 > debian/pciutils-udeb/usr/share/misc/pci.ids.gz
+	perl -ne 'print unless /^(\s*#|\s*$|\t\t)/' < pci.ids |gzip -9 > debian/pciutils-udeb/usr/share/misc/pci.ids.gz
 	chmod 644 debian/pciutils-udeb/usr/share/misc/pci.ids.gz
 
 	dh_installdocs

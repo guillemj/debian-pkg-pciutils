@@ -10,17 +10,17 @@ Homepage: http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 Package: pciutils
 Architecture: any
 Priority: standard
-Depends: ${shlibs:Depends}, ${misc:Depends}, libpci3
-Suggests: curl | wget | lynx
+Depends: ${shlibs:Depends}, ${misc:Depends}, libpci3 (= ${binary:Version})
+Suggests: bzip2, wget | curl | lynx
 Description: Linux PCI Utilities
  This package contains various utilities for inspecting and setting of
  devices connected to the PCI bus. 
 
 Package: libpci-dev
 Section: libdevel
-Priority: optional
+Priority: standard
 Architecture: any
-Depends: libpci3 (= ${binary:Version}), zlib1g-dev
+Depends: zlib1g-dev, libpci3 (= ${binary:Version})
 Description: Linux PCI Utilities (development files)
  This package contains the <pci/pci.h>, <pci/config.h> and <pci/header.h>
  header files, as well as the /usr/lib/libpci.a library.

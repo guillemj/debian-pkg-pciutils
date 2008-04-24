@@ -1,3 +1,13 @@
+pciutils (1:3.0.0-2) unstable; urgency=low
+
+  * libpci-dev is priority standard
+  * Compile the udeb lspci with libpci.a
+  * Don't uncompress pci.ids.gz
+  * update-pciids works as expected. Closes: #411314, #452008
+  * pci.ids: updated with daily snapshot dated 2008-04-27 01:05:01
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Fri, 25 Apr 2008 09:50:37 +1000
+
 pciutils (1:3.0.0-1) experimental; urgency=low
 
   * New upstream version
