@@ -21,6 +21,9 @@ Section: libdevel
 Priority: standard
 Architecture: any
 Depends: zlib1g-dev, libpci3 (= ${binary:Version})
+Conflicts: pciutils-dev
+Provides: pciutils-dev
+Replaces: pciutils-dev
 Description: Linux PCI Utilities (development files)
  This package contains the <pci/pci.h>, <pci/config.h> and <pci/header.h>
  header files, as well as the /usr/lib/libpci.a library.
