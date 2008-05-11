@@ -35,6 +35,7 @@ binary-arch: build
 	$(MAKE) $(PATHS) install DESTDIR=debian/pciutils
 
 	# pciutils
+	gunzip debian/pciutils/usr/share/misc/pci.ids.gz
 
 	# libpci-dev
 	install -m 644 lib/libpci.a debian/libpci-dev/usr/lib/
