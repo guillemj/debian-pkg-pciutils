@@ -10,7 +10,7 @@ update-ids:
 	# source to end up with different versions
 	./update-pciids.sh
 	rm -f pci.ids.old
-	gunzip pci.ids.gz
+	#gunzip pci.ids.gz
 
 build:
 	dh_testdir

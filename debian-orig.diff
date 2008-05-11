@@ -83,7 +83,7 @@
  	rm -f $(DESTDIR)$(LIBDIR)/$(PCILIB) $(DESTDIR)$(LIBDIR)/$(LIBNAME).so$(ABI_VERSION)
 --- pciutils-3.0.0.orig/update-pciids.sh
 +++ pciutils-3.0.0/update-pciids.sh
-@@ -1,75 +1,139 @@
+@@ -1,75 +1,146 @@
  #!/bin/sh
  
 -[ "$1" = "-q" ] && quiet=true || quiet=false
@@ -156,19 +156,10 @@
 +if [ "$1" = "-q" ]
 +then
 +    quiet="yes"
- else
--	DECOMP="cat"
++else
 +    quiet="no"
- fi
- 
--if which curl >/dev/null 2>&1 ; then
--	DL="curl -o $DEST.new $SRC"
--    ${quiet} && DL="$DL -s -S"
--elif which wget >/dev/null 2>&1 ; then
--	DL="wget -O $DEST.new $SRC"
--	${quiet} && DL="$DL -q"
--elif which lynx >/dev/null 2>&1 ; then
--	DL="eval lynx -source $SRC >$DEST.new"
++fi
++
 +if ! $TOUCH $NEWFILE > /dev/null 2>&1
 +then
 +    $ECHO >&2 "update-pciids: $NEWFILE is read-only"
@@ -188,16 +179,19 @@
 +    EXT=".gz"
 +    UNZIP=$GUNZIP
  else
--	echo >&2 "update-pciids: cannot find curl, wget or lynx"
--	exit 1
+-	DECOMP="cat"
 +    $ECHO >&2 "update-pciids: cannot find bunzip2 or gunzip"
 +    exit 1
  fi
  
--if ! $DL ; then
--	echo >&2 "update-pciids: download failed"
--	rm -f $DEST.new
--	exit 1
+-if which curl >/dev/null 2>&1 ; then
+-	DL="curl -o $DEST.new $SRC"
+-    ${quiet} && DL="$DL -s -S"
+-elif which wget >/dev/null 2>&1 ; then
+-	DL="wget -O $DEST.new $SRC"
+-	${quiet} && DL="$DL -q"
+-elif which lynx >/dev/null 2>&1 ; then
+-	DL="eval lynx -source $SRC >$DEST.new"
 +if [ -x $WGET ]
 +then
 +    $WGET -nv -O $NEWFILE$EXT $URL$EXT > /dev/null 2>&1
@@ -207,13 +201,16 @@
 +elif [ -x $LYNX ]
 +then
 +    $LYNX -source $URL$EXT > $NEWFILE$EXT
-+else
+ else
+-	echo >&2 "update-pciids: cannot find curl, wget or lynx"
+-	exit 1
 +    $ECHO >&2 "update-pciids: cannot find wget, curl or lynx"
 +    exit 1
  fi
  
--if ! $DECOMP <$DEST.new >$DEST.neww ; then
--	echo >&2 "update-pciids: decompression failed, probably truncated file"
+-if ! $DL ; then
+-	echo >&2 "update-pciids: download failed"
+-	rm -f $DEST.new
 -	exit 1
 +$UNZIP < $NEWFILE$EXT > $NEWFILE
 +$RM $NEWFILE$EXT
@@ -224,8 +221,8 @@
 +    exit 1
  fi
  
--if ! $GREP >/dev/null "^C " $DEST.neww ; then
--	echo >&2 "update-pciids: missing class info, probably truncated file"
+-if ! $DECOMP <$DEST.new >$DEST.neww ; then
+-	echo >&2 "update-pciids: decompression failed, probably truncated file"
 -	exit 1
 +date=$($GREP "Daily snapshot on " $NEWFILE 2> /dev/null | $SED "s/^.*Daily snapshot on //")
 +
@@ -238,21 +235,38 @@
 +# Reduce by removing subsystem ids and comments
 +if [ -n "$BASH_VERSION" ]
 +then
-+    $GREP -Ev ^$'\t\t'"|^\s*$|^\s*#" $NEWFILE | $GZIP -9 > $NEWFILE.gz
++    #$GREP -Ev ^$'\t\t'"|^\s*$|^\s*#" $NEWFILE | $GZIP -9 > $NEWFILE.gz
++    $GREP -Ev ^$'\t\t'"|^\s*$|^\s*#" $NEWFILE > $NEWFILE.tmp
++    mv $NEWFILE.tmp $NEWFILE
 +else
-+    $PERL -ne 'print unless /^(\s*#|\s*$|\t\t)/' < $NEWFILE | $GZIP -9 > $NEWFILE.gz
++    #$PERL -ne 'print unless /^(\s*#|\s*$|\t\t)/' < $NEWFILE | $GZIP -9 > $NEWFILE.gz
++    $PERL -ne 'print unless /^(\s*#|\s*$|\t\t)/' < $NEWFILE > $NEWFILE.tmp
++    mv $NEWFILE.tmp $NEWFILE
+ fi
+ 
+-if ! $GREP >/dev/null "^C " $DEST.neww ; then
+-	echo >&2 "update-pciids: missing class info, probably truncated file"
+-	exit 1
++#$RM $NEWFILE
++
++if [ -f $FILE ]
++then
++    [ -f $OLDFILE ] && $RM $OLDFILE
++    $MV $FILE $OLDFILE
  fi
  
 -if [ -f $DEST ] ; then
 -	mv $DEST $DEST.old
 -	# --reference is supported only by chmod from GNU file, so let's ignore any errors
 -	chmod -f --reference=$DEST.old $DEST.neww 2>/dev/null || true
-+$RM $NEWFILE
++$MV $NEWFILE $FILE
++$TOUCH -d "$date" $FILE
 +
-+if [ -f $FILE ]
++if [ -f $FILE.gz ]
 +then
-+    [ -f $OLDFILE ] && $RM $OLDFILE
-+    $MV $FILE $OLDFILE
++    #$CHMOD -f --reference=$FILE.gz $NEWFILE.gz 2> /dev/null || true
++    [ -f $OLDFILE.gz ] && $RM $OLDFILE.gz
++    $MV $FILE.gz $OLDFILE.gz
  fi
 -mv $DEST.neww $DEST
 -rm $DEST.new
@@ -261,15 +275,8 @@
 -# clean that up.
 -if [ ${DEST%.gz} != ${DEST} ] ; then
 -	rm -f ${DEST%.gz} ${DEST%.gz}.old
-+if [ -f $FILE.gz ]
-+then
-+    $CHMOD -f --reference=$FILE.gz $NEWFILE.gz 2> /dev/null || true
-+    [ -f $OLDFILE.gz ] && $RM $OLDFILE.gz
-+    $MV $FILE.gz $OLDFILE.gz
-+fi
-+
-+$MV $NEWFILE.gz $FILE.gz
-+$TOUCH -d "$date" $FILE.gz
++#$MV $NEWFILE.gz $FILE.gz
++#$TOUCH -d "$date" $FILE.gz
 +
 +if [ $quiet = "no" ]
 +then
@@ -3002,7 +3009,7 @@
  	6312  SP202-based 2Gb Fibre Channel to PCI-X HBA
  	6322  SP212-based 2Gb Fibre Channel to PCI-X HBA
 +	7220  IBA7220 InfiniBand HCA
-+	8432  10GbE FCoE to PCI Express Converged Network Adapter (CNA)
++	8432  10GbE Converged Network Adapter (CNA)
  1078  Cyrix Corporation
  	0000  5510 [Grappa]
  	0001  PCI Master
@@ -9817,7 +9824,7 @@
  	283f  82801H (ICH8 Family) PCI Express Port 1
  	2841  82801H (ICH8 Family) PCI Express Port 2
  	2843  82801H (ICH8 Family) PCI Express Port 3
-@@ -12603,41 +8248,40 @@
+@@ -12603,41 +8248,41 @@
  	2849  82801H (ICH8 Family) PCI Express Port 6
  	284b  82801H (ICH8 Family) HD Audio Controller
  	284f  82801H (ICH8 Family) Thermal Reporting Device
@@ -9873,6 +9880,7 @@
 +	2929  ICH9M/M-E SATA AHCI Controller
 +	292c  ICH9M-E SATA RAID Controller
 +	292d  ICH9M/M-E 2 port SATA IDE Controller
++	292e  ICH9M SATA IDE Controller
 +	2930  82801I (ICH9 Family) SMBus Controller
 +	2932  82801I (ICH9 Family) Thermal Subsystem
 +	2934  82801I (ICH9 Family) USB UHCI Controller #1
@@ -9893,7 +9901,7 @@
  	294c  82566DC-2 Gigabit Network Connection
  	2970  82946GZ/PL/GL Memory Controller Hub
  	2971  82946GZ/PL/GL PCI Express Root Port
-@@ -12647,9 +8291,11 @@
+@@ -12647,9 +8292,11 @@
  	2975  82946GZ/GL HECI Controller
  	2976  82946GZ/GL PT IDER Controller
  	2977  82946GZ/GL KT Controller
@@ -9908,7 +9916,7 @@
  	2990  82Q963/Q965 Memory Controller Hub
  	2991  82Q963/Q965 PCI Express Root Port
  	2992  82Q963/Q965 Integrated Graphics Controller
-@@ -12659,74 +8305,192 @@
+@@ -12659,74 +8306,192 @@
  	2996  82Q963/Q965 PT IDER Controller
  	2997  82Q963/Q965 KT Controller
  	29a0  82P965/G965 Memory Controller Hub
@@ -10158,7 +10166,7 @@
  	3500  6311ESB/6321ESB PCI Express Upstream Port
  	3501  6310ESB PCI Express Upstream Port
  	3504  6311ESB/6321ESB I/OxAPIC Interrupt Controller
-@@ -12740,163 +8504,192 @@
+@@ -12740,163 +8505,192 @@
  	3518  6311ESB/6321ESB PCI Express Downstream Port E3
  	3519  6310ESB PCI Express Downstream Port E3
  	3575  82830 830 Chipset Host Bridge
@@ -10474,7 +10482,7 @@
  	7000  82371SB PIIX3 ISA [Natoma/Triton II]
  	7010  82371SB PIIX3 IDE [Natoma/Triton II]
  	7020  82371SB PIIX3 USB [Natoma/Triton II]
-@@ -12905,76 +8698,55 @@
+@@ -12905,76 +8699,55 @@
  	7051  PB 642365-003 (Business Video Conferencing Card)
  	7100  430TX - 82439TX MTXC
  	7110  82371AB/EB/MB PIIX4 ISA
@@ -10573,7 +10581,7 @@
  	84c4  450KX/GX [Orion] - 82454KX/GX PCI bridge
  	84c5  450KX/GX [Orion] - 82453KX/GX Memory controller
  	84ca  450NX - 82451NX Memory & I/O Controller
-@@ -12987,9 +8759,6 @@
+@@ -12987,9 +8760,6 @@
  	84e6  460GX - 82466GX Wide and fast PCI eXpander Bridge (WXB)
  	84ea  460GX - 84460GX AGP Bridge (GXB function 1)
  	8500  IXP4XX Network Processor (IXP420/421/422/425/IXC1100)
@@ -10583,7 +10591,7 @@
  	9000  IXP2000 Family Network Processor
  	9001  IXP2400 Network Processor
  	9002  IXP2300 Network Processor
-@@ -13000,15 +8769,8 @@
+@@ -13000,15 +8770,8 @@
  	96a1  Integrated RAID
  	a620  6400/6402 Advanced Memory Buffer (AMB)
  	b152  21152 PCI-to-PCI Bridge
@@ -10599,7 +10607,7 @@
  80ee  InnoTek Systemberatung GmbH
  	beef  VirtualBox Graphics Adapter
  	cafe  VirtualBox Guest Service
-@@ -13024,7 +8786,6 @@
+@@ -13024,7 +8787,6 @@
  8866  T-Square Design Inc.
  8888  Silicon Magic
  8912  TRX
@@ -10607,7 +10615,7 @@
  8c4a  Winbond
  	1980  W89C940 misprogrammed [ne2k]
  8e0e  Computone Corporation
-@@ -13039,7 +8800,6 @@
+@@ -13039,7 +8801,6 @@
  	3b78  AHA-4844W/4844UW
  	5075  AIC-755x
  	5078  AHA-7850
@@ -10615,7 +10623,7 @@
  	5175  AIC-755x
  	5178  AIC-7851
  	5275  AIC-755x
-@@ -13051,8 +8811,6 @@
+@@ -13051,8 +8812,6 @@
  	5575  AVA-2930
  	5578  AIC-7855
  	5647  ANA-7711 TCP Offload Engine
@@ -10624,7 +10632,7 @@
  	5675  AIC-755x
  	5678  AIC-7856
  	5775  AIC-755x
-@@ -13062,10 +8820,8 @@
+@@ -13062,10 +8821,8 @@
  	5905  ANA-5910A/5930A/5940A ATM Adapter
  	6038  AIC-3860
  	6075  AIC-1480 / APA-1480
@@ -10635,7 +10643,7 @@
  	6278  AIC-7860
  	6378  AIC-7860
  	6478  AIC-786x
-@@ -13073,20 +8829,6 @@
+@@ -13073,20 +8830,6 @@
  	6678  AIC-786x
  	6778  AIC-786x
  	6915  ANA620xx/ANA69011A
@@ -10656,7 +10664,7 @@
  	7078  AHA-294x / AIC-7870
  	7178  AHA-2940/2940W / AIC-7871
  	7278  AHA-3940/3940W / AIC-7872
-@@ -13099,8 +8841,6 @@
+@@ -13099,8 +8842,6 @@
  	7778  AIC-787x
  	7810  AIC-7810
  	7815  AIC-7815 RAID+Memory Controller IC
@@ -10665,7 +10673,7 @@
  	7850  AIC-7850
  	7855  AHA-2930
  	7860  AIC-7860
-@@ -13116,220 +8856,80 @@
+@@ -13116,220 +8857,80 @@
  	7893  AIC-789x
  	7894  AIC-789x
  	7895  AHA-2940U/UW / AHA-39xx / AIC-7895
@@ -10890,7 +10898,7 @@
  	8080  ASC-29320A U320 w/HostRAID
  	808f  AIC-7901 U320 w/HostRAID
  	8090  ASC-39320 U320 w/HostRAID
-@@ -13342,7 +8942,6 @@
+@@ -13342,7 +8943,6 @@
  	8097  ASC-29320ALP U320 w/HostRAID
  	809c  ASC-39320D(B) U320 w/HostRAID
  	809d  AIC-7902(B) U320 w/HostRAID
@@ -10898,7 +10906,7 @@
  	809e  AIC-7901A U320 w/HostRAID
  	809f  AIC-7902 U320 w/HostRAID
  907f  Atronics
-@@ -13356,15 +8955,9 @@
+@@ -13356,15 +8956,9 @@
  	7780  USB IRDA-port
  	9805  PCI 1 port parallel adapter
  	9815  PCI 9815 Multi-I/O Controller
@@ -10914,7 +10922,7 @@
  9902  Stargen Inc.
  	0001  SG2010 PCI over Starfabric Bridge
  	0002  SG2010 PCI to Starfabric Gateway
-@@ -13385,10 +8978,8 @@
+@@ -13385,10 +8979,8 @@
  affe  Sirrix AG security technologies
  	02e1  PCI2E1 2-port ISDN E1 interface
  	dead  Sirrix.PCI4S0 4-port ISDN S0 interface
@@ -10925,7 +10933,7 @@
  bd11  Pinnacle Systems, Inc. (Wrong ID)
  c001  TSI Telsys
  c0a9  Micron/Crucial Technology
-@@ -13425,10 +9016,6 @@
+@@ -13425,10 +9017,6 @@
  	e000  W89C940
  e159  Tiger Jet Network Inc.
  	0001  Tiger3XX Modem/ISDN interface
@@ -10936,7 +10944,7 @@
  	0002  Tiger100APC ISDN chipset
  e4bf  EKF Elektronik GmbH
  e55e  Essence Technology, Inc.
-@@ -13441,7 +9028,6 @@
+@@ -13441,7 +9029,6 @@
  	0046  PCI-766 Analog Output Card
  	0052  PCI-703 Analog I/O Card
  	0800  PCI-800 Digital I/O Card
@@ -10944,7 +10952,7 @@
  ea60  RME
  	9896  Digi32
  	9897  Digi32 Pro
-@@ -13480,7 +9066,6 @@
+@@ -13480,7 +9067,6 @@
  	0001  PMC [Pattern Matching Chip]
  fab7  Fabric7 Systems, Inc.
  febd  Ultraview Corp.
@@ -10952,7 +10960,7 @@
  feda  Broadcom Inc
  	a0fa  BCM4210 iLine10 HomePNA 2.0
  	a10e  BCM4230 iLine10 HomePNA 2.0
-@@ -13492,15 +9077,6 @@
+@@ -13492,15 +9078,6 @@
  	0405  Virtual SVGA 4.0
  	0710  Virtual SVGA
  ffff  Illegal Vendor ID
@@ -10968,7 +10976,7 @@
  C 00  Unclassified device
  	00  Non-VGA unclassified device
  	01  VGA compatible unclassified device
-@@ -13511,11 +9087,7 @@
+@@ -13511,11 +9088,7 @@
  	03  IPI bus controller
  	04  RAID bus controller
  	05  ATA controller
@@ -10980,7 +10988,7 @@
  	07  Serial Attached SCSI controller
  	80  Mass storage controller
  C 02  Network controller
-@@ -13529,8 +9101,6 @@
+@@ -13529,8 +9102,6 @@
  	80  Network controller
  C 03  Display controller
  	00  VGA compatible controller
@@ -10989,7 +10997,7 @@
  	01  XGA compatible controller
  	02  3D controller
  	80  Display controller
-@@ -13550,62 +9120,26 @@
+@@ -13550,62 +9121,26 @@
  	02  EISA bridge
  	03  MicroChannel bridge
  	04  PCI bridge
@@ -11052,7 +11060,7 @@
  	04  PCI Hot-plug controller
  	05  SD Host controller
  	80  System peripheral
-@@ -13615,8 +9149,6 @@
+@@ -13615,8 +9150,6 @@
  	02  Mouse controller
  	03  Scanner controller
  	04  Gameport controller
@@ -11061,7 +11069,7 @@
  	80  Input device controller
  C 0a  Docking station
  	00  Generic Docking Station
-@@ -13631,16 +9163,9 @@
+@@ -13631,16 +9164,9 @@
  	40  Co-processor
  C 0c  Serial bus controller
  	00  FireWire (IEEE 1394)
