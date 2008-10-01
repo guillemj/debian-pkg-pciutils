@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Anibal Monsalve Salazar <anibal@debian.org>
 Uploaders: Matt Taggart <taggart@debian.org>
 Build-Depends: debhelper (>= 5), zlib1g-dev
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 Homepage: http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 
 Package: pciutils
@@ -37,7 +37,7 @@ Conflicts: libpci2
 Provides: libpci2
 Replaces: libpci2
 Description: Linux PCI Utilities (shared library)
- This package contains the shared library files.
+ This package contains the libpci shared library files.
 
 Package: pciutils-udeb
 XC-Package-Type: udeb
