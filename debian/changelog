@@ -1,3 +1,10 @@
+pciutils (1:3.0.0-6) unstable; urgency=low
+
+  * New pci.ids header format; closes: #501612
+  * Update pci.ids with snapshot dated 2008-10-07 11:49:28 
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Thu, 09 Oct 2008 22:00:53 +1100
+
 pciutils (1:3.0.0-5) unstable; urgency=low
 
   * Do not strip pci.ids in the pciutils binary package; closes: #496655
