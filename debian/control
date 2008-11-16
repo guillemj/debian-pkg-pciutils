@@ -38,6 +38,9 @@ Provides: libpci2
 Replaces: libpci2
 Description: Linux PCI Utilities (shared library)
  This package contains the libpci shared library files.
+ .
+ The libpci library provides portable access to configuration
+ registers of devices connected to the PCI bus.
 
 Package: pciutils-udeb
 XC-Package-Type: udeb

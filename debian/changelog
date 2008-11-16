@@ -1,3 +1,12 @@
+pciutils (1:3.0.3-1) experimental; urgency=low
+
+  * New upstream version
+  * Update pci.ids with snapshot dated 2008-11-14 03:15:02
+  * Support cross-building; patch by Neil Williams; closes: #481672
+  * Fix libpci3 long description; closes: #481313
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Sun, 16 Nov 2008 18:54:07 +1100
+
 pciutils (1:3.0.2-2) experimental; urgency=low
 
   * New pci.ids header format; closes: #501612 

@@ -2,6 +2,12 @@
 
 export DH_VERBOSE=1
 
+DEB_HOST_GNU_TYPE=$(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+DEB_BUILD_GNU_TYPE=$(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
+CROSS=CC=$(DEB_HOST_GNU_TYPE)-gcc
+endif
+
 PATHS := PREFIX=/usr SBINDIR=/usr/bin IDSDIR=/usr/share/misc
 
 update-ids:
@@ -14,7 +20,7 @@ update-ids:
 
 build:
 	dh_testdir
-	$(MAKE) $(PATHS) SHARED=yes
+	$(MAKE) $(CROSS) $(PATHS) SHARED=yes
 
 clean:
 	dh_testdir
@@ -32,7 +38,7 @@ binary-arch: build
 	dh_clean -k
 	dh_installdirs -a
 
-	$(MAKE) $(PATHS) install DESTDIR=debian/pciutils
+	$(MAKE) $(CROSS) $(PATHS) install DESTDIR=debian/pciutils
 
 	# pciutils
 	gunzip debian/pciutils/usr/share/misc/pci.ids.gz
@@ -42,11 +48,11 @@ binary-arch: build
 	install -m 644 lib/pci.h lib/header.h lib/config.h lib/types.h \
 			debian/libpci-dev/usr/include/pci/
 	install -m 644 lib/libpci.pc debian/libpci-dev/usr/lib/pkgconfig/
-	ln -s libpci.so.3.0.2 debian/libpci-dev/usr/lib/libpci.so
+	ln -s libpci.so.3.0.3 debian/libpci-dev/usr/lib/libpci.so
 
 	# libpci3
 	install -m 644 lib/libpci.so* debian/libpci3/usr/lib/
-	ln -s libpci.so.3.0.2 debian/libpci3/usr/lib/libpci.so.3
+	ln -s libpci.so.3.0.3 debian/libpci3/usr/lib/libpci.so.3
 
 	# pciutils-udeb
 	# Reduce by removing subsystem ids and comments.
