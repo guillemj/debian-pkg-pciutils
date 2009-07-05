@@ -35,7 +35,7 @@ binary-indep:
 binary-arch: build 
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs -a
 
 	$(MAKE) $(CROSS) $(PATHS) install DESTDIR=debian/pciutils
@@ -44,15 +44,15 @@ binary-arch: build
 	gunzip debian/pciutils/usr/share/misc/pci.ids.gz
 
 	# libpci-dev
-	install -m 644 lib/libpci.a debian/libpci-dev/usr/lib/
+	#install -m 644 lib/libpci.a debian/libpci-dev/usr/lib/
 	install -m 644 lib/pci.h lib/header.h lib/config.h lib/types.h \
 			debian/libpci-dev/usr/include/pci/
 	install -m 644 lib/libpci.pc debian/libpci-dev/usr/lib/pkgconfig/
-	ln -s libpci.so.3.1.2 debian/libpci-dev/usr/lib/libpci.so
+	ln -s libpci.so.3.1.3 debian/libpci-dev/usr/lib/libpci.so
 
 	# libpci3
 	install -m 644 lib/libpci.so* debian/libpci3/usr/lib/
-	ln -s libpci.so.3.1.2 debian/libpci3/usr/lib/libpci.so.3
+	ln -s libpci.so.3.1.3 debian/libpci3/usr/lib/libpci.so.3
 
 	# pciutils-udeb
 	# Reduce by removing subsystem ids and comments.
