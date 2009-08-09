@@ -18,7 +18,7 @@ Description: Linux PCI Utilities
 
 Package: libpci-dev
 Section: libdevel
-Priority: standard
+Priority: optional
 Architecture: any
 Depends: zlib1g-dev, libpci3 (= ${binary:Version})
 Conflicts: pciutils-dev
@@ -30,7 +30,7 @@ Description: Linux PCI Utilities (development files)
 
 Package: libpci3
 Section: libs
-Priority: optional
+Priority: standard
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Conflicts: libpci2
