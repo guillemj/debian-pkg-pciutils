@@ -48,11 +48,11 @@ binary-arch: build
 	install -m 644 lib/pci.h lib/header.h lib/config.h lib/types.h \
 			debian/libpci-dev/usr/include/pci/
 	install -m 644 lib/libpci.pc debian/libpci-dev/usr/lib/pkgconfig/
-	ln -s libpci.so.3.1.3 debian/libpci-dev/usr/lib/libpci.so
+	ln -s libpci.so.3.1.4 debian/libpci-dev/usr/lib/libpci.so
 
 	# libpci3
 	install -m 644 lib/libpci.so* debian/libpci3/usr/lib/
-	ln -s libpci.so.3.1.3 debian/libpci3/usr/lib/libpci.so.3
+	ln -s libpci.so.3.1.4 debian/libpci3/usr/lib/libpci.so.3
 
 	# pciutils-udeb
 	# Reduce by removing subsystem ids and comments.
@@ -67,7 +67,7 @@ binary-arch: build
 	dh_strip -a
 	dh_compress -a
 	dh_fixperms -a
-	dh_makeshlibs -a -V 'libpci3 (>= 1:3.1.3)'
+	dh_makeshlibs -a -V 'libpci3 (>= 1:3.1.4)'
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a
