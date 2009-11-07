@@ -26,6 +26,7 @@ clean:
 	dh_testdir
 	dh_testroot
 	[ ! -f Makefile ] || $(MAKE) $(PATHS) clean
+	rm -f lspci-udeb
 	dh_clean
 
 # Build architecture-independent files here.
@@ -44,7 +45,7 @@ binary-arch: build
 	gunzip debian/pciutils/usr/share/misc/pci.ids.gz
 
 	# libpci-dev
-	#install -m 644 lib/libpci.a debian/libpci-dev/usr/lib/
+	install -m 644 lib/libpci.a debian/libpci-dev/usr/lib/
 	install -m 644 lib/pci.h lib/header.h lib/config.h lib/types.h \
 			debian/libpci-dev/usr/include/pci/
 	install -m 644 lib/libpci.pc debian/libpci-dev/usr/lib/pkgconfig/
