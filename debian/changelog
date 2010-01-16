@@ -1,3 +1,10 @@
+pciutils (1:3.1.4-5) unstable; urgency=low
+
+  * Update pci.ids with snapshot dated 2010-01-11 03:15:02
+  * Fix debhelper-but-no-misc-depends
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Sat, 16 Jan 2010 17:44:24 +1100
+
 pciutils (1:3.1.4-4) unstable; urgency=low
 
   * Update pci.ids with snapshot dated 2009-11-23 03:15:02

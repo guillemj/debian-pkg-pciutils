@@ -20,7 +20,7 @@ Package: libpci-dev
 Section: libdevel
 Priority: optional
 Architecture: any
-Depends: zlib1g-dev, libpci3 (= ${binary:Version})
+Depends: ${misc:Depends}, zlib1g-dev, libpci3 (= ${binary:Version})
 Conflicts: pciutils-dev
 Provides: pciutils-dev
 Replaces: pciutils-dev
