@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Anibal Monsalve Salazar <anibal@debian.org>
 Uploaders: Matthew Wilcox <willy@debian.org>, Matt Taggart <taggart@debian.org>
 Build-Depends: debhelper (>= 7), zlib1g-dev
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml
 
 Package: pciutils
