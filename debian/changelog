@@ -1,3 +1,11 @@
+pciutils (1:3.1.7-5) unstable; urgency=medium
+
+  * Update pci.ids with version 2010.08.23 
+  * Fix out-of-date-standards-version
+  * Fix xc-package-type-in-debian-control
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Tue, 24 Aug 2010 19:10:27 +1000
+
 pciutils (1:3.1.7-4) unstable; urgency=low
 
   * Update pci.ids with snapshot dated 2010-06-12
