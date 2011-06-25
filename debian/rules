@@ -18,6 +18,8 @@ update-ids:
 	rm -f pci.ids.old
 	#gunzip pci.ids.gz
 
+build-arch: build
+build-indep: build
 build:
 	dh_testdir
 	$(MAKE) $(CROSS) $(PATHS) SHARED=yes

@@ -1,3 +1,10 @@
+pciutils (1:3.1.7-10) unstable; urgency=medium
+
+  * Update pci.ids with version 2011.06.23
+  * Fix debian-rules-missing-recommended-target
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Sat, 25 Jun 2011 15:11:49 +1000
+
 pciutils (1:3.1.7-9) unstable; urgency=medium
 
   * Update pci.ids with version 2011.04.04
