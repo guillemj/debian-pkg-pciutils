@@ -1,14 +1,14 @@
---- a/Makefile	2010-01-24 11:00:58.000000000 +1100
-+++ b/Makefile	2010-01-27 14:41:26.000000000 +1100
+--- a/Makefile	2011-10-02 22:28:55.000000000 +1100
++++ b/Makefile	2011-11-28 19:40:57.000000000 +1100
 @@ -1,7 +1,7 @@
  # Makefile for The PCI Utilities
- # (c) 1998--2010 Martin Mares <mj@ucw.cz>
+ # (c) 1998--2011 Martin Mares <mj@ucw.cz>
  
 -OPT=-O2
 +OPT=-O2 -g
  CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wmissing-prototypes
  
- VERSION=3.1.7
+ VERSION=3.1.8
 @@ -52,7 +52,9 @@ PCIINC_INS=lib/config.h lib/header.h lib
  
  export
@@ -85,8 +85,8 @@
  	rm -f $(DESTDIR)$(MANDIR)/man7/pcilib.7
  ifeq ($(SHARED),yes)
  	rm -f $(DESTDIR)$(LIBDIR)/$(PCILIB) $(DESTDIR)$(LIBDIR)/$(LIBNAME).so$(ABI_VERSION)
---- a/lib/Makefile	2009-07-05 02:11:04.000000000 +1000
-+++ b/lib/Makefile	2010-01-27 14:41:26.000000000 +1100
+--- a/lib/Makefile	2011-01-08 08:04:28.000000000 +1100
++++ b/lib/Makefile	2011-11-28 19:40:57.000000000 +1100
 @@ -42,18 +42,20 @@ ifdef PCI_HAVE_PM_NBSD_LIBPCI
  OBJS += nbsd-libpci
  endif
@@ -113,3 +113,4 @@
  
  $(PCILIBPC): libpci.pc.in
  	sed <$< >$@ -e 's,@PREFIX@,$(PREFIX),' \
+

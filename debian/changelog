@@ -1,3 +1,24 @@
+pciutils (1:3.1.8-1) unstable; urgency=low
+
+  * New upstream version 3.1.8
+
+    * More capabilities: Transaction Processing Hints, Latency Tolerance
+      Reporting. Thanks to Jesse Barnes.
+ 
+    * Added BeOS and Haiku ports. Contributed by Francois Revol.
+ 
+    * pciutils.pc now uses Libs.private properly.
+ 
+    * When we format a name and it does not fit in the buffer, we truncate
+      it instead of returning "buffer too small" instead. This works on all
+      platforms with sane (i.e., C99-compatible) snprintf().
+ 
+    * Various minor bug fixes.
+ 
+  * Update pci.ids with version 2011.11.09
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Mon, 28 Nov 2011 19:25:53 +1100
+
 pciutils (1:3.1.7-12) unstable; urgency=high
 
   * pciutils-udeb: Don't pass "-Zbzip2 -z9" to dpkg-deb
