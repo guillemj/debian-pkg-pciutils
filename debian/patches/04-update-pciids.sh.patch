@@ -1,5 +1,5 @@
---- a/update-pciids.sh	2008-11-11 10:11:51.000000000 +1100
-+++ b/update-pciids.sh	2010-01-27 14:51:06.000000000 +1100
+--- a/update-pciids.sh	2012-01-15 01:29:38.000000000 +1100
++++ b/update-pciids.sh	2012-03-30 16:39:57.000000000 +1100
 @@ -1,75 +1,130 @@
  #!/bin/sh
  
@@ -26,7 +26,7 @@
 +# Martin Mares.
  
  set -e
--SRC="http://pciids.sourceforge.net/v2.2/pci.ids"
+-SRC="http://pci-ids.ucw.cz/v2.2/pci.ids"
 -DEST=pci.ids
 -PCI_COMPRESSED_IDS=
 -GREP=grep
