@@ -1,3 +1,10 @@
+pciutils (1:3.1.9-4) unstable; urgency=low
+
+  * Enable hardened build flags
+  * DH compatibility level is 9
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Thu, 14 Jun 2012 11:49:37 +1000
+
 pciutils (1:3.1.9-3) unstable; urgency=medium
 
   * Update pci.ids with version 2012.05.07
