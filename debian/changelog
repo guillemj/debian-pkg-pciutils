@@ -1,3 +1,36 @@
+pciutils (1:3.2.0-1) unstable; urgency=low
+
+  * New upstream version 3.2.0
+    - 3.2.0
+      On newer Linux systems, we use libkmod to look up kernel modules
+      (modules.pcimap no longer exists.) To facilitate this, libpci
+      is able to look up module aliases in sysfs.
+    - 3.1.10
+      Decoding of LTR/OBFF in PCIe capabilities.
+  * Debian policy version is 3.9.4
+  * Update pci.ids with version 2013.05.22
+  * update-pciids is in /usr/sbin
+    Closes: #708361
+  * Update
+    01-Makefile.patch
+    04-update-pciids.sh.patch
+  * Fix various issues in setpci.man update-pciids.man
+    Patches by Bjarni Ingi Gislason
+    Add 05-674708-setpci.man.patch
+    Add 06-675087-update-pciids.man.patch
+    Closes: #674708, #675087
+
+  [ Colin Watson ]
+  * Set CROSS_COMPILE rather than CC when cross-building, so that we use the
+    correct ar and ranlib too.
+    Closes: #694903
+  * Tell the upstream build system not to strip binaries when installing
+    them; dh_strip will handle that, using the correct strip program and
+    honouring DEB_BUILD_OPTIONS=nostrip.
+    Closes: #694903
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Thu, 23 May 2013 11:57:46 +1000
+
 pciutils (1:3.1.9-6) unstable; urgency=low
 
   * Update pci.ids with version 2012.11.19
