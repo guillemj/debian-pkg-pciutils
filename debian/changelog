@@ -1,6 +1,23 @@
+pciutils (1:3.2.1-1) unstable; urgency=medium
+
+  * New upstream version 3.2.1
+    - CardBus bridge capabilities are displayed.
+    - PCIe L1 PM substates are decoded.
+    - Various bugs were fixed in decoding of PCIe capabilities.
+    - The sysfs back-end does not spit out unnecessary warnings when
+      slots report only a partial device address. This actually
+      on IBM pSeries.
+  * Update 01-Makefile.patch
+  * Update pci.ids with version 2013.12.27
+  * Debian policy version is 3.9.5
+  * Suggests package lynx-cur
+    Closes: #710580
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Sat, 28 Dec 2013 10:47:09 +1100
+
 pciutils (1:3.2.0-3) unstable; urgency=low
 
-  * Update pci.ids with version Version: 2013.07.01
+  * Update pci.ids with version 2013.07.01
   * Update package description
     Patch by Justin B Rye
     Closes: #708363
@@ -12,7 +29,7 @@ pciutils (1:3.2.0-3) unstable; urgency=low
 
 pciutils (1:3.2.0-2) unstable; urgency=low
 
-  * Update pci.ids with version Version: 2013.06.06
+  * Update pci.ids with version 2013.06.06
 
  -- Anibal Monsalve Salazar <anibal@debian.org>  Thu, 06 Jun 2013 13:07:10 +1000
 
