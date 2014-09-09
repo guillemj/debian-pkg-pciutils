@@ -2,8 +2,10 @@ http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=674708
 
 From: Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
 
---- a/setpci.man	2012-05-25 21:07:04.000000000 +0000
-+++ b/setpci.man	2012-05-25 22:07:36.000000000 +0000
+Index: pciutils-3.2.1/setpci.man
+===================================================================
+--- pciutils-3.2.1.orig/setpci.man
++++ pciutils-3.2.1/setpci.man
 @@ -1,5 +1,5 @@
  .TH setpci 8 "@TODAY@" "@VERSION@" "The PCI Utilities"
 -.IX setpci
@@ -11,7 +13,7 @@ From: Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
  .SH NAME
  setpci \- configure PCI devices
  .SH SYNOPSIS
-@@ -115,7 +115,7 @@
+@@ -115,7 +115,7 @@ options of the same kind are specified,
  .PP
  There are two kinds of operations: reads and writes. To read a register, just specify
  its name. Writes have the form

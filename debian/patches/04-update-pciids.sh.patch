@@ -1,5 +1,7 @@
---- a/update-pciids.sh	2012-01-15 01:29:38.000000000 +1100
-+++ b/update-pciids.sh	2012-03-30 16:39:57.000000000 +1100
+Index: pciutils-3.2.1/update-pciids.sh
+===================================================================
+--- pciutils-3.2.1.orig/update-pciids.sh
++++ pciutils-3.2.1/update-pciids.sh
 @@ -1,75 +1,130 @@
  #!/bin/sh
  

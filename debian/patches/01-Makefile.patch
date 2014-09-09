@@ -1,5 +1,7 @@
---- a/Makefile	2013-04-19 22:58:49.000000000 +1000
-+++ b/Makefile	2013-05-23 11:15:48.000000000 +1000
+Index: pciutils-3.2.1/Makefile
+===================================================================
+--- pciutils-3.2.1.orig/Makefile
++++ pciutils-3.2.1/Makefile
 @@ -1,7 +1,7 @@
  # Makefile for The PCI Utilities
  # (c) 1998--2013 Martin Mares <mj@ucw.cz>
@@ -88,8 +90,10 @@
  	rm -f $(DESTDIR)$(MANDIR)/man7/pcilib.7
  ifeq ($(SHARED),yes)
  	rm -f $(DESTDIR)$(LIBDIR)/$(PCILIB) $(DESTDIR)$(LIBDIR)/$(LIBNAME).so$(ABI_VERSION)
---- a/lib/Makefile	2011-01-08 08:04:28.000000000 +1100
-+++ b/lib/Makefile	2013-05-23 11:15:48.000000000 +1000
+Index: pciutils-3.2.1/lib/Makefile
+===================================================================
+--- pciutils-3.2.1.orig/lib/Makefile
++++ pciutils-3.2.1/lib/Makefile
 @@ -42,18 +42,20 @@ ifdef PCI_HAVE_PM_NBSD_LIBPCI
  OBJS += nbsd-libpci
  endif

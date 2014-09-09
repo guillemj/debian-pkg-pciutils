@@ -88,10 +88,7 @@ binary-arch: build
 	dh_shlibdeps -a
 	dh_gencontrol -a
 	dh_md5sums -a
-	dh_builddeb -ppciutils -- -Zbzip2 -z9
-	dh_builddeb -plibpci-dev -- -Zbzip2 -z9
-	dh_builddeb -plibpci3 -- -Zbzip2 -z9
-	dh_builddeb -ppciutils-udeb -plibpci3-udeb
+	dh_builddeb -a
 
 source diff:                                                                  
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false

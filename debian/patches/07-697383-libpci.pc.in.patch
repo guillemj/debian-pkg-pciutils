@@ -19,8 +19,10 @@ Something like:
 
   Libs.private: -lresolv -lz
 
---- a/lib/libpci.pc.in	2011-10-02 20:52:11.000000000 +1100
-+++ b/lib/libpci.pc.in	2013-07-02 11:10:31.000000000 +1000
+Index: pciutils-3.2.1/lib/libpci.pc.in
+===================================================================
+--- pciutils-3.2.1.orig/lib/libpci.pc.in
++++ pciutils-3.2.1/lib/libpci.pc.in
 @@ -7,5 +7,5 @@ Name: libpci
  Description: libpci
  Version: @VERSION@
