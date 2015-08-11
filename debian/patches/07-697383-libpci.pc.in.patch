@@ -19,10 +19,10 @@ Something like:
 
   Libs.private: -lresolv -lz
 
-Index: pciutils-3.2.1/lib/libpci.pc.in
+Index: pciutils-3.3.1/lib/libpci.pc.in
 ===================================================================
---- pciutils-3.2.1.orig/lib/libpci.pc.in
-+++ pciutils-3.2.1/lib/libpci.pc.in
+--- pciutils-3.3.1.orig/lib/libpci.pc.in
++++ pciutils-3.3.1/lib/libpci.pc.in
 @@ -7,5 +7,5 @@ Name: libpci
  Description: libpci
  Version: @VERSION@
