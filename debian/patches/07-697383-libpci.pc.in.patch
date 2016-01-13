@@ -28,5 +28,5 @@ Index: pciutils-3.3.1/lib/libpci.pc.in
  Version: @VERSION@
  Libs: -L${libdir} -lpci
 -Libs.private: @LDLIBS@
-+Libs.private: @LDLIBS@ -lresolv -lz
++Libs.private: @LDLIBS@ -lresolv -lz -ludev
  Cflags: -I${includedir}

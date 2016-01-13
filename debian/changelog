@@ -1,3 +1,11 @@
+pciutils (1:3.3.1-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Enable libkmod support on linux architectures (Closes: #807043)
+  * Enable udev hwdb support on linux architectures
+
+ -- Laurent Bigonville <bigon@debian.org>  Wed, 13 Jan 2016 20:18:06 +0100
+
 pciutils (1:3.3.1-1) unstable; urgency=medium
 
   * New upstream version 3.3.1
