@@ -1,3 +1,18 @@
+pciutils (1:3.5.2-1) unstable; urgency=medium
+
+  [ Anibal Monsalve Salazar ]
+  * New upstream version 3.5.2
+  * Update pci.ids with version 2016.11.21
+  * Refresh patches
+  * Standards-Version: 3.9.8
+
+  [ Helmut Grohne ]
+  * Fix FTCBFS (Closes: 834794)
+    - export cross $PKG_CONFIG
+    - export cross $HOST
+
+ -- Anibal Monsalve Salazar <anibal@debian.org>  Wed, 30 Nov 2016 06:53:07 +0000
+
 pciutils (1:3.3.1-1.2) unstable; urgency=medium
 
   * Non-maintainer upload.

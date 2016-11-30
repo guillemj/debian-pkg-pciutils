@@ -19,8 +19,10 @@ Something like:
 
   Libs.private: -lresolv -lz
 
---- a/lib/libpci.pc.in
-+++ b/lib/libpci.pc.in
+Index: pciutils-3.5.2/lib/libpci.pc.in
+===================================================================
+--- pciutils-3.5.2.orig/lib/libpci.pc.in
++++ pciutils-3.5.2/lib/libpci.pc.in
 @@ -7,5 +7,5 @@ Name: libpci
  Description: libpci
  Version: @VERSION@
@@ -28,8 +30,10 @@ Something like:
 -Libs.private: @LDLIBS@
 +Libs.private: @LDLIBS@ @WITH_LIBS@
  Cflags: -I${includedir}
---- a/lib/Makefile
-+++ b/lib/Makefile
+Index: pciutils-3.5.2/lib/Makefile
+===================================================================
+--- pciutils-3.5.2.orig/lib/Makefile
++++ pciutils-3.5.2/lib/Makefile
 @@ -72,7 +72,8 @@ $(PCILIBPC): libpci.pc.in
  		-e 's,@LIBDIR@,$(LIBDIR),' \
  		-e 's,@IDSDIR@,$(IDSDIR),' \
