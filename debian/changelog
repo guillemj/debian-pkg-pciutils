@@ -16,6 +16,7 @@ pciutils (1:3.5.2-2) UNRELEASED; urgency=medium
     - Enable signature checks.
   * Improve package descriptions.
   * Use https in update-pciids. Closes: #805328
+  * Update pci.ids file to latest version 2019.04.04.
 
  -- Guillem Jover <guillem@debian.org>  Thu, 14 Mar 2019 00:01:08 +0100
 
