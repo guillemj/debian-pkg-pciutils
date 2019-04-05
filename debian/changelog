@@ -2,6 +2,7 @@ pciutils (1:3.5.2-2) UNRELEASED; urgency=medium
 
   * Salvage package. Closes: #923799, #925097
     Thanks to the previous maintainers for all their past work.
+  * Add Vcs-Browser and Vcs-Git fields.
 
  -- Guillem Jover <guillem@debian.org>  Thu, 14 Mar 2019 00:01:08 +0100
 
