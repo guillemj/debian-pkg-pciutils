@@ -14,9 +14,9 @@ Priority: standard
 Depends: ${shlibs:Depends}, ${misc:Depends}, libpci3 (= ${binary:Version})
 Multi-Arch: foreign
 Suggests: bzip2, wget | curl | lynx-cur
-Description: Linux PCI Utilities
+Description: PCI utilities
  This package contains various utilities for inspecting and setting of
- devices connected to the PCI bus. 
+ devices connected to the PCI bus.
 
 Package: libpci-dev
 Section: libdevel
@@ -26,7 +26,7 @@ Depends: ${misc:Depends}, zlib1g-dev, libpci3 (= ${binary:Version}), libudev-dev
 Conflicts: pciutils-dev
 Provides: pciutils-dev
 Replaces: pciutils-dev
-Description: Linux PCI Utilities (development files)
+Description: PCI utilities (development files)
  This package contains the <pci/pci.h>, <pci/config.h> and <pci/header.h>
  header files, as well as the /usr/lib/libpci.a library.
 
@@ -40,7 +40,7 @@ Multi-Arch: same
 Conflicts: libpci2
 Provides: libpci2
 Replaces: libpci2
-Description: Linux PCI Utilities (shared library)
+Description: PCI utilities (shared library)
  This package contains the libpci shared library files.
  .
  The libpci library provides portable access to configuration
@@ -52,9 +52,9 @@ Section: debian-installer
 Architecture: any
 Priority: standard
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Linux PCI Utilities (udeb)
+Description: PCI Utilities (udeb)
  This package contains various utilities for inspecting and setting of
- devices connected to the PCI bus. 
+ devices connected to the PCI bus.
  .
  This is a minimal version for use in debian-installer.
 
@@ -64,7 +64,7 @@ Section: debian-installer
 Architecture: any
 Priority: optional
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Linux PCI Utilities (shared library)
+Description: PCI Utilities (udeb shared library)
  This package contains the libpci shared library files.
  .
  The libpci library provides portable access to configuration

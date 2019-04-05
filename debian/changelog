@@ -14,6 +14,7 @@ pciutils (1:3.5.2-2) UNRELEASED; urgency=medium
     - Switch to format version 4.
     - Switch to the main upstream site, which provides usable signatures.
     - Enable signature checks.
+  * Improve package descriptions.
 
  -- Guillem Jover <guillem@debian.org>  Thu, 14 Mar 2019 00:01:08 +0100
 
