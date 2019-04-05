@@ -51,8 +51,8 @@ Index: pciutils-3.5.2/update-pciids.sh
 -	DECOMP="gzip -d"
 -	SRC="$SRC.gz"
 +
-+#URL="http://pci-ids.ucw.cz/pci.ids"
-+URL="http://pciids.sourceforge.net/v2.2/pci.ids"
++URL="https://pci-ids.ucw.cz/v2.2/pci.ids"
++#URL="http://pciids.sourceforge.net/v2.2/pci.ids"
 +FILE="pci.ids"
 +
 +RM="/bin/rm"

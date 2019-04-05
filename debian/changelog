@@ -15,6 +15,7 @@ pciutils (1:3.5.2-2) UNRELEASED; urgency=medium
     - Switch to the main upstream site, which provides usable signatures.
     - Enable signature checks.
   * Improve package descriptions.
+  * Use https in update-pciids. Closes: #805328
 
  -- Guillem Jover <guillem@debian.org>  Thu, 14 Mar 2019 00:01:08 +0100
 
