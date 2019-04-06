@@ -6,6 +6,7 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
     - Remove duplicate or inflated Priority fields.
     - Line-wrap and sort fields.
     - Remove Build-Depends on dpkg-dev satisfied in oldstable.
+  * Switch to debhelper compatibility level 12.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 

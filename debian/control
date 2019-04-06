@@ -3,7 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Guillem Jover <guillem@debian.org>
 Build-Depends:
- debhelper (>= 9),
+ debhelper (>= 12),
  pkg-config,
  libkmod-dev [linux-any],
  libudev-dev (>= 196) [linux-any],
