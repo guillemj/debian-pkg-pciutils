@@ -10,6 +10,8 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
     - Replace pathname for static library with just a reference to it in the
       packages description.
   * Switch to debhelper compatibility level 12.
+  * Remove pcimodules program, superseded by «lspci -k».
+    Closes: #599335, #893966
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 

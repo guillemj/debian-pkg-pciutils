@@ -1,6 +1,5 @@
 00-configure.patch
 01-Makefile.patch
-02-pcimodules.patch
 03-pci.ids.patch
 04-update-pciids.sh.patch
 07-697383-libpci.pc.in.patch
