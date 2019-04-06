@@ -23,9 +23,6 @@ Section: libdevel
 Priority: optional
 Architecture: any
 Depends: ${misc:Depends}, zlib1g-dev, libpci3 (= ${binary:Version}), libudev-dev (>= 196) [linux-any]
-Conflicts: pciutils-dev
-Provides: pciutils-dev
-Replaces: pciutils-dev
 Description: PCI utilities (development files)
  This package contains the <pci/pci.h>, <pci/config.h> and <pci/header.h>
  header files, as well as the /usr/lib/libpci.a library.
@@ -37,9 +34,6 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Pre-Depends: ${misc:Pre-Depends}
 Multi-Arch: same
-Conflicts: libpci2
-Provides: libpci2
-Replaces: libpci2
 Description: PCI utilities (shared library)
  This package contains the libpci shared library files.
  .
