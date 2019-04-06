@@ -20,7 +20,6 @@ Description: PCI utilities
 
 Package: libpci-dev
 Section: libdevel
-Priority: optional
 Architecture: any
 Depends: ${misc:Depends}, zlib1g-dev, libpci3 (= ${binary:Version}), libudev-dev (>= 196) [linux-any]
 Description: PCI utilities (development files)
@@ -29,7 +28,6 @@ Description: PCI utilities (development files)
 
 Package: libpci3
 Section: libs
-Priority: standard
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Pre-Depends: ${misc:Pre-Depends}
@@ -44,7 +42,6 @@ Package: pciutils-udeb
 Package-Type: udeb
 Section: debian-installer
 Architecture: any
-Priority: standard
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: PCI Utilities (udeb)
  This package contains various utilities for inspecting and setting of
@@ -56,7 +53,6 @@ Package: libpci3-udeb
 Package-Type: udeb
 Section: debian-installer
 Architecture: any
-Priority: optional
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: PCI Utilities (udeb shared library)
  This package contains the libpci shared library files.
