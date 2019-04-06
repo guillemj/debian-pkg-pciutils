@@ -12,6 +12,7 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
   * Switch to debhelper compatibility level 12.
   * Remove pcimodules program, superseded by «lspci -k».
     Closes: #599335, #893966
+  * Remove trailing whitespace.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 
@@ -808,7 +809,7 @@ pciutils (1:2.1.11-15.1) unstable; urgency=low
   * fix lspci -F for new or old lspci -x format (closes: #261536)
     based on patch by Ben Pfaff
   * update pci.ids (closes: #281411, hopefully closes: #326274)
-	
+
  -- Blars Blarson <blarson@blars.org>  Sat,  3 Sep 2005 22:07:20 +0000
 
 pciutils (1:2.1.11-15) unstable; urgency=low

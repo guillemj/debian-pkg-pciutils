@@ -46,7 +46,7 @@ clean:
 binary-indep:
 
 # Build architecture-dependent files here.
-binary-arch: build 
+binary-arch: build
 	dh_testdir
 	dh_testroot
 	dh_prep
