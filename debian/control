@@ -8,6 +8,7 @@ Build-Depends:
  libkmod-dev [linux-any],
  libudev-dev (>= 196) [linux-any],
  zlib1g-dev,
+Rules-Requires-Root: no
 Standards-Version: 3.9.8
 Homepage: https://mj.ucw.cz/sw/pciutils/
 Vcs-Browser: https://git.hadrons.org/cgit/debian/pkgs/pciutils.git
