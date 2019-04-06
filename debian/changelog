@@ -21,6 +21,12 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
   * Install example.c in libpci-dev instead of pciutils.
   * Switch pciutils-udeb to link dynamically against libpci3-udeb.
   * Fix upstream build system to install the static library with install-lib.
+  * Switch to use the upstream build system and debhelper fragment files to
+    install the packaged files into their correct place:
+    - Make the upstream build system install programs, header and libraries.
+    - Move ad-hoc installation from debian/rules into debhelper install
+      fragment files.
+    - Remove unused debhelper dirs fragment files.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 

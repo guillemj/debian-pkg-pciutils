@@ -1,0 +1,4 @@
+usr/include/pci/
+usr/lib/*/libpci.a
+usr/lib/*/libpci.so
+usr/lib/*/pkgconfig/
