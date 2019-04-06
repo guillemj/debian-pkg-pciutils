@@ -2,18 +2,29 @@ Source: pciutils
 Section: admin
 Priority: optional
 Maintainer: Guillem Jover <guillem@debian.org>
-Build-Depends: dpkg-dev (>= 1.16.1~), debhelper (>= 9), zlib1g-dev, libkmod-dev [linux-any], libudev-dev (>= 196) [linux-any], pkg-config
+Build-Depends:
+ dpkg-dev (>= 1.16.1~),
+ debhelper (>= 9),
+ pkg-config,
+ libkmod-dev [linux-any],
+ libudev-dev (>= 196) [linux-any],
+ zlib1g-dev,
 Standards-Version: 3.9.8
 Homepage: https://mj.ucw.cz/sw/pciutils/
 Vcs-Browser: https://git.hadrons.org/cgit/debian/pkgs/pciutils.git
 Vcs-Git: https://git.hadrons.org/git/debian/pkgs/pciutils.git
 
 Package: pciutils
-Architecture: any
 Priority: standard
-Depends: ${shlibs:Depends}, ${misc:Depends}, libpci3 (= ${binary:Version})
+Architecture: any
 Multi-Arch: foreign
-Suggests: bzip2, wget | curl | lynx-cur
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ libpci3 (= ${binary:Version}),
+Suggests:
+ bzip2,
+ wget | curl | lynx-cur,
 Description: PCI utilities
  This package contains various utilities for inspecting and setting of
  devices connected to the PCI bus.
@@ -21,7 +32,11 @@ Description: PCI utilities
 Package: libpci-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, zlib1g-dev, libpci3 (= ${binary:Version}), libudev-dev (>= 196) [linux-any]
+Depends:
+ ${misc:Depends},
+ libpci3 (= ${binary:Version}),
+ libudev-dev (>= 196) [linux-any],
+ zlib1g-dev,
 Description: PCI utilities (development files)
  This package contains the <pci/pci.h>, <pci/config.h> and <pci/header.h>
  header files, as well as the /usr/lib/libpci.a library.
@@ -29,9 +44,12 @@ Description: PCI utilities (development files)
 Package: libpci3
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Pre-Depends: ${misc:Pre-Depends}
 Multi-Arch: same
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
 Description: PCI utilities (shared library)
  This package contains the libpci shared library files.
  .
@@ -42,7 +60,9 @@ Package: pciutils-udeb
 Package-Type: udeb
 Section: debian-installer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
 Description: PCI Utilities (udeb)
  This package contains various utilities for inspecting and setting of
  devices connected to the PCI bus.
@@ -53,7 +73,9 @@ Package: libpci3-udeb
 Package-Type: udeb
 Section: debian-installer
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
 Description: PCI Utilities (udeb shared library)
  This package contains the libpci shared library files.
  .

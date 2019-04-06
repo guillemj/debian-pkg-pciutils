@@ -4,6 +4,7 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
   * Update debian/control:
     - Remove obsolete dependencies on pciutils-dev and libpci2.
     - Remove duplicate or inflated Priority fields.
+    - Line-wrap and sort fields.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 
