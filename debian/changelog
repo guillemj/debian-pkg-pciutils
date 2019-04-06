@@ -13,6 +13,8 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
   * Remove pcimodules program, superseded by «lspci -k».
     Closes: #599335, #893966
   * Remove trailing whitespace.
+  * Update debian/rules:
+    - Remove obsolete source and diff targets.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 
