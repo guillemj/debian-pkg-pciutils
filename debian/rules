@@ -84,7 +84,7 @@ binary-arch: build
 	ln -s libpci.so.3.5.2 debian/libpci3-udeb/lib/libpci.so.3
 
 	dh_installdocs
-	dh_installexamples example.c
+	dh_installexamples -a
 	dh_installmenu
 	dh_installman -ppciutils
 	dh_installchangelogs -a ChangeLog
