@@ -16,6 +16,7 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
   * Update debian/rules:
     - Remove obsolete source and diff targets.
     - Do not set DH_VERBOSE by default.
+    - Refactor all build system flags into a confflags variable.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 

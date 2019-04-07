@@ -8,18 +8,21 @@ include /usr/share/dpkg/buildflags.mk
 include /usr/share/dpkg/architecture.mk
 
 confflags =
+confflags += SHARED=yes
 confflags += HOST=$(DEB_HOST_GNU_CPU)-$(DEB_HOST_GNU_SYSTEM)
-
 ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
-export PKG_CONFIG=$(DEB_HOST_GNU_TYPE)-pkg-config
+export PKG_CONFIG = $(DEB_HOST_GNU_TYPE)-pkg-config
 confflags += CROSS_COMPILE=$(DEB_HOST_GNU_TYPE)-
 endif
-
 ifeq ($(DEB_HOST_ARCH_OS),linux)
-LINUX_FEATURES=LIBKMOD=yes HWDB=yes
+confflags += LIBKMOD=yes
+confflags += HWDB=yes
 endif
-
-PATHS := LIBDIR=/usr/lib/$(DEB_HOST_MULTIARCH) PREFIX=/usr SBINDIR=/usr/bin IDSDIR=/usr/share/misc
+confflags += PREFIX=/usr
+confflags += LIBDIR=/usr/lib/$(DEB_HOST_MULTIARCH)
+confflags += SBINDIR=/usr/bin
+confflags += IDSDIR=/usr/share/misc
+confflags += STRIP=
 
 update-ids:
 	# get a new version of pci.ids, this should only be run by the
@@ -33,12 +36,12 @@ build-arch: build
 build-indep: build
 build:
 	dh_testdir
-	OPT="$(CFLAGS)" $(MAKE) $(confflags) $(PATHS) SHARED=yes $(LINUX_FEATURES)
+	OPT="$(CFLAGS)" $(MAKE) $(confflags)
 
 clean:
 	dh_testdir
 	dh_testroot
-	[ ! -f Makefile ] || $(MAKE) $(PATHS) clean
+	[ ! -f Makefile ] || $(MAKE) clean
 	rm -f lspci-udeb
 	dh_clean
 
@@ -52,7 +55,7 @@ binary-arch: build
 	dh_prep
 	dh_installdirs -a
 
-	$(MAKE) $(confflags) $(PATHS) install DESTDIR=debian/pciutils STRIP=
+	$(MAKE) $(confflags) install DESTDIR=debian/pciutils SHARED=no
 
 	# pciutils
 	gunzip debian/pciutils/usr/share/misc/pci.ids.gz
