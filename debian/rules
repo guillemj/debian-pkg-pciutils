@@ -83,10 +83,10 @@ binary-arch: build
 	install -m 644 lib/libpci.so* debian/libpci3-udeb/lib/
 	ln -s libpci.so.3.5.2 debian/libpci3-udeb/lib/libpci.so.3
 
-	dh_installdocs
+	dh_installdocs -a
 	dh_installexamples -a
-	dh_installmenu
-	dh_installman -ppciutils
+	dh_installmenu -a
+	dh_installman -a
 	dh_installchangelogs -a ChangeLog
 	dh_strip -a
 	dh_compress -a
