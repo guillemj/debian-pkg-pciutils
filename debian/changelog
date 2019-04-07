@@ -29,6 +29,10 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
     - Move ad-hoc installation from debian/rules into debhelper install
       fragment files.
     - Remove unused debhelper dirs fragment files.
+  * Reformat maintainer scripts.
+    - Use two-space indentation.
+    - Remove space in shebang.
+    - Do not use old-style quotes.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 
