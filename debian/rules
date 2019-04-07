@@ -24,6 +24,7 @@ confflags += SBINDIR=/usr/bin
 confflags += IDSDIR=/usr/share/misc
 confflags += STRIP=
 
+.PHONY: update-ids
 update-ids:
 	# get a new version of pci.ids, this should only be run by the
 	# maintainer, since we don't want different builds of the same
@@ -32,11 +33,11 @@ update-ids:
 	rm -f pci.ids.old
 	#gunzip pci.ids.gz
 
-build-arch: build
-build-indep: build
-build:
+build-indep:
+build-arch:
 	dh_testdir
 	OPT="$(CFLAGS)" $(MAKE) $(confflags)
+build: build-indep build-arch
 
 clean:
 	dh_testdir
@@ -45,10 +46,10 @@ clean:
 	dh_clean
 
 # Build architecture-independent files here.
-binary-indep:
+binary-indep: build-indep
 
 # Build architecture-dependent files here.
-binary-arch: build
+binary-arch: build-arch
 	dh_testdir
 	dh_testroot
 	dh_prep
@@ -80,4 +81,5 @@ binary-arch: build
 	dh_builddeb -a
 
 binary: binary-indep binary-arch
-.PHONY: update-ids build clean binary-indep binary-arch binary
+
+.PHONY: build-indep build-arch build clean binary-indep binary-arch binary
