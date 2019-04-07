@@ -34,6 +34,7 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
     - Use two-space indentation.
     - Remove space in shebang.
     - Do not use old-style quotes.
+  * Add new symbols file for the shared library.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 
