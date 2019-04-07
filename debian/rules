@@ -62,7 +62,8 @@ binary-arch: build-arch
 
 	# pciutils-udeb
 	# Reduce by removing subsystem ids and comments.
-	perl -ne 'print unless /^(\s*#|\s*$|\t\t)/' < pci.ids |gzip -9n > debian/pciutils-udeb/usr/share/misc/pci.ids.gz
+	perl -ne 'print unless /^(\s*#|\s*$|\t\t)/' <pci.ids | \
+	  gzip -9n >debian/pciutils-udeb/usr/share/misc/pci.ids.gz
 
 	dh_install -a
 	dh_installdocs -a

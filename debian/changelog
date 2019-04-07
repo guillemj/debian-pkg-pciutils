@@ -19,6 +19,7 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
     - Refactor all build system flags into a confflags variable.
     - Run debhelper commands for all packages.
     - Fix targets and dependencies.
+    - Line wrap long rules command.
   * Install example.c in libpci-dev instead of pciutils.
   * Switch pciutils-udeb to link dynamically against libpci3-udeb.
   * Fix upstream build system to install the static library with install-lib.
