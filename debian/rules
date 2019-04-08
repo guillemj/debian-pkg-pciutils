@@ -8,7 +8,7 @@ include /usr/share/dpkg/buildflags.mk
 include /usr/share/dpkg/architecture.mk
 
 confflags =
-confflags += HOST=$(DEB_HOST_GNU_CPU)-$(DEB_HOST_ARCH_OS)
+confflags += HOST=$(DEB_HOST_GNU_CPU)-$(patsubst k%bsd,%bsd,$(DEB_HOST_GNU_SYSTEM))
 
 ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
 export PKG_CONFIG=$(DEB_HOST_GNU_TYPE)-pkg-config
