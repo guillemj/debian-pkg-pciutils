@@ -1,4 +1,4 @@
-pciutils (1:3.5.2-4) UNRELEASED; urgency=medium
+pciutils (1:3.5.2-4) unstable; urgency=medium
 
   * Use expected system name for HOST variable.
     - Switch to use DEB_HOST_GNU_SYSTEM instead of DEB_HOST_ARCH_OS.
@@ -6,7 +6,7 @@ pciutils (1:3.5.2-4) UNRELEASED; urgency=medium
     - Map GNU/k*BSD OS names to their non k-prefixed names.
       This fixes the build failure on GNU/kFreeBSD.
 
- -- Guillem Jover <guillem@debian.org>  Mon, 08 Apr 2019 02:26:59 +0200
+ -- Guillem Jover <guillem@debian.org>  Mon, 08 Apr 2019 02:31:08 +0200
 
 pciutils (1:3.5.2-3) unstable; urgency=medium
 
