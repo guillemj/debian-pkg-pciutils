@@ -39,7 +39,7 @@ Depends:
  zlib1g-dev,
 Description: PCI utilities (development files)
  This package contains the <pci/pci.h>, <pci/config.h> and <pci/header.h>
- header files, as well as the /usr/lib/libpci.a library.
+ header files, as well as the libpci static library.
 
 Package: libpci3
 Section: libs
