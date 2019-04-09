@@ -35,6 +35,9 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
     - Remove space in shebang.
     - Do not use old-style quotes.
   * Add new symbols file for the shared library.
+  * Add a lintian override for shlib-calls-exit, as the library does call
+    exit(3) by default, but makes it possible for the caller to setup a
+    different error handler.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 
