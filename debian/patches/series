@@ -1,3 +1,4 @@
+00-configure.patch
 01-Makefile.patch
 02-pcimodules.patch
 03-pci.ids.patch
