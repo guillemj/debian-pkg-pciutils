@@ -35,7 +35,7 @@ Something like:
  Cflags: -I${includedir}
 --- a/lib/Makefile
 +++ b/lib/Makefile
-@@ -69,7 +69,8 @@ $(PCILIBPC): libpci.pc.in
+@@ -73,7 +73,8 @@ $(PCILIBPC): libpci.pc.in
  		-e 's,@LIBDIR@,$(LIBDIR),' \
  		-e 's,@IDSDIR@,$(IDSDIR),' \
  		-e 's,@VERSION@,$(VERSION),' \

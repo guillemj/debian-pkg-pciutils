@@ -7,13 +7,13 @@
 +++ b/Makefile
 @@ -1,7 +1,7 @@
  # Makefile for The PCI Utilities
- # (c) 1998--2016 Martin Mares <mj@ucw.cz>
+ # (c) 1998--2018 Martin Mares <mj@ucw.cz>
  
 -OPT=-O2
 +OPT+=-O2 -g
  CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wmissing-prototypes
  
- VERSION=3.5.2
+ VERSION=3.6.2
 @@ -89,6 +89,7 @@ ls-kernel.o: CFLAGS+=$(LIBKMOD_CFLAGS)
  
  update-pciids: update-pciids.sh
@@ -22,7 +22,7 @@
  	chmod +x $@
  
  # The example of use of libpci
-@@ -136,6 +137,7 @@ install-lib: $(PCIINC_INS) lib/$(PCILIBP
+@@ -144,6 +145,7 @@ install-lib: $(PCIINC_INS) lib/$(PCILIBP
  	$(DIRINSTALL) -m 755 $(DESTDIR)$(INCDIR)/pci $(DESTDIR)$(PKGCFDIR)
  	$(INSTALL) -c -m 644 $(PCIINC_INS) $(DESTDIR)$(INCDIR)/pci
  	$(INSTALL) -c -m 644 lib/$(PCILIBPC) $(DESTDIR)$(PKGCFDIR)
@@ -32,8 +32,8 @@
  	ln -sf $(LIBNAME)$(ABI_VERSION).$(LIBEXT) $(DESTDIR)$(LIBDIR)/$(LIBNAME).$(LIBEXT)
 --- a/lib/Makefile
 +++ b/lib/Makefile
-@@ -46,14 +46,14 @@ ifdef PCI_HAVE_PM_DARWIN_DEVICE
- OBJS += darwin
+@@ -50,14 +50,14 @@ ifdef PCI_HAVE_PM_SYLIXOS_DEVICE
+ OBJS += sylixos-device
  endif
  
 -all: $(PCILIB) $(PCILIBPC)
@@ -51,7 +51,7 @@
  CFLAGS += -fPIC -fvisibility=hidden
  $(PCILIB): $(addsuffix .o,$(OBJS))
   ifdef PCI_HAVE_PM_DARWIN_DEVICE
-@@ -61,7 +61,7 @@ $(PCILIB): $(addsuffix .o,$(OBJS))
+@@ -65,7 +65,7 @@ $(PCILIB): $(addsuffix .o,$(OBJS))
   else
  	$(CC) -shared $(LDFLAGS) $(SONAME) -Wl,--version-script=libpci.ver -o $@ $^ $(LIB_LDLIBS)
   endif
@@ -62,7 +62,7 @@
  	sed <$< >$@ -e 's,@PREFIX@,$(PREFIX),' \
 --- a/lib/configure
 +++ b/lib/configure
-@@ -260,6 +260,7 @@ else
+@@ -270,6 +270,7 @@ else
  		echo >>$m 'SONAME=-Wl,-soname,$(LIBNAME).$(LIBEXT)$(ABI_VERSION)'
  	fi
  fi

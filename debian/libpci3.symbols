@@ -6,6 +6,7 @@ libpci.so.3 libpci3 #MINVER#
  LIBPCI_3.3@LIBPCI_3.3 1:3.3.0
  LIBPCI_3.4@LIBPCI_3.4 1:3.4.0
  LIBPCI_3.5@LIBPCI_3.5 1:3.5.0
+ LIBPCI_3.6@LIBPCI_3.6 1:3.6.0
  pci_alloc@LIBPCI_3.0 1:3.0.0.
  pci_cleanup@LIBPCI_3.0 1:3.0.0
  pci_fill_info@LIBPCI_3.0 1:3.0.0
@@ -28,6 +29,7 @@ libpci.so.3 libpci3 #MINVER#
  pci_get_dev@LIBPCI_3.0 1:3.0.0
  pci_get_method_name@LIBPCI_3.0 1:3.0.0
  pci_get_param@LIBPCI_3.0 1:3.0.0
+ pci_get_string_property@LIBPCI_3.6 1:3.6.0
  pci_id_cache_flush@LIBPCI_3.0 1:3.0.0
  pci_init@LIBPCI_3.0 1:3.0.0
  pci_init@LIBPCI_3.5 1:3.5.1
