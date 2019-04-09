@@ -2,3 +2,4 @@
 01-Makefile.patch
 04-update-pciids.sh.patch
 07-697383-libpci.pc.in.patch
+man-page-typos.patch

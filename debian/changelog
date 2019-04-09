@@ -42,6 +42,7 @@ pciutils (1:3.6.2-1) UNRELEASED; urgency=medium
   * Add a lintian override for shlib-calls-exit, as the library does call
     exit(3) by default, but makes it possible for the caller to setup a
     different error handler.
+  * Fix typos in man pages.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 
