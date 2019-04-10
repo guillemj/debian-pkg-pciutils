@@ -19,10 +19,13 @@ Something like:
 
   Libs.private: -lresolv -lz
 
-Index: pciutils-3.5.2/lib/libpci.pc.in
-===================================================================
---- pciutils-3.5.2.orig/lib/libpci.pc.in
-+++ pciutils-3.5.2/lib/libpci.pc.in
+---
+ lib/Makefile     |    3 ++-
+ lib/libpci.pc.in |    2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+--- a/lib/libpci.pc.in
++++ b/lib/libpci.pc.in
 @@ -7,5 +7,5 @@ Name: libpci
  Description: libpci
  Version: @VERSION@
@@ -30,11 +33,9 @@ Index: pciutils-3.5.2/lib/libpci.pc.in
 -Libs.private: @LDLIBS@
 +Libs.private: @LDLIBS@ @WITH_LIBS@
  Cflags: -I${includedir}
-Index: pciutils-3.5.2/lib/Makefile
-===================================================================
---- pciutils-3.5.2.orig/lib/Makefile
-+++ pciutils-3.5.2/lib/Makefile
-@@ -72,7 +72,8 @@ $(PCILIBPC): libpci.pc.in
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -69,7 +69,8 @@ $(PCILIBPC): libpci.pc.in
  		-e 's,@LIBDIR@,$(LIBDIR),' \
  		-e 's,@IDSDIR@,$(IDSDIR),' \
  		-e 's,@VERSION@,$(VERSION),' \
