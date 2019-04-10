@@ -32,6 +32,7 @@ Description: PCI utilities
 Package: libpci-dev
 Section: libdevel
 Architecture: any
+Multi-Arch: same
 Depends:
  ${misc:Depends},
  libpci3 (= ${binary:Version}),

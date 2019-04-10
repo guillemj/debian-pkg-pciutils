@@ -20,6 +20,7 @@ confflags += HWDB=yes
 endif
 confflags += PREFIX=/usr
 confflags += LIBDIR=/usr/lib/$(DEB_HOST_MULTIARCH)
+confflags += INCDIR=/usr/include/$(DEB_HOST_MULTIARCH)
 confflags += SBINDIR=/usr/bin
 confflags += IDSDIR=/usr/share/misc
 confflags += STRIP=
