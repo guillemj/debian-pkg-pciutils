@@ -19,6 +19,7 @@ pciutils (1:3.5.2-6) UNRELEASED; urgency=medium
     - Refactor all build system flags into a confflags variable.
     - Run debhelper commands for all packages.
   * Install example.c in libpci-dev instead of pciutils.
+  * Switch pciutils-udeb to link dynamically against libpci3-udeb.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 

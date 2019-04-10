@@ -42,7 +42,6 @@ clean:
 	dh_testdir
 	dh_testroot
 	[ ! -f Makefile ] || $(MAKE) clean
-	rm -f lspci-udeb
 	dh_clean
 
 # Build architecture-independent files here.
@@ -75,6 +74,7 @@ binary-arch: build
 	ln -s libpci.so.3.5.2 debian/libpci3/lib/$(DEB_HOST_MULTIARCH)/libpci.so.3
 
 	# pciutils-udeb
+	install -m 755 debian/pciutils/usr/bin/lspci debian/pciutils-udeb/usr/bin/
 	# Reduce by removing subsystem ids and comments.
 	perl -ne 'print unless /^(\s*#|\s*$|\t\t)/' < pci.ids |gzip -9n > debian/pciutils-udeb/usr/share/misc/pci.ids.gz
 	chmod 644 debian/pciutils-udeb/usr/share/misc/pci.ids.gz
