@@ -1,3 +1,7 @@
+Author: Anibal Monsalve Salazar <anibal@debian.org>
+Description: Rewrite of upstream update-pciids script
+Status: check why this was needed?
+
 Index: pciutils-3.5.2/update-pciids.sh
 ===================================================================
 --- pciutils-3.5.2.orig/update-pciids.sh

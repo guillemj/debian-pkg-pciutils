@@ -1,3 +1,7 @@
+Author: Anibal Monsalve Salazar <anibal@debian.org>
+Author: Guillem Jover <guillem@hadrons.org>
+Description: Upstream build system fixes
+
 ---
  Makefile     |    3 ++-
  lib/Makefile |   11 +++++++----

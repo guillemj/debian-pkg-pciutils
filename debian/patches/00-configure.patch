@@ -1,3 +1,6 @@
+Author: Guillem Jover <guillem@hadrons.org>
+Description: Add support for GNU style system names
+
 ---
  lib/configure |   10 +++++++---
  1 file changed, 7 insertions(+), 3 deletions(-)

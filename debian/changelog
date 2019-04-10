@@ -45,6 +45,7 @@ pciutils (1:3.6.2-1) UNRELEASED; urgency=medium
   * Fix typos in man pages.
   * Fix fortify compiler warnings.
   * Make the libpci-dev package Multi-Arch same. Closes: #721270
+  * Add metadata to patch files.
 
  -- Guillem Jover <guillem@debian.org>  Tue, 09 Apr 2019 05:36:49 +0200
 
