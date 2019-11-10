@@ -51,7 +51,7 @@ binary-arch: build-arch
 
 	# pciutils-udeb
 	# Reduce by removing subsystem ids and comments.
-	zcat /usr/share/misc/pci.ids.gz | \
+	cat /usr/share/misc/pci.ids | \
 	  perl -ne 'print unless /^(\s*#|\s*$|\t\t)/' | \
 	  gzip -9n >debian/pciutils-udeb/usr/share/misc/pci.ids.gz
 
