@@ -1,10 +1,10 @@
-pciutils (1:3.6.2-5) UNRELEASED; urgency=medium
+pciutils (1:3.6.2-5) unstable; urgency=medium
 
   * Restore assumption that pci.ids is installed uncompressed. This was
     introduced due to a confused reading of the udeb case which does
     compress it.
 
- -- Guillem Jover <guillem@debian.org>  Sun, 10 Nov 2019 23:31:06 +0100
+ -- Guillem Jover <guillem@debian.org>  Sun, 10 Nov 2019 23:33:44 +0100
 
 pciutils (1:3.6.2-4) unstable; urgency=medium
 
