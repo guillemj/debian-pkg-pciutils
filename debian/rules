@@ -25,15 +25,6 @@ confflags += SBINDIR=/usr/bin
 confflags += IDSDIR=/usr/share/misc
 confflags += STRIP=
 
-.PHONY: update-ids
-update-ids:
-	# get a new version of pci.ids, this should only be run by the
-	# maintainer, since we don't want different builds of the same
-	# source to end up with different versions
-	./update-pciids.sh
-	rm -f pci.ids.old
-	#gunzip pci.ids.gz
-
 build-indep:
 build-arch:
 	dh_testdir
@@ -58,12 +49,10 @@ binary-arch: build-arch
 
 	$(MAKE) $(confflags) install install-lib DESTDIR=debian/tmp
 
-	# pciutils
-	gunzip debian/tmp/usr/share/misc/pci.ids.gz
-
 	# pciutils-udeb
 	# Reduce by removing subsystem ids and comments.
-	perl -ne 'print unless /^(\s*#|\s*$|\t\t)/' <pci.ids | \
+	zcat /usr/share/misc/pci.ids.gz | \
+	  perl -ne 'print unless /^(\s*#|\s*$|\t\t)/' | \
 	  gzip -9n >debian/pciutils-udeb/usr/share/misc/pci.ids.gz
 
 	dh_install -a
