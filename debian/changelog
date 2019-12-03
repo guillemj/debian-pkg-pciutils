@@ -1,9 +1,9 @@
-pciutils (1:3.6.2-6) UNRELEASED; urgency=medium
+pciutils (1:3.6.2-6) unstable; urgency=medium
 
   * Move pci.ids dependency from pciutils to libpci3. The library is the
     one actually accessing the database.
 
- -- Guillem Jover <guillem@debian.org>  Tue, 03 Dec 2019 01:22:16 +0100
+ -- Guillem Jover <guillem@debian.org>  Tue, 03 Dec 2019 01:24:00 +0100
 
 pciutils (1:3.6.2-5) unstable; urgency=medium
 
