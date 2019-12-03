@@ -23,7 +23,6 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends},
  libpci3 (= ${binary:Version}),
- pci.ids (>= 0.0~2019.11.10-2),
 Suggests:
  bzip2,
  wget | curl | lynx-cur,
@@ -53,6 +52,7 @@ Pre-Depends:
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
+ pci.ids (>= 0.0~2019.11.10-2),
 Description: PCI utilities (shared library)
  This package contains the libpci shared library files.
  .
