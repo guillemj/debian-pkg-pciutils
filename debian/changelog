@@ -6,6 +6,7 @@ pciutils (1:3.6.4-1) UNRELEASED; urgency=medium
     - Remove 10-hurd-pci-arbiter.patch, merged upstream.
   * Do not ship empty /usr/share/misc directory in pciutils.
   * Switch to Standards-Version 4.5.0 (no changes needed).
+  * Remove debian/TODO file.
 
  -- Guillem Jover <guillem@debian.org>  Sat, 25 Jan 2020 22:19:05 +0100
 
