@@ -1,3 +1,12 @@
+pciutils (1:3.6.4-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+    - Refresh patches.
+    - Completely rewrite and simplify 04-update-pciids.sh.patch.
+    - Remove 10-hurd-pci-arbiter.patch, merged upstream.
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 25 Jan 2020 22:19:05 +0100
+
 pciutils (1:3.6.2-6) unstable; urgency=medium
 
   * Move pci.ids dependency from pciutils to libpci3. The library is the

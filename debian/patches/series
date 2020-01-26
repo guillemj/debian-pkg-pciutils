@@ -3,6 +3,5 @@
 01-Makefile.patch
 04-update-pciids.sh.patch
 07-697383-libpci.pc.in.patch
-10-hurd-pci-arbiter.patch
 man-page-typos.patch
 fortify.patch

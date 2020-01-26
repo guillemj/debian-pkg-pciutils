@@ -3,21 +3,22 @@ Author: Guillem Jover <guillem@hadrons.org>
 Description: Upstream build system fixes
 
 ---
- Makefile     |    3 ++-
- lib/Makefile |   11 +++++++----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ Makefile      |    4 +++-
+ lib/Makefile  |   10 +++++-----
+ lib/configure |    1 +
+ 3 files changed, 9 insertions(+), 6 deletions(-)
 
 --- a/Makefile
 +++ b/Makefile
 @@ -1,7 +1,7 @@
  # Makefile for The PCI Utilities
- # (c) 1998--2018 Martin Mares <mj@ucw.cz>
+ # (c) 1998--2020 Martin Mares <mj@ucw.cz>
  
 -OPT=-O2
 +OPT+=-O2 -g
  CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wmissing-prototypes
  
- VERSION=3.6.2
+ VERSION=3.6.4
 @@ -89,6 +89,7 @@ ls-kernel.o: CFLAGS+=$(LIBKMOD_CFLAGS)
  
  update-pciids: update-pciids.sh
@@ -26,7 +27,7 @@ Description: Upstream build system fixes
  	chmod +x $@
  
  # The example of use of libpci
-@@ -144,6 +145,7 @@ install-lib: $(PCIINC_INS) lib/$(PCILIBP
+@@ -145,6 +146,7 @@ install-lib: $(PCIINC_INS) lib/$(PCILIBP
  	$(DIRINSTALL) -m 755 $(DESTDIR)$(INCDIR)/pci $(DESTDIR)$(PKGCFDIR)
  	$(INSTALL) -c -m 644 $(PCIINC_INS) $(DESTDIR)$(INCDIR)/pci
  	$(INSTALL) -c -m 644 lib/$(PCILIBPC) $(DESTDIR)$(PKGCFDIR)
@@ -36,8 +37,8 @@ Description: Upstream build system fixes
  	ln -sf $(LIBNAME)$(ABI_VERSION).$(LIBEXT) $(DESTDIR)$(LIBDIR)/$(LIBNAME).$(LIBEXT)
 --- a/lib/Makefile
 +++ b/lib/Makefile
-@@ -50,14 +50,14 @@ ifdef PCI_HAVE_PM_SYLIXOS_DEVICE
- OBJS += sylixos-device
+@@ -54,14 +54,14 @@ ifdef PCI_HAVE_PM_HURD_CONF
+ OBJS += hurd
  endif
  
 -all: $(PCILIB) $(PCILIBPC)
@@ -55,7 +56,7 @@ Description: Upstream build system fixes
  CFLAGS += -fPIC -fvisibility=hidden
  $(PCILIB): $(addsuffix .o,$(OBJS))
   ifdef PCI_HAVE_PM_DARWIN_DEVICE
-@@ -65,7 +65,7 @@ $(PCILIB): $(addsuffix .o,$(OBJS))
+@@ -69,7 +69,7 @@ $(PCILIB): $(addsuffix .o,$(OBJS))
   else
  	$(CC) -shared $(LDFLAGS) $(SONAME) -Wl,--version-script=libpci.ver -o $@ $^ $(LIB_LDLIBS)
   endif
@@ -66,7 +67,7 @@ Description: Upstream build system fixes
  	sed <$< >$@ -e 's,@PREFIX@,$(PREFIX),' \
 --- a/lib/configure
 +++ b/lib/configure
-@@ -270,6 +270,7 @@ else
+@@ -276,6 +276,7 @@ else
  		echo >>$m 'SONAME=-Wl,-soname,$(LIBNAME).$(LIBEXT)$(ABI_VERSION)'
  	fi
  fi

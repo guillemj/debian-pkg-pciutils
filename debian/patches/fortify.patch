@@ -7,7 +7,7 @@ Description: Fix fortify compiler warnings
 
 --- a/lib/names-net.c
 +++ b/lib/names-net.c
-@@ -152,7 +152,7 @@ char
+@@ -160,7 +160,7 @@ char
  *pci_id_net_lookup(struct pci_access *a, int cat, int id1, int id2, int id3, int id4)
  {
    static int resolver_inited;
@@ -16,11 +16,11 @@ Description: Fix fortify compiler warnings
    byte answer[4096];
    const byte *data;
    int res, j, dlen;
-@@ -188,7 +188,7 @@ char
+@@ -196,7 +196,7 @@ char
      default:
        return NULL;
      }
--  sprintf(dnsname, "%s.%s", name, domain);
+-  sprintf(dnsname, "%.100s.%.100s", name, domain);
 +  snprintf(dnsname, sizeof(dnsname), "%s.%s", name, domain);
  
    a->debug("Resolving %s\n", dnsname);
