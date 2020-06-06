@@ -19,7 +19,7 @@ Description: Fix man page typos
  .B -H1
 --- a/setpci.man
 +++ b/setpci.man
-@@ -71,7 +71,7 @@ available methods and their descriptions
+@@ -78,7 +78,7 @@ available methods and their descriptions
  .TP
  .B -O <param>=<value>
  The behavior of the library is controlled by several named parameters.
