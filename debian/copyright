@@ -23,6 +23,13 @@ Copyright:
  Copyright © 2018 YuJian Gong <gongyujian@acoinfo.com>
 License: GPL-2+
 
+Files:
+ debian/*
+Copyright:
+ Copyright © 2020 Guillem Jover <guillem@debian.org>
+ Copyright © 2020 Collabora Ltd.
+License: GPL-2+
+
 License: GPL-2+
  This program is free software: you can redistribute it and/or modify it
  under the terms of the GNU General Public License as published by
