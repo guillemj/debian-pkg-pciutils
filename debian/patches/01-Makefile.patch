@@ -10,15 +10,6 @@ Description: Upstream build system fixes
 
 --- a/Makefile
 +++ b/Makefile
-@@ -1,7 +1,7 @@
- # Makefile for The PCI Utilities
- # (c) 1998--2020 Martin Mares <mj@ucw.cz>
- 
--OPT=-O2
-+OPT+=-O2 -g
- CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wmissing-prototypes
- 
- VERSION=3.7.0
 @@ -145,6 +146,7 @@ install-lib: $(PCIINC_INS) lib/$(PCILIBP
  	$(DIRINSTALL) -m 755 $(DESTDIR)$(INCDIR)/pci $(DESTDIR)$(PKGCFDIR)
  	$(INSTALL) -c -m 644 $(PCIINC_INS) $(DESTDIR)$(INCDIR)/pci

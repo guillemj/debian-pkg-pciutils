@@ -5,6 +5,8 @@ pciutils (1:3.7.0-1) UNRELEASED; urgency=medium
   * Adapt to renamed lintian tag exit-in-shared-library.
   * Remove unneeded update-pciids.sh patched changes, due to the
     simplifications on the previous release.
+  * Pass OPT to make via the conffiles environment variable instead of
+    explicitly passing it prefixed to the command.
 
  -- Guillem Jover <guillem@debian.org>  Sat, 06 Jun 2020 06:14:08 +0200
 
