@@ -1,1 +1,1 @@
-libpci3: shlib-calls-exit usr/lib/*
+libpci3: exit-in-shared-library usr/lib/*
