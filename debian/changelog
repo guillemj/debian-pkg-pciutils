@@ -17,6 +17,8 @@ pciutils (1:3.7.0-1) UNRELEASED; urgency=medium
   * Add a superficial test case. Closes: #960441
     Based on a patch by Simon McVittie <smcv@collabora.com>.
   * Install pci.ids(5) in pciutils.
+  * List /usr/share/misc/pci.ids.gz explicitly in pciutils-udeb.install
+    so that dh_missing knows about it.
 
  -- Guillem Jover <guillem@debian.org>  Sat, 06 Jun 2020 06:14:08 +0200
 
