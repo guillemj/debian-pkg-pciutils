@@ -15,8 +15,7 @@ Description: Minor tweaks to upstream script
  set -e
 +
  SRC="https://pci-ids.ucw.cz/v2.2/pci.ids"
--DEST=pci.ids
-+DEST=/usr/share/misc/pci.ids
+ DEST=pci.ids
  PCI_COMPRESSED_IDS=
  GREP=grep
  

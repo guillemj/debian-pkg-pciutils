@@ -3,6 +3,8 @@ pciutils (1:3.7.0-1) UNRELEASED; urgency=medium
   * New upstream release.
   * Switch to debhelper compatibility level 13.
   * Adapt to renamed lintian tag exit-in-shared-library.
+  * Remove unneeded update-pciids.sh patched changes, due to the
+    simplifications on the previous release.
 
  -- Guillem Jover <guillem@debian.org>  Sat, 06 Jun 2020 06:14:08 +0200
 

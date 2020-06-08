@@ -19,14 +19,6 @@ Description: Upstream build system fixes
  CFLAGS=$(OPT) -Wall -W -Wno-parentheses -Wstrict-prototypes -Wmissing-prototypes
  
  VERSION=3.7.0
-@@ -89,6 +89,7 @@ ls-kernel.o: CFLAGS+=$(LIBKMOD_CFLAGS)
- 
- update-pciids: update-pciids.sh
- 	sed <$< >$@ "s@^DEST=.*@DEST=$(IDSDIR)/$(PCI_IDS)@;s@^PCI_COMPRESSED_IDS=.*@PCI_COMPRESSED_IDS=$(PCI_COMPRESSED_IDS)@"
-+	sed <$< >$@ "s@^FILE=.*@FILE=$(IDSDIR)/pci.ids@"
- 	chmod +x $@
- 
- # The example of use of libpci
 @@ -145,6 +146,7 @@ install-lib: $(PCIINC_INS) lib/$(PCILIBP
  	$(DIRINSTALL) -m 755 $(DESTDIR)$(INCDIR)/pci $(DESTDIR)$(PKGCFDIR)
  	$(INSTALL) -c -m 644 $(PCIINC_INS) $(DESTDIR)$(INCDIR)/pci
