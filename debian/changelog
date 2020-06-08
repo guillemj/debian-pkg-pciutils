@@ -1,4 +1,4 @@
-pciutils (1:3.7.0-1) UNRELEASED; urgency=medium
+pciutils (1:3.7.0-1) unstable; urgency=medium
 
   * New upstream release.
   * Switch to debhelper compatibility level 13.
@@ -23,7 +23,7 @@ pciutils (1:3.7.0-1) UNRELEASED; urgency=medium
     so that dh_missing knows about it.
   * Switch to the dh sequencer.
 
- -- Guillem Jover <guillem@debian.org>  Sat, 06 Jun 2020 06:14:08 +0200
+ -- Guillem Jover <guillem@debian.org>  Tue, 16 Jun 2020 00:59:33 +0200
 
 pciutils (1:3.6.4-1) unstable; urgency=medium
 
