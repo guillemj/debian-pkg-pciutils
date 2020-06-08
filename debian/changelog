@@ -7,6 +7,12 @@ pciutils (1:3.7.0-1) UNRELEASED; urgency=medium
     simplifications on the previous release.
   * Pass OPT to make via the conffiles environment variable instead of
     explicitly passing it prefixed to the command.
+  * Do not build a static library anymore. This does not work on Linux
+    systems anyway as libudev-dev does not provide a static library, and
+    providing one for non-Linux systems would make handling this inconsistent
+    in depending packages. In addition newer glibc generate a link-time
+    warning on code using getpwuid() calls, requesting to use the dynamic
+    library version.
 
  -- Guillem Jover <guillem@debian.org>  Sat, 06 Jun 2020 06:14:08 +0200
 
