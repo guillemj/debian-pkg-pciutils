@@ -61,7 +61,7 @@ binary-arch: build-arch
 	dh_installexamples -a
 	dh_installmenu -a
 	dh_installman -a
-	dh_installchangelogs -a ChangeLog
+	dh_installchangelogs -a
 	dh_strip -a
 	dh_lintian -a
 	dh_compress -a
