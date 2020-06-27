@@ -4,3 +4,4 @@
 07-697383-libpci.pc.in.patch
 man-page-typos.patch
 fortify.patch
+hurd-flags-arg.patch
