@@ -1,5 +1,6 @@
 Author: Guillem Jover <guillem@debian.org>
 Description: Minor tweaks to upstream script
+Forwarded: https://github.com/pciutils/pciutils/pull/48
 
 ---
  update-pciids.sh |   11 ++++++-----

@@ -2,6 +2,7 @@ From e39a3af22501234a91cf28e8c57b45f9379f9101 Mon Sep 17 00:00:00 2001
 From: Damien Zammit <damien@zamaudio.com>
 Date: Fri, 26 Oct 2018 09:24:04 -0400
 Subject: [PATCH 2/2] Add ability to detect GNU/Hurd when configuring
+Forwarded: https://github.com/pciutils/pciutils/pull/47
 
 ---
  lib/configure |    6 +++++-

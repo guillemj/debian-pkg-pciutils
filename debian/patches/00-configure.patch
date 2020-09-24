@@ -1,5 +1,6 @@
 Author: Guillem Jover <guillem@hadrons.org>
 Description: Add support for GNU style system names
+Forwarded: https://github.com/pciutils/pciutils/pull/47
 
 ---
  lib/configure |   10 +++++++---

@@ -1,5 +1,6 @@
 Author: Guillem Jover <guillem@hadrons.org>
 Description: Fix man page typos
+Forwarded: https://github.com/pciutils/pciutils/pull/46
 
 ---
  lspci.man  |    2 +-

@@ -1,8 +1,8 @@
-http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=697383
-
 From: Brice Goglin <bgoglin@debian.org>
 Subject: libpci-dev: libpci.pc misses -lresolv and -lz for static linking
 Date: Fri, 04 Jan 2013 17:31:14 +0100
+Debian-Bug: http://bugs.debian.org/697383
+Forwarded: https://github.com/pciutils/pciutils/pull/47
 
 libpci.pc doesn't seem to be correct for static linking.
 
