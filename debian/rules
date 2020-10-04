@@ -26,11 +26,17 @@ confflags += INCDIR=/usr/include/$(DEB_HOST_MULTIARCH)
 confflags += SBINDIR=/usr/bin
 confflags += IDSDIR=/usr/share/misc
 
+# These two are supposed to override only the update-pciids generator to force
+# a non compressed database.
+buildflags =
+buildflags += PCI_COMPRESSED_IDS=0
+buildflags += PCI_IDS=pci.ids
+
 %:
 	dh $@
 
 override_dh_auto_build:
-	dh_auto_build -- $(confflags)
+	dh_auto_build -- $(confflags) $(buildflags)
 
 override_dh_auto_install:
 	dh_auto_install -- $(confflags) install-lib
