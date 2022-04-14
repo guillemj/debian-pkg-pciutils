@@ -25,7 +25,7 @@ Depends:
  libpci3 (= ${binary:Version}),
 Suggests:
  bzip2,
- wget | curl | lynx-cur,
+ wget | curl | lynx,
 Description: PCI utilities
  This package contains various utilities for inspecting and setting of
  devices connected to the PCI bus.
