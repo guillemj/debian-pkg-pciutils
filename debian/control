@@ -6,7 +6,7 @@ Build-Depends:
  debhelper-compat (= 13),
  debhelper (>= 13.10),
  pci.ids (>= 0.0~2019.11.10-2) <!noudeb>,
- pkg-config,
+ pkgconf | pkg-config,
  libkmod-dev [linux-any],
  libudev-dev (>= 196) [linux-any],
  zlib1g-dev,

@@ -2,6 +2,7 @@ pciutils (1:3.9.0-4) UNRELEASED; urgency=medium
 
   * Do not trim debian/changelog.
   * Add debian/patches metadata.
+  * Add pkgconf as a preferred alternative to pkg-config in Build-Depends.
 
  -- Guillem Jover <guillem@debian.org>  Thu, 12 Jan 2023 23:52:23 +0100
 
