@@ -1,6 +1,7 @@
 From 2d16e3a7875a9cb5abd60713bb2e39b536a7dec4 Mon Sep 17 00:00:00 2001
 From: Martin Mares <mj@ucw.cz>
 Date: Wed, 28 Dec 2022 13:48:47 +0100
+Origin: upstream, commit:2d16e3a7875a9cb5abd60713bb2e39b536a7dec4
 Subject: [PATCH] Fix versioned symbol aliases when used with link-time
  optimization
 
