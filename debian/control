@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Guillem Jover <guillem@debian.org>
 Build-Depends:
  debhelper-compat (= 13),
+ debhelper (>= 13.10),
  pci.ids (>= 0.0~2019.11.10-2) <!noudeb>,
  pkg-config,
  libkmod-dev [linux-any],
