@@ -1,11 +1,11 @@
-pciutils (1:3.9.0-4) UNRELEASED; urgency=medium
+pciutils (1:3.9.0-4) unstable; urgency=medium
 
   * Do not trim debian/changelog.
   * Add debian/patches metadata.
   * Add pkgconf as a preferred alternative to pkg-config in Build-Depends.
   * Make globs in debhelper fragment files more specific.
 
- -- Guillem Jover <guillem@debian.org>  Thu, 12 Jan 2023 23:52:23 +0100
+ -- Guillem Jover <guillem@debian.org>  Wed, 18 Jan 2023 00:50:53 +0100
 
 pciutils (1:3.9.0-3) unstable; urgency=medium
 
