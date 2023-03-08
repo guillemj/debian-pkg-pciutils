@@ -18,8 +18,8 @@ pciutils (1:3.9.0-3) unstable; urgency=medium
 
 pciutils (1:3.9.0-2) unstable; urgency=medium
 
-  * Enable LFS build options. This should ABI safe for the shared library as
-    it does not expose any problematic type.
+  * Enable LFS build options. This should be ABI safe for the shared library
+    as it does not expose any problematic type.
   * Update lintian overrides.
 
  -- Guillem Jover <guillem@debian.org>  Sat, 03 Dec 2022 14:13:08 +0100
