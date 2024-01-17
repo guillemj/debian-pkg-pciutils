@@ -6,4 +6,4 @@ Restrictions:
 Depends:
  build-essential,
  libpci-dev,
- pkg-config,
+ pkgconf,

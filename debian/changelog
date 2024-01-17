@@ -2,6 +2,7 @@ pciutils (1:3.10.0-3) UNRELEASED; urgency=medium
 
   * Wrap fields in debian/tests/control.
   * Take DPKG_ROOT into account in maintainer scripts.
+  * Replace pkg-config with pkgconf in debian/tests/control.
 
  -- Guillem Jover <guillem@debian.org>  Thu, 15 Jun 2023 00:00:09 +0200
 
