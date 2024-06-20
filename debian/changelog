@@ -1,6 +1,7 @@
 pciutils (1:3.13.0-1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Switch to Standards-Version 4.7.0 (no changes needed).
 
  -- Guillem Jover <guillem@debian.org>  Wed, 19 Jun 2024 02:57:04 +0200
 

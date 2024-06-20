@@ -12,7 +12,7 @@ Build-Depends:
  libudev-dev (>= 196) [linux-any],
  zlib1g-dev,
 Rules-Requires-Root: no
-Standards-Version: 4.6.2
+Standards-Version: 4.7.0
 Homepage: https://mj.ucw.cz/sw/pciutils/
 Vcs-Browser: https://git.hadrons.org/cgit/debian/pkgs/pciutils.git
 Vcs-Git: https://git.hadrons.org/git/debian/pkgs/pciutils.git
