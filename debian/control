@@ -1,6 +1,5 @@
 Source: pciutils
 Section: admin
-Priority: optional
 Maintainer: Guillem Jover <guillem@debian.org>
 Build-Depends:
  debhelper-compat (= 13),

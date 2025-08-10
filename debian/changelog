@@ -1,6 +1,7 @@
 pciutils (1:3.13.0-3) UNRELEASED; urgency=medium
 
   * Remove «Rules-Requires-Root: no», which is the current default.
+  * Remove «Priority: optional» field, which is the current default.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 10 Aug 2025 19:47:06 +0200
 
