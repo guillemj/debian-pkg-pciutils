@@ -1,6 +1,7 @@
 pciutils (1:3.14.0-2) UNRELEASED; urgency=medium
 
   * Switch to debian/watch version 5.
+  * Add spaces around make assignment operators to distinguish from shell ones.
 
  -- Guillem Jover <guillem@debian.org>  Fri, 05 Sep 2025 00:55:33 +0200
 
