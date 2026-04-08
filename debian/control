@@ -12,6 +12,11 @@ Standards-Version: 4.7.4
 Homepage: https://mj.ucw.cz/sw/pciutils/
 Vcs-Browser: https://git.hadrons.org/cgit/debian/pkgs/pciutils.git
 Vcs-Git: https://git.hadrons.org/git/debian/pkgs/pciutils.git
+Description: PCI Utilities
+ The PCI Utilities are a collection of programs for inspecting and manipulating
+ configuration of PCI devices, all based on a common portable library (libpci),
+ which offers access to the PCI configuration space on a variety of operating
+ systems.
 
 Package: pciutils
 Priority: standard
@@ -24,9 +29,11 @@ Depends:
 Suggests:
  bzip2,
  wget | curl | lynx,
-Description: PCI utilities
+Description: ${source:Synopsis} - utilities
  This package contains various utilities for inspecting and setting of
  devices connected to the PCI bus.
+ .
+ ${source:Extended-Description}
 
 Package: libpci-dev
 Section: libdevel
@@ -37,9 +44,11 @@ Depends:
  libpci3 (= ${binary:Version}),
  libudev-dev (>= 196) [linux-any],
  zlib1g-dev,
-Description: PCI utilities (development files)
+Description: ${source:Synopsis} - development files
  This package contains the <pci/pci.h>, <pci/config.h> and <pci/header.h>
  header files, as well as the libpci static library.
+ .
+ ${source:Extended-Description}
 
 Package: libpci3
 Section: libs
@@ -51,11 +60,10 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends},
  pci.ids (>= 0.0~2019.11.10-2),
-Description: PCI utilities (shared library)
+Description: ${source:Synopsis} - shared library
  This package contains the libpci shared library files.
  .
- The libpci library provides portable access to configuration
- registers of devices connected to the PCI bus.
+ ${source:Extended-Description}
 
 Package: pciutils-udeb
 Package-Type: udeb
@@ -65,11 +73,11 @@ Architecture: any
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
-Description: PCI Utilities (udeb)
+Description: ${source:Synopsis} - udeb utilities
  This package contains various utilities for inspecting and setting of
  devices connected to the PCI bus.
  .
- This is a minimal version for use in debian-installer.
+ ${source:Extended-Description}
 
 Package: libpci3-udeb
 Package-Type: udeb
@@ -79,10 +87,7 @@ Architecture: any
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
-Description: PCI Utilities (udeb shared library)
+Description: ${source:Synopsis} - udeb shared library
  This package contains the libpci shared library files.
  .
- The libpci library provides portable access to configuration
- registers of devices connected to the PCI bus.
- .
- This is a minimal version for use in debian-installer.
+ ${source:Extended-Description}
