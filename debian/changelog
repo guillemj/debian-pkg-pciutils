@@ -1,5 +1,6 @@
-pciutils (1:3.14.0-2) UNRELEASED; urgency=medium
+pciutils (1:3.15.0-1) UNRELEASED; urgency=medium
 
+  * New upstream release.
   * Switch to debian/watch version 5.
   * Add spaces around make assignment operators to distinguish from shell ones.
   * Switch to Standards-Version 4.7.4 (no changes needed).
