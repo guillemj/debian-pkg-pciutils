@@ -1,4 +1,4 @@
-pciutils (1:3.15.0-1) UNRELEASED; urgency=medium
+pciutils (1:3.15.0-1) unstable; urgency=medium
 
   * New upstream release.
   * Switch to debian/watch version 5.
@@ -10,7 +10,7 @@ pciutils (1:3.15.0-1) UNRELEASED; urgency=medium
   * Refactor common description into a source stanza Description field.
   * Update copyright years.
 
- -- Guillem Jover <guillem@debian.org>  Fri, 05 Sep 2025 00:55:33 +0200
+ -- Guillem Jover <guillem@debian.org>  Wed, 08 Apr 2026 02:38:33 +0200
 
 pciutils (1:3.14.0-1) unstable; urgency=medium
 
