@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cat <<INFO
+If you are getting incorrect data from lspci output, please make sure to
+attach the output from "lspci -vvxxx" which will be helpful for upstream
+to try to track down such issues.
+INFO
