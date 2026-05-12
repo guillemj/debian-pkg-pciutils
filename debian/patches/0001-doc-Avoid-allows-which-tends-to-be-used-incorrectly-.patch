@@ -1,0 +1,96 @@
+From 3918eaa369809580cf9bf58d67912879d198c36e Mon Sep 17 00:00:00 2001
+From: Guillem Jover <guillem@hadrons.org>
+Date: Tue, 12 May 2026 05:44:16 +0200
+Subject: [PATCH] doc: Avoid «allows …» which tends to be used incorrectly and
+ unnecessarily
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The construct «allows to» is not grammatically correct, instead something
+like «allows one to» should be used, but that is rather cumbersome, when
+in many cases the surrounding text can be reworded to remove this entire
+construct.
+
+Origin: vendor
+Forwarded: no
+---
+ README                | 6 +++---
+ lib/physmem-windows.c | 2 +-
+ lspci.man             | 2 +-
+ pcilmr.man            | 2 +-
+ setpci.man            | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/README b/README
+index f06cdbd..333dfc0 100644
+--- a/README
++++ b/README
+@@ -43,9 +43,9 @@ The utilities include:  (See manual pages for more details)
+ 
+   - lspci: displays detailed information about all PCI buses and devices.
+ 
+-  - setpci: allows to read from and write to PCI device configuration
+-    registers. For example, you can adjust the latency timers with it.
+-    CAUTION: There is a couple of dangerous points and caveats, please read
++  - setpci: read from and write to PCI device configuration registers.
++    For example, you can adjust the latency timers with it.
++    CAUTION: There are a couple of dangerous points and caveats, please read
+     the manual page first!
+ 
+   - update-pciids: download the current version of the pci.ids file.
+diff --git a/lib/physmem-windows.c b/lib/physmem-windows.c
+index 90f49e3..3f3d85e 100644
+--- a/lib/physmem-windows.c
++++ b/lib/physmem-windows.c
+@@ -860,7 +860,7 @@ physmem_map(struct physmem *physmem, u64 addr, size_t length, int w)
+       /*
+        * Note: Do not use WinAPI function MapViewOfFile() because it makes memory
+        * mapping available also for all child processes that are spawned in the
+-       * future. NtMapViewOfSection() allows to specify ViewUnmap parameter which
++       * future. NtMapViewOfSection() can be used to specify ViewUnmap parameter which
+        * creates mapping just for this process and not for future child processes.
+        * For security reasons we do not want this physical address mapping to be
+        * present also in future spawned processes.
+diff --git a/lspci.man b/lspci.man
+index 938fac8..6b01b2c 100644
+--- a/lspci.man
++++ b/lspci.man
+@@ -198,7 +198,7 @@ available methods and their descriptions.
+ .TP
+ .B -O <param>=<value>
+ The behavior of the library is controlled by several named parameters.
+-This option allows one to set the value of any of the parameters. Use \fB-O help\fP
++This option sets the value of any of the parameters. Use \fB-O help\fP
+ for a list of known parameters and their default values.
+ .TP
+ .B -H1
+diff --git a/pcilmr.man b/pcilmr.man
+index b2f3161..488ce83 100644
+--- a/pcilmr.man
++++ b/pcilmr.man
+@@ -59,7 +59,7 @@ the current Receiver position. Margining support for timing is required, while s
+ for voltage is optional at 16.0 GT/s and required at 32.0 GT/s and higher data rates. Also,
+ independent time margining and independent voltage margining is optional.
+ 
+-Utility allows to get an approximation of the eye margin diagram in the form of a rhombus
++Utility to get an approximation of the eye margin diagram in the form of a rhombus
+ (by four points). Lane Margining at the Receiver capability enables users to margin PCIe
+ links without a hardware debugger and without the need to stop the target system. Utility
+ can be useful to debug link issues due to receiver margins.
+diff --git a/setpci.man b/setpci.man
+index 1ec89da..5707c54 100644
+--- a/setpci.man
++++ b/setpci.man
+@@ -78,7 +78,7 @@ available methods and their descriptions.
+ .TP
+ .B -O <param>=<value>
+ The behavior of the library is controlled by several named parameters.
+-This option allows one to set the value of any of the parameters. Use \fB-O help\fP
++This option sets the value of any of the parameters. Use \fB-O help\fP
+ for a list of known parameters and their default values.
+ .TP
+ .B -H1
+-- 
+2.53.0
+
