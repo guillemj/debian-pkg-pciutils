@@ -4,6 +4,8 @@ pciutils (1:3.15.0-2) UNRELEASED; urgency=medium
   * Add bug-script for pciutils to recommend attaching «lspci -vvxxx» output
     as requested by upstream.
   * Add patch to remove «allows …» usage in man pages, warned by lintian.
+  * Add patch to add groff hint to run the tbl preprocessor for pcilmr(8),
+    warned by lintian.
 
  -- Guillem Jover <guillem@debian.org>  Sun, 19 Apr 2026 18:24:37 +0200
 

@@ -1,0 +1,30 @@
+From cca6d4d23fce144edc2412754383270e33eea3f6 Mon Sep 17 00:00:00 2001
+From: Guillem Jover <guillem@hadrons.org>
+Date: Tue, 12 May 2026 06:08:18 +0200
+Subject: [PATCH] Fix groff warning due to missing hint to run the tbl
+ preprocessor
+
+With newer groff versions we are getting the following warning with
+lintian:
+
+  groff-message an.tmac:<standard input>:111: warning: tbl preprocessor failed, or it or soelim was not run; table(s) likely not rendered (TE macro called with TW register undefined) [usr/share/man/man8/pcilmr.8.gz:1]
+
+Warned-by: lintian
+Origin: vendor
+Forwarded: no
+---
+ pcilmr.man | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/pcilmr.man b/pcilmr.man
+index 488ce83..779906d 100644
+--- a/pcilmr.man
++++ b/pcilmr.man
+@@ -1,3 +1,4 @@
++'\" t
+ .TH PCILMR 8 "@TODAY@" "@VERSION@" "The PCI Utilities"
+ .SH NAME
+ pcilmr \- margin PCIe Links
+-- 
+2.53.0
+
